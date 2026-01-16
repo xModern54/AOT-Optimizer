@@ -40,8 +40,37 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         val batchTotal: Int = 0,
         val batchCurrentIndex: Int = 0,
         val globalSizeKb: Long = 0L,
-        val isCalculatingGlobalSize: Boolean = false
+        val isCalculatingGlobalSize: Boolean = false,
+        val sortOption: SortOption = SortOption.NAME
     )
+
+    init {
+        val savedSort = prefs.getString("sort_option", SortOption.NAME.name)
+        val option = try { SortOption.valueOf(savedSort!!) } catch (e: Exception) { SortOption.NAME }
+        _uiState.value = _uiState.value.copy(sortOption = option)
+    }
+
+    fun setSortOption(option: SortOption) {
+        prefs.edit().putString("sort_option", option.name).apply()
+        _uiState.value = _uiState.value.copy(sortOption = option)
+        applySorting()
+    }
+
+    private fun applySorting() {
+        val currentApps = _uiState.value.apps
+        val option = _uiState.value.sortOption
+        val sorted = currentApps.sortedWith(
+            compareByDescending<AppItem> { it.isNew }
+                .then(
+                    when (option) {
+                        SortOption.NAME -> compareBy { it.label }
+                        SortOption.STATUS -> compareByDescending { it.statusPriority }
+                        SortOption.SIZE -> compareByDescending { it.sizeBytes }
+                    }
+                )
+        )
+        _uiState.value = _uiState.value.copy(apps = sorted)
+    }
 
     fun calculateGlobalSize() {
         if (_uiState.value.isCalculatingGlobalSize) return
@@ -97,11 +126,8 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             val pm = context.packageManager
             val showSystem = _uiState.value.showSystemApps
             
-            // FAST SCAN: Get launchable apps instantly using intent query
             val launcherIntent = Intent(Intent.ACTION_MAIN).apply { addCategory(Intent.CATEGORY_LAUNCHER) }
-            val launchablePackages = pm.queryIntentActivities(launcherIntent, 0)
-                .map { it.activityInfo.packageName }.toSet()
-
+            val launchablePackages = pm.queryIntentActivities(launcherIntent, 0).map { it.activityInfo.packageName }.toSet()
             val allInstalled = pm.getInstalledApplications(PackageManager.GET_META_DATA)
             
             val filteredApps = allInstalled.filter { appInfo ->
@@ -116,49 +142,46 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 )
             }
 
-            // PERSISTENCE & SORTING
             val knownPackages = prefs.getStringSet("known_packages", emptySet()) ?: emptySet()
             val newlyDetected = filteredApps.filter { !knownPackages.contains(it.packageName) && knownPackages.isNotEmpty() }
             
-            val oldList = _uiState.value.apps
             val initialList = filteredApps.map { app ->
-                val existing = oldList.find { it.packageName == app.packageName }
                 app.copy(
-                    isNew = newlyDetected.any { it.packageName == app.packageName } || (existing?.isNew == true),
-                    status = existing?.status ?: "loading...",
-                    size = existing?.size ?: "...",
-                    framework = existing?.framework ?: "Native"
+                    isNew = newlyDetected.any { it.packageName == app.packageName },
+                    status = "loading...",
+                    size = "...",
+                    sizeBytes = -1L,
+                    framework = "Native"
                 )
-            }.sortedWith(compareByDescending<AppItem> { it.isNew }.thenBy { it.label })
+            }
 
-            // SHOW LIST IMMEDIATELY
-            _uiState.value = _uiState.value.copy(
-                apps = initialList,
-                isLoading = false,
-                showBatchSheet = newlyDetected.isNotEmpty(),
-                newAppsDetected = newlyDetected
-            )
+            _uiState.value = _uiState.value.copy(apps = initialList, isLoading = false, showBatchSheet = newlyDetected.isNotEmpty(), newAppsDetected = newlyDetected)
+            applySorting()
 
             if (filteredApps.isNotEmpty()) {
                 prefs.edit().putStringSet("known_packages", filteredApps.map { it.packageName }.toSet()).apply()
             }
 
-            // PROGRESSIVE UPDATE: Fetch heavy metrics one by one (Sequential to avoid shell lag)
-            initialList.forEach { app ->
+            // ORDERED SCAN: Sort by Label (A-Z) for consistent investigation sequence
+            val scanQueue = initialList.sortedBy { it.label }
+            
+            scanQueue.forEach { app ->
                 val status = ShellHelper.getCompilationFilter(app.packageName)
-                val size = ShellHelper.getArtifactsSize(app.packageName)
+                val sizeStr = ShellHelper.getArtifactsSize(app.packageName)
+                val sizeKb = ShellHelper.getArtifactsSizeInKb(app.packageName)
                 val framework = ShellHelper.getAppFramework(app.packageName)
-                updateAppDetails(app.packageName, status, size, framework)
+                updateAppDetails(app.packageName, status, sizeStr, sizeKb, framework)
             }
         }
     }
 
-    fun updateAppDetails(packageName: String, status: String, size: String, framework: String) {
+    fun updateAppDetails(packageName: String, status: String, size: String, sizeBytes: Long, framework: String) {
         val currentList = _uiState.value.apps
         val updatedList = currentList.map { 
-            if (it.packageName == packageName) it.copy(status = status, size = size, framework = framework) else it 
+            if (it.packageName == packageName) it.copy(status = status, size = size, sizeBytes = sizeBytes, framework = framework) else it 
         }
         _uiState.value = _uiState.value.copy(apps = updatedList)
+        applySorting()
     }
 
     fun dismissBatchSheet() {

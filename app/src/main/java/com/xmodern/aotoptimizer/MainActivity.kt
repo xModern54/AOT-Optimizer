@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,6 +28,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -54,7 +56,7 @@ import kotlinx.coroutines.withContext
 fun formatSize(kb: Long): String {
     val mb = kb / 1024.0
     val gb = mb / 1024.0
-    return if (gb >= 1.0) "%.2f GB".format(gb) else if (mb >= 1.0) "%.1f MB".format(mb) else "$kb KB"
+    return if (gb >= 1.0) "%.2f GB".format(gb) else if (mb >= 1.0) "%.1f MB".format(mb) else if (kb > 0) "$kb KB" else "0 B"
 }
 
 @Composable
@@ -146,6 +148,7 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
     
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
     var isProcessing by remember { mutableStateOf(false) }
+    var showSortMenu by remember { mutableStateOf(false) }
     
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
@@ -158,18 +161,45 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
         contentWindowInsets = WindowInsets(0.dp),
         topBar = {
             Column(modifier = Modifier.fillMaxWidth().background(DeepBlack).windowInsetsPadding(WindowInsets.statusBars).padding(16.dp)) {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                    Column {
+                Row(
+                    modifier = Modifier.fillMaxWidth(), 
+                    horizontalArrangement = Arrangement.SpaceBetween, 
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
                         Text("AOT OPTIMIZER", color = NeonBlue, fontWeight = FontWeight.Black, fontSize = 20.sp, letterSpacing = 2.sp)
                         Text("SYSTEM CORE // ART MANAGER", color = Color.Gray, fontSize = 10.sp, fontFamily = FontFamily.Monospace)
                     }
-                    Surface(
-                        onClick = onNavigateToBatch,
-                        color = Color.Transparent,
-                        shape = RoundedCornerShape(50),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, NeonCyan.copy(alpha = 0.6f))
+                    
+                    // SPACED LAYOUT
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
                     ) {
-                        Text("FULL AOT", color = NeonCyan, fontSize = 12.sp, fontWeight = FontWeight.Black, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+                        Surface(
+                            onClick = onNavigateToBatch,
+                            color = Color.Transparent,
+                            shape = RoundedCornerShape(50),
+                            border = androidx.compose.foundation.BorderStroke(1.dp, NeonCyan.copy(alpha = 0.6f))
+                        ) {
+                            Text("FULL AOT", color = NeonCyan, fontSize = 12.sp, fontWeight = FontWeight.Black, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+                        }
+                        
+                        Spacer(modifier = Modifier.width(16.dp)) // Uniform spacing
+                        
+                        Box {
+                            IconButton(onClick = { showSortMenu = true }) {
+                                Icon(Icons.Default.Sort, contentDescription = "Sort", tint = NeonCyan) // Tint updated to NeonCyan
+                            }
+                            DropdownMenu(expanded = showSortMenu, onDismissRequest = { showSortMenu = false }) {
+                                SortOption.values().forEach { option ->
+                                    DropdownMenuItem(
+                                        text = { Text(option.label, color = if (uiState.sortOption == option) NeonBlue else Color.Unspecified) },
+                                        onClick = { viewModel.setSortOption(option); showSortMenu = false }
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -179,17 +209,15 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
                 }
             }
         }
-    ) { paddingValues ->
+    ) {
+        paddingValues ->
         if (uiState.isLoading && uiState.apps.isEmpty()) {
             LoadingScreen("Scanning Packages...")
         } else {
             val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-            LazyColumn(
-                modifier = Modifier.padding(paddingValues).padding(horizontal = 16.dp),
-                contentPadding = PaddingValues(bottom = navBarPadding + 80.dp)
-            ) {
-                items(items = uiState.apps, key = { it.packageName }) { app ->
-                    AppItemRow(app = app, modifier = Modifier.animateItemPlacement()) { selectedApp = app }
+            LazyColumn(modifier = Modifier.padding(paddingValues).padding(horizontal = 16.dp), contentPadding = PaddingValues(bottom = navBarPadding + 80.dp)) {
+                items(items = uiState.apps, key = { it.packageName }) { appItem ->
+                    AppItemRow(app = appItem, modifier = Modifier.animateItemPlacement(animationSpec = tween(500))) { selectedApp = appItem }
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
@@ -197,24 +225,29 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
     }
 
     if (selectedApp != null) {
+        val currentApp = selectedApp!!
         var logLines by remember { mutableStateOf(listOf<String>()) }
         CompilationDialog(
-            app = selectedApp!!, isProcessing = isProcessing, logLines = logLines,
+            app = currentApp, isProcessing = isProcessing, logLines = logLines,
             onDismiss = { if (!isProcessing) selectedApp = null },
             onOptimize = { mode ->
                 scope.launch {
                     isProcessing = true
-                    logLines = listOf("> Target: ${selectedApp!!.packageName}", "> Mode: $mode")
-                    val res = ShellHelper.compilePackage(selectedApp!!.packageName, mode)
-                    logLines = logLines + res.out + res.err.map { "[ERR] $it" }
+                    logLines = listOf("> Target: ", currentApp.packageName, "> Mode: ", mode)
+                    val res = ShellHelper.compilePackage(currentApp.packageName, mode)
+                    
+                    val updatedLogs = logLines.toMutableList()
+                    res.out.forEach { updatedLogs.add(it) }
+                    res.err.forEach { updatedLogs.add("[ERR] " + it) }
+                    logLines = updatedLogs
+
                     if (res.isSuccess) {
-                        val newStatus = ShellHelper.getCompilationFilter(selectedApp!!.packageName)
-                        val newSize = ShellHelper.getArtifactsSize(selectedApp!!.packageName)
-                        viewModel.updateAppDetails(selectedApp!!.packageName, newStatus, newSize, selectedApp!!.framework)
-                        
-                        // CUSTOM TOAST FORMAT: App Label - Mode
+                        val status = ShellHelper.getCompilationFilter(currentApp.packageName)
+                        val sizeStr = ShellHelper.getArtifactsSize(currentApp.packageName)
+                        val sizeKb = ShellHelper.getArtifactsSizeInKb(currentApp.packageName)
+                        viewModel.updateAppDetails(currentApp.packageName, status, sizeStr, sizeKb, currentApp.framework)
                         val displayMode = mode.replaceFirstChar { it.uppercase() }.replace("-profile", " Profile")
-                        Toast.makeText(context, "${selectedApp!!.label} - $displayMode", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "${currentApp.label} - $displayMode", Toast.LENGTH_SHORT).show()
                     }
                     delay(500); isProcessing = false; selectedApp = null
                 }
@@ -222,8 +255,12 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
             onReset = {
                 scope.launch {
                     isProcessing = true; logLines = listOf("> Resetting...")
-                    ShellHelper.resetPackage(selectedApp!!.packageName)
-                    viewModel.updateAppDetails(selectedApp!!.packageName, "no-opt", "0 B", selectedApp!!.framework)
+                    val res = ShellHelper.resetPackage(currentApp.packageName)
+                    val updatedLogs = logLines.toMutableList()
+                    res.out.forEach { updatedLogs.add(it) }
+                    logLines = updatedLogs
+                    
+                    viewModel.updateAppDetails(currentApp.packageName, "no-opt", "0 B", 0L, currentApp.framework)
                     isProcessing = false; selectedApp = null
                 }
             }
@@ -242,8 +279,7 @@ fun BatchOptimizeScreen(onBack: () -> Unit) {
     val uiState by viewModel.uiState.collectAsState()
     val view = LocalView.current
     
-    // Lock Back Button while running
-    BackHandler(enabled = uiState.isBatchRunning) { /* Blocked */ }
+    BackHandler { if (!uiState.isBatchRunning) onBack() }
 
     DisposableEffect(Unit) {
         view.keepScreenOn = true
@@ -262,7 +298,9 @@ fun BatchOptimizeScreen(onBack: () -> Unit) {
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = DeepBlack, titleContentColor = NeonCyan, navigationIconContentColor = Color.White)
             )
         }
-    ) { paddingValues ->
+    )
+    {
+        paddingValues ->
         Column(modifier = Modifier.padding(paddingValues).fillMaxSize().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             if (!uiState.isBatchRunning && uiState.batchProgress == 0f) {
                 Text("SELECT GLOBAL STRATEGY", color = Color.Gray, fontSize = 12.sp)
@@ -373,28 +411,26 @@ fun StatusChip(status: String) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CompilationDialog(app: AppItem, isProcessing: Boolean, logLines: List<String>, onDismiss: () -> Unit, onOptimize: (String) -> Unit, onReset: () -> Unit) {
-    // Lock Back while single app compiles
     BackHandler(enabled = isProcessing) { /* Blocked */ }
-
-    ModalBottomSheet(
-        onDismissRequest = { if (!isProcessing) onDismiss() }, 
-        containerColor = DeepBlack, 
-        windowInsets = WindowInsets(0), 
-        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-    ) {
+    ModalBottomSheet(onDismissRequest = { if (!isProcessing) onDismiss() }, containerColor = DeepBlack, windowInsets = WindowInsets(0), shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)) {
         Column(modifier = Modifier.padding(24.dp).fillMaxWidth().navigationBarsPadding()) {
-            Text("TARGET SYSTEM COMPONENT", color = Color.Gray, fontSize = 10.sp, fontFamily = FontFamily.Monospace)
-            Text(app.label, color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                if (app.framework != "Native") { FrameworkBadge(app.framework); Spacer(modifier = Modifier.width(8.dp)) }
-                if (app.size != "..." && app.size != "0 B") {
-                    Surface(color = Color.Transparent, shape = RoundedCornerShape(4.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color.Gray.copy(alpha = 0.3f))) {
-                        Text(app.size, color = NeonCyan, fontSize = 10.sp, fontFamily = FontFamily.Monospace, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                Image(painter = rememberAsyncImagePainter(app.icon), contentDescription = null, modifier = Modifier.size(64.dp).clip(RoundedCornerShape(12.dp)).border(1.dp, Color.Gray.copy(alpha = 0.2f), RoundedCornerShape(12.dp)))
+                Spacer(modifier = Modifier.width(16.dp))
+                Column {
+                    Text(text = app.label, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (app.framework != "Native") { FrameworkBadge(app.framework); Spacer(modifier = Modifier.width(8.dp)) }
+                        if (app.size != "..." && app.size != "0 B") {
+                            Surface(color = Color.Transparent, shape = RoundedCornerShape(4.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color.Gray.copy(alpha = 0.3f))) {
+                                Text(text = app.size, color = NeonCyan, fontSize = 10.sp, fontFamily = FontFamily.Monospace, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                        }
+                        StatusChip(app.status)
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
                 }
-                StatusChip(app.status)
             }
             Spacer(modifier = Modifier.height(32.dp))
             if (isProcessing) {
@@ -404,7 +440,7 @@ fun CompilationDialog(app: AppItem, isProcessing: Boolean, logLines: List<String
             } else {
                 Text("SELECT OPTIMIZATION PROFILE", color = NeonBlue, fontSize = 12.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
                 Spacer(modifier = Modifier.height(16.dp))
-                OptionButton("SPEED PROFILE", "Recommended. Uses usage profiles.", NeonBlue) { onOptimize("speed-profile") }
+                OptionButton("SPEED PROFILE", "Recommended. Balanced performance.", NeonBlue) { onOptimize("speed-profile") }
                 OptionButton("SPEED (FULL)", "Full AOT. Faster, but larger disk usage.", NeonGreen) { onOptimize("speed") }
                 OptionButton("EVERYTHING", "Force compile all code. Maximum Optimization.", NeonPurple) { onOptimize("everything") }
                 OptionButton("QUICKEN", "Fast install. Interpreted execution.", NeonOrange) { onOptimize("quicken") }
@@ -444,7 +480,7 @@ fun TerminalBox(logs: List<String>) {
     Surface(color = Color(0xFF111111), shape = RoundedCornerShape(8.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF333333)), modifier = Modifier.fillMaxWidth().height(200.dp) ) {
         LazyColumn(state = listState, contentPadding = PaddingValues(12.dp), modifier = Modifier.fillMaxSize()) {
             items(logs) { logLine ->
-                val color = when { 
+                val color = when {
                     logLine.startsWith(">") -> NeonBlue
                     logLine.contains("[ERR]") || logLine.contains("Failure") -> NeonRed
                     logLine.contains("Success") -> NeonGreen
@@ -463,18 +499,16 @@ fun BatchOptimizationSheet(newApps: List<AppItem>, onDismiss: () -> Unit, onOpti
     var logs by remember { mutableStateOf(listOf<String>()) }
     var progress by remember { mutableStateOf(0f) }
     val viewModel: AppViewModel = viewModel()
-    
     BackHandler(enabled = isRunning) { /* Blocked */ }
-
-    val runBatch = {
+    val runBatch = { 
         isRunning = true; logs = listOf("> Starting Batch...", "> Strategy: Speed (AOT)")
         kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
              newApps.forEachIndexed {
                  index, app ->
-                 logs = logs + "> Compiling: ${app.label}"
+                 logs = logs + "> Compiling: " + app.label
                  withContext(Dispatchers.IO) { ShellHelper.compilePackage(app.packageName, "speed") }
                  logs = logs + "  [OK] Success."
-                 viewModel.updateAppDetails(app.packageName, ShellHelper.getCompilationFilter(app.packageName), ShellHelper.getArtifactsSize(app.packageName), app.framework)
+                 viewModel.updateAppDetails(app.packageName, ShellHelper.getCompilationFilter(app.packageName), ShellHelper.getArtifactsSize(app.packageName), 0L, app.framework)
                  progress = (index + 1).toFloat() / newApps.size
              }
              logs = logs + "> BATCH COMPLETE."; delay(1000); onDismiss()

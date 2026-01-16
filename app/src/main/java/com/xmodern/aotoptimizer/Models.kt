@@ -13,6 +13,13 @@ val NeonRed = Color(0xFFFF1744)
 val NeonPurple = Color(0xFFD500F9)
 val NeonCyan = Color(0xFF00E5FF)
 
+// --- ENUMS ---
+enum class SortOption(val label: String) {
+    NAME("Name (A-Z)"),
+    STATUS("Optimization Status"),
+    SIZE("Artifact Size")
+}
+
 // --- MODELS ---
 data class AppItem(
     val label: String,
@@ -21,5 +28,15 @@ data class AppItem(
     var status: String = "loading...",
     val isNew: Boolean = false,
     var size: String = "...",
-    var framework: String = "Native" // New field
-)
+    var sizeBytes: Long = -1L, // For sorting
+    var framework: String = "Native"
+) {
+    val statusPriority: Int
+        get() = when {
+            status.contains("everything") -> 4
+            status.contains("speed") -> 3
+            status.contains("quicken") || status.contains("verify") -> 2
+            status == "loading..." -> 1
+            else -> 0
+        }
+}
