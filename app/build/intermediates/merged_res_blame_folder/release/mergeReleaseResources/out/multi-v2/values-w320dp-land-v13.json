@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.xmodern.aotoptimizer.app-mergeReleaseResources-54:/values-w320dp-land-v13/values-w320dp-land-v13.xml",
+            "map": [
+                {
+                    "source": "/Users/xmodern/.gradle/caches/9.2.1/transforms/aed0b5d9cb5497e03e416a0a72ecab40/transformed/material-1.11.0/res/values-w320dp-land-v13/values-w320dp-land-v13.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,110",
+                        "endColumns": "54,61",
+                        "endOffsets": "105,167"
+                    }
+                }
+            ]
+        }
+    ]
+}
