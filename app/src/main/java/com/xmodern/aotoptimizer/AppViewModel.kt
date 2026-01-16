@@ -26,6 +26,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private var batchJob: Job? = null
     private var sizeCalcJob: Job? = null
     private var refreshJob: Job? = null
+    private var needsFullRefresh = false
 
     data class UiState(
         val apps: List<AppItem> = emptyList(),
@@ -90,7 +91,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     fun startBatchOptimize(mode: String) {
         batchJob?.cancel()
         batchJob = viewModelScope.launch(Dispatchers.IO) {
-            _uiState.value = _uiState.value.copy(isBatchRunning = true, batchProgress = 0f, batchLogs = listOf("> Starting system optimization..."))
+            _uiState.value = _uiState.value.copy(isBatchRunning = true, batchProgress = 0f, batchLogs = listOf("> Starting global optimization..."))
             val allPackages = ShellHelper.getAllPackages()
             val total = allPackages.size
             _uiState.value = _uiState.value.copy(batchTotal = total)
@@ -98,14 +99,11 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             allPackages.forEachIndexed { index, pkg ->
                 _uiState.value = _uiState.value.copy(batchCurrentApp = pkg, batchCurrentIndex = index + 1, batchProgress = (index + 1).toFloat() / total)
                 val sizeBefore = ShellHelper.getArtifactsSizeInKb(pkg)
-                val currentLogs = _uiState.value.batchLogs
-                _uiState.value = _uiState.value.copy(batchLogs = if (currentLogs.size > 50) currentLogs.drop(1) + "> Compiling: $pkg" else currentLogs + "> Compiling: $pkg")
-                
                 if (mode == "reset") ShellHelper.resetPackage(pkg) else ShellHelper.compilePackage(pkg, mode)
-                
                 val sizeAfter = ShellHelper.getArtifactsSizeInKb(pkg)
                 _uiState.value = _uiState.value.copy(globalSizeKb = _uiState.value.globalSizeKb + (sizeAfter - sizeBefore))
             }
+            needsFullRefresh = true
             _uiState.value = _uiState.value.copy(isBatchRunning = false, batchProgress = 1f, batchCurrentApp = "DONE")
         }
     }
@@ -117,54 +115,71 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun toggleSystemApps() {
         _uiState.value = _uiState.value.copy(showSystemApps = !_uiState.value.showSystemApps)
+        needsFullRefresh = true
         refreshData()
     }
 
     fun refreshData() {
-        refreshJob?.cancel()
+        if (refreshJob?.isActive == true) return
+        
         refreshJob = viewModelScope.launch(Dispatchers.IO) {
             val pm = context.packageManager
             val showSystem = _uiState.value.showSystemApps
             
+            // 1. Get current system state
             val launcherIntent = Intent(Intent.ACTION_MAIN).apply { addCategory(Intent.CATEGORY_LAUNCHER) }
             val launchablePackages = pm.queryIntentActivities(launcherIntent, 0).map { it.activityInfo.packageName }.toSet()
             val allInstalled = pm.getInstalledApplications(PackageManager.GET_META_DATA)
             
-            val filteredApps = allInstalled.filter { appInfo ->
-                val isLaunchable = launchablePackages.contains(appInfo.packageName)
-                val isUpdatedSystem = (appInfo.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
+            val currentSystemState = allInstalled.filter { info ->
+                val isLaunchable = launchablePackages.contains(info.packageName)
+                val isUpdatedSystem = (info.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
                 if (showSystem) true else (isLaunchable || isUpdatedSystem)
-            }.map { appInfo ->
-                AppItem(
-                    label = appInfo.loadLabel(pm).toString(),
-                    packageName = appInfo.packageName,
-                    icon = appInfo.loadIcon(pm)
-                )
             }
 
+            // 2. Load persistence (The real memory)
             val knownPackages = prefs.getStringSet("known_packages", emptySet()) ?: emptySet()
-            val newlyDetected = filteredApps.filter { !knownPackages.contains(it.packageName) && knownPackages.isNotEmpty() }
-            
-            val initialList = filteredApps.map { app ->
-                app.copy(
-                    isNew = newlyDetected.any { it.packageName == app.packageName },
-                    status = "loading...",
-                    size = "...",
-                    sizeBytes = -1L,
-                    framework = "Native"
-                )
+            val isFirstRunEver = knownPackages.isEmpty()
+
+            val oldList = _uiState.value.apps
+            val force = needsFullRefresh
+            needsFullRefresh = false
+
+            // 3. Smart Merge with persistent "isNew" check
+            val mergedList = currentSystemState.map { info ->
+                val existing = oldList.find { it.packageName == info.packageName }
+                val isReallyNew = !knownPackages.contains(info.packageName) && !isFirstRunEver
+                
+                if (existing != null && !force) {
+                    existing.copy(isNew = isReallyNew || existing.isNew)
+                } else {
+                    AppItem(
+                        label = info.loadLabel(pm).toString(),
+                        packageName = info.packageName,
+                        icon = info.loadIcon(pm),
+                        status = "loading...",
+                        isNew = isReallyNew
+                    )
+                }
             }
 
-            _uiState.value = _uiState.value.copy(apps = initialList, isLoading = false, showBatchSheet = newlyDetected.isNotEmpty(), newAppsDetected = newlyDetected)
+            // 4. Update UI
+            _uiState.value = _uiState.value.copy(apps = mergedList, isLoading = false)
             applySorting()
 
-            if (filteredApps.isNotEmpty()) {
-                prefs.edit().putStringSet("known_packages", filteredApps.map { it.packageName }.toSet()).apply()
+            // 5. Trigger Batch Sheet for new apps
+            val newlyDetected = mergedList.filter { it.isNew }
+            if (newlyDetected.isNotEmpty()) {
+                _uiState.value = _uiState.value.copy(showBatchSheet = true, newAppsDetected = newlyDetected)
+            }
+            
+            // 6. Sync persistence
+            if (currentSystemState.isNotEmpty()) {
+                prefs.edit().putStringSet("known_packages", currentSystemState.map { it.packageName }.toSet()).apply()
             }
 
-            // ORDERED SCAN: Sort by Label (A-Z) for consistent investigation sequence
-            val scanQueue = initialList.sortedBy { it.label }
-            
+            // 7. Investigate
+            val scanQueue = mergedList.filter { it.status == "loading..." }.sortedBy { it.label }
             scanQueue.forEach { app ->
                 val status = ShellHelper.getCompilationFilter(app.packageName)
                 val sizeStr = ShellHelper.getArtifactsSize(app.packageName)
@@ -181,7 +196,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             if (it.packageName == packageName) it.copy(status = status, size = size, sizeBytes = sizeBytes, framework = framework) else it 
         }
         _uiState.value = _uiState.value.copy(apps = updatedList)
-        applySorting()
+        if (_uiState.value.sortOption != SortOption.NAME) applySorting()
     }
 
     fun dismissBatchSheet() {
