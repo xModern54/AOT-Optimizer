@@ -227,6 +227,29 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
     if (selectedApp != null) {
         val currentApp = selectedApp!!
         var logLines by remember { mutableStateOf(listOf<String>()) }
+        
+        // Trigger Complexity Scan
+        LaunchedEffect(currentApp.packageName) {
+            if (currentApp.complexity == "scanning...") {
+                val sizeMb = withContext(Dispatchers.IO) { ShellHelper.getDexSizeInMb(currentApp.packageName) }
+                val rating = when {
+                    sizeMb == 0 -> "unknown"
+                    sizeMb < 15 -> "lite code"
+                    sizeMb < 45 -> "standard"
+                    sizeMb < 80 -> "heavy"
+                    else -> "extreme"
+                }
+                viewModel.updateAppDetails(currentApp.packageName, currentApp.status, currentApp.size, currentApp.sizeBytes, currentApp.framework)
+                // Need to update complexity specifically
+                val updatedApps = viewModel.uiState.value.apps.map { 
+                    if (it.packageName == currentApp.packageName) it.copy(complexity = rating) else it 
+                }
+                // Refactor: We should have a dedicated updateComplexity in ViewModel, 
+                // but for now let's just make sure the state reflects it.
+                selectedApp = currentApp.copy(complexity = rating)
+            }
+        }
+
         CompilationDialog(
             app = currentApp, isProcessing = isProcessing, logLines = logLines,
             onDismiss = { if (!isProcessing) selectedApp = null },
@@ -415,10 +438,34 @@ fun CompilationDialog(app: AppItem, isProcessing: Boolean, logLines: List<String
     ModalBottomSheet(onDismissRequest = { if (!isProcessing) onDismiss() }, containerColor = DeepBlack, windowInsets = WindowInsets(0), shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)) {
         Column(modifier = Modifier.padding(24.dp).fillMaxWidth().navigationBarsPadding()) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                Image(painter = rememberAsyncImagePainter(app.icon), contentDescription = null, modifier = Modifier.size(64.dp).clip(RoundedCornerShape(12.dp)).border(1.dp, Color.Gray.copy(alpha = 0.2f), RoundedCornerShape(12.dp)))
+                Box(contentAlignment = Alignment.BottomEnd) {
+                    Image(
+                        painter = rememberAsyncImagePainter(app.icon), 
+                        contentDescription = null, 
+                        modifier = Modifier.size(64.dp).clip(RoundedCornerShape(12.dp)).border(1.dp, Color.Gray.copy(alpha = 0.2f), RoundedCornerShape(12.dp))
+                    )
+                    
+                    // Complexity Dot
+                    ComplexityIndicator(app.complexity)
+                }
+                
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(text = app.label, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    
+                    // Sub-header with Complexity Label
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = app.complexity.uppercase(), 
+                            color = getComplexityColor(app.complexity), 
+                            fontSize = 10.sp, 
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.Monospace
+                        )
+                        Text(" • ", color = Color.DarkGray)
+                        Text(text = "CODE DENSITY", color = Color.Gray, fontSize = 10.sp, fontFamily = FontFamily.Monospace)
+                    }
+                    
                     Spacer(modifier = Modifier.height(4.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         if (app.framework != "Native") { FrameworkBadge(app.framework); Spacer(modifier = Modifier.width(8.dp)) }
@@ -452,6 +499,31 @@ fun CompilationDialog(app: AppItem, isProcessing: Boolean, logLines: List<String
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
+    }
+}
+
+@Composable
+fun ComplexityIndicator(complexity: String) {
+    val color = getComplexityColor(complexity)
+    Box(
+        modifier = Modifier
+            .offset(x = 4.dp, y = 4.dp)
+            .size(14.dp)
+            .clip(CircleShape)
+            .background(DeepBlack)
+            .padding(2.dp)
+            .clip(CircleShape)
+            .background(color)
+    )
+}
+
+fun getComplexityColor(complexity: String): Color {
+    return when (complexity) {
+        "lite code" -> NeonGreen
+        "standard" -> NeonBlue
+        "heavy" -> NeonOrange
+        "extreme" -> NeonRed
+        else -> Color.Gray
     }
 }
 

@@ -89,6 +89,19 @@ object ShellHelper {
         return@withContext 0L
     }
 
+    fun getDexSizeInMb(packageName: String): Int {
+        val pathRes = Shell.cmd("pm path $packageName").exec()
+        if (!pathRes.isSuccess || pathRes.out.isEmpty()) return 0
+        val apkPath = pathRes.out[0].substringAfter("package:")
+        
+        // Sum sizes of all classes*.dex files inside the APK
+        val res = Shell.cmd("unzip -l \"$apkPath\" | grep \"classes.*\\.dex\" | awk '{s+=\$1} END {print s}'").exec()
+        if (!res.isSuccess || res.out.isEmpty()) return 0
+        
+        val bytes = res.out[0].trim().toLongOrNull() ?: 0L
+        return (bytes / (1024 * 1024)).toInt()
+    }
+
     suspend fun getAppFramework(packageName: String): String = withContext(Dispatchers.IO) {
         val pathResult = Shell.cmd("pm path $packageName").exec()
         if (!pathResult.isSuccess || pathResult.out.isEmpty()) return@withContext "Native"
