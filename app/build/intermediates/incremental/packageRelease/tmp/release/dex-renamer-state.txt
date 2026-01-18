@@ -1,4 +1,4 @@
-#Fri Jan 16 22:33:19 YEKT 2026
+#Sun Jan 18 18:13:52 YEKT 2026
 base.0=/Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

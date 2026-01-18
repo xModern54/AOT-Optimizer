@@ -30,7 +30,8 @@ object ShellHelper {
     }
 
     suspend fun compilePackage(packageName: String, mode: String): Shell.Result = withContext(Dispatchers.IO) {
-        val cmd = "cmd package compile -m $mode -f $packageName"
+        // Removed -f to avoid forcing recompilation if not needed
+        val cmd = "cmd package compile -m $mode $packageName"
         return@withContext Shell.cmd(cmd).exec()
     }
     
@@ -39,6 +40,12 @@ object ShellHelper {
     }
 
     suspend fun getAllPackages(): List<String> = withContext(Dispatchers.IO) {
+        val res = Shell.cmd("pm list packages").exec()
+        return@withContext if (res.isSuccess) res.out.map { it.substringAfter("package:") } else emptyList()
+    }
+
+    suspend fun getAllSystemPackages(): List<String> = withContext(Dispatchers.IO) {
+        // GOD MODE: Fetch absolutely everything
         val res = Shell.cmd("pm list packages").exec()
         return@withContext if (res.isSuccess) res.out.map { it.substringAfter("package:") } else emptyList()
     }
@@ -90,16 +97,53 @@ object ShellHelper {
     }
 
     fun getDexSizeInMb(packageName: String): Int {
+        // ... (existing)
         val pathRes = Shell.cmd("pm path $packageName").exec()
         if (!pathRes.isSuccess || pathRes.out.isEmpty()) return 0
         val apkPath = pathRes.out[0].substringAfter("package:")
         
-        // Sum sizes of all classes*.dex files inside the APK
         val res = Shell.cmd("unzip -l \"$apkPath\" | grep \"classes.*\\.dex\" | awk '{s+=\$1} END {print s}'").exec()
         if (!res.isSuccess || res.out.isEmpty()) return 0
         
         val bytes = res.out[0].trim().toLongOrNull() ?: 0L
         return (bytes / (1024 * 1024)).toInt()
+    }
+
+    // --- BOOT SCRIPT LOGIC ---
+
+    private const val BOOT_SCRIPT_PATH = "/data/adb/service.d/00_kill_dexopt.sh"
+    private const val BOOT_SCRIPT_CONTENT = """#!/system/bin/sh
+LOG="/cache/aot_killer.log"
+sleep 1
+while [ "${'$'}(getprop sys.boot_completed)" != "1" ]; do
+    sleep 1
+done
+cmd package bg-dexopt-job --disable >> ${'$'}LOG 2>&1
+"""
+
+    suspend fun isSystemDexOptDisabled(): Boolean = withContext(Dispatchers.IO) {
+        // Check if the JOB exists in scheduler.
+        // grep returns exit code 1 if NOT found (which means Disabled).
+        // So we just check if the output contains the job ID string.
+        val res = Shell.cmd("dumpsys jobscheduler | grep 'JOB.*BackgroundDexoptJobService'").exec()
+        // If output is empty, it means grep found nothing -> JOB IS DISABLED
+        return@withContext res.out.isEmpty()
+    }
+
+    suspend fun enableSystemDexOpt(): Boolean = withContext(Dispatchers.IO) {
+        Shell.cmd("rm $BOOT_SCRIPT_PATH").exec()
+        val res = Shell.cmd("cmd package bg-dexopt-job --enable").exec()
+        return@withContext res.isSuccess
+    }
+
+    suspend fun disableSystemDexOpt(): Boolean = withContext(Dispatchers.IO) {
+        // 1. Create Script
+        val scriptCmd = "echo '$BOOT_SCRIPT_CONTENT' > $BOOT_SCRIPT_PATH && chmod 755 $BOOT_SCRIPT_PATH"
+        Shell.cmd(scriptCmd).exec()
+        
+        // 2. Execute immediately
+        val res = Shell.cmd("cmd package bg-dexopt-job --disable").exec()
+        return@withContext res.isSuccess
     }
 
     suspend fun getAppFramework(packageName: String): String = withContext(Dispatchers.IO) {

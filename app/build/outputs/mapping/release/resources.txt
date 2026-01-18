@@ -1,41 +1,9 @@
-Marking id:tag_unhandled_key_event_manager:2131231125 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_unhandled_key_listeners:2131231126 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:view_tree_lifecycle_owner:2131231166 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:view_tree_view_model_store_owner:2131231169 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:alpha:2130903084 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:lStar:2130903618 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:design_password_eye:2131165316 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking string:password_toggle_content_description:2131624141 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:colorSurface:2130903305 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:colorOnSurface:2130903283 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:mtrl_snackbar_background_corner_radius:2131100394 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking layout:abc_action_menu_item_layout:2131427330 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:save_overlay_view:2131231060 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:motionDurationLong2:2130903799 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:motionDurationMedium4:2130903805 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:motionEasingEmphasizedInterpolator:2130903815 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_cab_background_top_material:2131165240 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_cab_background_internal_bg:2131165239 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_cab_background_top_mtrl_alpha:2131165241 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_ratingbar_material:2131165275 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:abc_star_big:2131099707 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_ratingbar_indicator_material:2131165274 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:abc_star_medium:2131099708 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_ratingbar_small_material:2131165276 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:abc_star_small:2131099709 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_vector_test:2131165302 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:colorControlNormal:2130903266 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:colorControlActivated:2130903264 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_switch_thumb_material:2131165289 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_seekbar_track_material:2131165284 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_list_divider_mtrl_alpha:2131165261 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_dialog_material_background:2131165243 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:snackbar_text:2131231090 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:snackbar_action:2131231089 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:design_snackbar_padding_vertical_2lines:2131099783 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:design_snackbar_padding_vertical:2131099782 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:pooling_container_listener_holder_tag:2131231042 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:motionDurationShort3:2130903808 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:motionEasingLinearInterpolator:2130903817 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking string:exposed_dropdown_menu_content_description:2131624028 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:mtrl_dropdown_arrow:2131165369 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:navigation_menu:2131624137 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:close_drawer:2131623987 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:close_sheet:2131623988 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -99,15 +67,57 @@ Marking string:time_picker_minute:2131624168 reachable: referenced from /Users/x
 Marking string:time_picker_hour_text_field:2131624167 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:time_picker_minute_text_field:2131624171 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:tooltip_pane_description:2131624175 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking layout:design_text_input_start_icon:2131427371 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:mtrl_min_touch_target_size:2131100348 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:textinput_prefix_text:2131231142 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:material_input_text_to_prefix_suffix_padding:2131100218 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking string:tab:2131624160 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking string:switch_role:2131624159 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:elevationOverlayEnabled:2130903429 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:elevationOverlayColor:2130903428 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:elevationOverlayAccentColor:2130903427 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:motionDurationLong2:2130903799 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:motionDurationMedium4:2130903805 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:motionEasingEmphasizedInterpolator:2130903815 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:abc_dropdownitem_icon_width:2131099689 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:abc_dropdownitem_text_padding_left:2131099690 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:view_tree_saved_state_registry_owner:2131231168 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:snackbar_text:2131231090 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:snackbar_action:2131231089 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:design_snackbar_padding_vertical_2lines:2131099783 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:design_snackbar_padding_vertical:2131099782 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_unhandled_key_listeners:2131231126 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:hide_in_inspector_tag:2131230908 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:compose_view_saveable_id_tag:2131230828 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:colorPrimary:2130903292 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:colorPrimaryVariant:2130903299 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:isMaterialTheme:2130903584 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking layout:material_time_chip:2131427388 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking layout:material_time_input:2131427389 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:material_label:2131230953 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_screen_reader_focusable:2131231122 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_accessibility_heading:2131231117 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_state_description:2131231123 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_accessibility_actions:2131231115 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:chipStyle:2130903231 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_window_insets_animation_callback:2131231127 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_on_apply_window_listener:2131231119 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:actionModeStyle:2130903068 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:actionBarPopupTheme:2130903042 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking layout:abc_action_mode_close_item_material:2131427333 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking layout:abc_action_bar_title_item:2131427328 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:action_bar_title:2131230774 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:action_bar_subtitle:2131230773 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:actionBarStyle:2130903045 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:view_tree_on_back_pressed_dispatcher_owner:2131231167 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:motionDurationShort3:2130903808 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:motionEasingLinearInterpolator:2130903817 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking string:clear_text_end_icon_content_description:2131623986 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:mtrl_ic_cancel:2131165372 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:abc_cascading_menus_min_smallest_width:2131099670 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_unhandled_key_event_manager:2131231125 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:report_drawn:2131231051 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:androidx_compose_ui_view_composition_context:2131230792 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:imageButtonStyle:2130903571 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:materialCalendarStyle:2130903742 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:actionOverflowButtonStyle:2130903071 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking string:androidx_startup:2131623963 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking string:tab:2131624160 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking string:switch_role:2131624159 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:accessibility_custom_action_0:2131230736 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:accessibility_custom_action_1:2131230737 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:accessibility_custom_action_2:2131230748 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -140,6 +150,9 @@ Marking id:accessibility_custom_action_28:2131230757 reachable: referenced from 
 Marking id:accessibility_custom_action_29:2131230758 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:accessibility_custom_action_30:2131230760 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:accessibility_custom_action_31:2131230761 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_accessibility_pane_title:2131231118 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_on_receive_content_mime_types:2131231121 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_on_receive_content_listener:2131231120 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:indeterminate:2131624034 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:off:2131624139 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:on:2131624140 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -147,31 +160,6 @@ Marking string:selected:2131624153 reachable: referenced from /Users/xmodern/Des
 Marking string:not_selected:2131624138 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:template_percent:2131624161 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:in_progress:2131624033 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:coordinatorLayoutStyle:2130903345 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:actionModeStyle:2130903068 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:actionBarPopupTheme:2130903042 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking layout:abc_action_mode_close_item_material:2131427333 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking layout:abc_action_bar_title_item:2131427328 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:action_bar_title:2131230774 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:action_bar_subtitle:2131230773 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:actionBarStyle:2130903045 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:view_tree_on_back_pressed_dispatcher_owner:2131231167 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:abc_dropdownitem_icon_width:2131099689 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:abc_dropdownitem_text_padding_left:2131099690 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_screen_reader_focusable:2131231122 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_accessibility_heading:2131231117 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_state_description:2131231123 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_accessibility_actions:2131231115 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:abc_cascading_menus_min_smallest_width:2131099670 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:report_drawn:2131231051 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:edit_query:2131230872 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:imageButtonStyle:2130903571 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:materialCalendarStyle:2130903742 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:actionOverflowButtonStyle:2130903071 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking string:default_popup_window_title:2131624022 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:compose_view_saveable_id_tag:2131230828 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_window_insets_animation_callback:2131231127 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_on_apply_window_listener:2131231119 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:abc_config_prefDialogWidth:2131099671 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking layout:abc_cascading_menu_item_layout:2131427339 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking layout:abc_popup_menu_header_item_layout:2131427346 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -190,19 +178,21 @@ Marking string:abc_searchview_description_search:2131623957 reachable: reference
 Marking layout:abc_search_dropdown_item_icons_2line:2131427352 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:abc_search_view_preferred_height:2131099702 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:abc_search_view_preferred_width:2131099703 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:colorPrimary:2130903292 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:colorPrimaryVariant:2130903299 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:isMaterialTheme:2130903584 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:topPanel:2131231150 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:buttonPanel:2131230809 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:contentPanel:2131230834 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:customPanel:2131230841 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:elevationOverlayEnabled:2130903429 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:elevationOverlayColor:2130903428 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:elevationOverlayAccentColor:2130903427 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:colorSurface:2130903305 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:chipStyle:2130903231 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking layout:design_text_input_start_icon:2131427371 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:mtrl_min_touch_target_size:2131100348 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:textinput_prefix_text:2131231142 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:material_input_text_to_prefix_suffix_padding:2131100218 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:materialButtonStyle:2130903728 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking string:exposed_dropdown_menu_content_description:2131624028 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:mtrl_dropdown_arrow:2131165369 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking style:Widget_MaterialComponents_Chip_Action:2131690500 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:autoCompleteTextViewStyle:2130903098 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking string:default_popup_window_title:2131624022 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:coordinatorLayoutStyle:2130903345 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:listMenuViewStyle:2130903704 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:dropDownListViewStyle:2130903419 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:abc_prepend_shortcut_label:2131623953 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -223,15 +213,7 @@ Marking id:content:2131230833 reachable: referenced from /Users/xmodern/Desktop/
 Marking layout:abc_list_menu_item_radio:2131427345 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking layout:abc_list_menu_item_checkbox:2131427342 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking layout:abc_list_menu_item_icon:2131427343 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking string:androidx_startup:2131623963 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:materialButtonStyle:2130903728 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking style:Widget_MaterialComponents_Button:2131690486 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:design_textinput_caption_translate_y:2131099789 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:motionDurationShort4:2130903809 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:motionEasingEmphasizedDecelerateInterpolator:2130903814 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:material_helper_text_font_1_3_padding_horizontal:2131100216 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:material_helper_text_default_padding_top:2131100215 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:material_helper_text_font_1_3_padding_top:2131100217 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:materialButtonToggleGroupStyle:2130903729 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking style:Widget_MaterialComponents_MaterialButtonToggleGroup:2131690518 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:textInputStyle:2130904088 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -259,6 +241,7 @@ Marking color:design_error:2131034187 reachable: referenced from /Users/xmodern/
 Marking string:character_counter_overflowed_content_description:2131623984 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:character_counter_content_description:2131623983 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:character_counter_pattern:2131623985 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:colorControlActivated:2130903264 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:textinput_counter:2131231138 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:mtrl_textinput_counter_margin_start:2131100410 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:textinput_error:2131231139 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -268,7 +251,15 @@ Marking attr:materialClockStyle:2130903750 reachable: referenced from /Users/xmo
 Marking style:Widget_MaterialComponents_TimePicker_Clock:2131690578 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:material_clock_hand_stroke_width:2131100195 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:material_clock_hand_center_dot_radius:2131100193 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:accessibility_action_clickable_span:2131230735 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_accessibility_clickable_spans:2131231116 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:inspection_slot_table_set:2131230921 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:wrapped_composition_tag:2131231177 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:consume_window_insets_tag:2131230831 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:save_overlay_view:2131231060 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking style:Theme_AppCompat_Light:2131690013 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:design_password_eye:2131165316 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking string:password_toggle_content_description:2131624141 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking layout:material_clockface_view:2131427385 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:material_clock_hand:2131230946 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:material_clock_hand_padding:2131100194 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -280,7 +271,6 @@ Marking dimen:material_time_picker_minimum_screen_height:2131100222 reachable: r
 Marking dimen:material_time_picker_minimum_screen_width:2131100223 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:material_clock_size:2131100201 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:circle_center:2131230821 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:autoCompleteTextViewStyle:2130903098 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:cancel_button:2131230810 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:confirm_button:2131230830 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:nestedScrollable:2130903840 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -291,7 +281,6 @@ Marking dimen:m3_back_progress_side_container_max_scale_x_distance_shrink:213109
 Marking dimen:m3_back_progress_side_container_max_scale_x_distance_grow:2131099824 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:m3_back_progress_side_container_max_scale_y_distance:2131099826 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:side_sheet_accessibility_pane_title:2131624154 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:consume_window_insets_tag:2131230831 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:toolbarStyle:2130904135 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking style:Widget_MaterialComponents_Toolbar:2131690586 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking layout:material_radial_view_group:2131427386 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -301,46 +290,23 @@ Marking string:bottomsheet_action_expand_halfway:2131623973 reachable: reference
 Marking dimen:design_bottom_sheet_peek_height_min:2131099757 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:m3_back_progress_bottom_container_max_scale_x_distance:2131099820 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:m3_back_progress_bottom_container_max_scale_y_distance:2131099821 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:m3_carousel_debug_keyline_width:2131099885 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:accessibility_action_clickable_span:2131230735 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_accessibility_clickable_spans:2131231116 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:inspection_slot_table_set:2131230921 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:actionBarSize:2130903043 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:action_bar_activity_content:2131230769 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:action_bar_container:2131230770 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:action_bar:2131230768 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:transition_current_scene:2131231154 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:design_textinput_caption_translate_y:2131099789 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:motionDurationShort4:2130903809 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:motionEasingEmphasizedDecelerateInterpolator:2130903814 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:material_helper_text_font_1_3_padding_horizontal:2131100216 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:material_helper_text_default_padding_top:2131100215 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:material_helper_text_font_1_3_padding_top:2131100217 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:actionOverflowMenuStyle:2130903072 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:nestedScrollViewStyle:2130903839 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:coil_request_manager:2131230826 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:androidx_compose_ui_view_composition_context:2131230792 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:hide_in_inspector_tag:2131230908 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_accessibility_pane_title:2131231118 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_on_receive_content_mime_types:2131231121 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_on_receive_content_listener:2131231120 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:spacer:2131231093 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking layout:material_timepicker:2131427390 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:material_clock_face:2131230945 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:material_clock_period_toggle:2131230950 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:material_minute_tv:2131230955 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:material_hour_tv:2131230952 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:selection_type:2131231081 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:theme:2130904091 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:materialThemeOverlay:2130903764 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking string:mtrl_chip_close_icon_content_description:2131624087 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:fragment_container_view_tag:2131230897 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:is_pooling_container_tag:2131230924 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:colorOnSurface:2130903283 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:mtrl_snackbar_background_corner_radius:2131100394 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking layout:design_navigation_menu_item:2131427369 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking dimen:design_navigation_icon_size:2131099767 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:design_menu_item_text:2131230852 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:design_menu_item_action_area_stub:2131230851 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:navigation_empty_icon:2131165394 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:split_action_bar:2131231096 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:action_context_bar:2131230776 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_textfield_default_mtrl_alpha:2131165298 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_ab_share_pack_mtrl_alpha:2131165224 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_textfield_search_default_mtrl_alpha:2131165300 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:abc_cab_background_internal_bg:2131165239 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_menu_hardkey_panel_mtrl_mult:2131165272 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_popup_background_mtrl_mult:2131165273 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_tab_indicator_material:2131165291 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -358,6 +324,7 @@ Marking drawable:abc_ic_menu_selectall_mtrl_alpha:2131165254 reachable: referenc
 Marking drawable:abc_ic_menu_paste_mtrl_am_alpha:2131165253 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_textfield_activated_mtrl_alpha:2131165297 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_textfield_search_activated_mtrl_alpha:2131165299 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:abc_cab_background_top_mtrl_alpha:2131165241 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_text_cursor_material:2131165293 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_text_select_handle_left_mtrl:2131165294 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_text_select_handle_middle_mtrl:2131165295 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -369,6 +336,7 @@ Marking drawable:abc_edit_text_material:2131165244 reachable: referenced from /U
 Marking color:abc_tint_edittext:2131034133 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_switch_track_mtrl_alpha:2131165290 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking color:abc_tint_switch_track:2131034136 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:abc_switch_thumb_material:2131165289 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:colorSwitchThumbNormal:2130903315 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_btn_default_mtrl_shape:2131165232 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_btn_borderless_material:2131165226 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -376,31 +344,63 @@ Marking drawable:abc_btn_colored_material:2131165231 reachable: referenced from 
 Marking attr:colorAccent:2130903260 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_spinner_mtrl_am_alpha:2131165285 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_spinner_textfield_background_material:2131165286 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:colorControlNormal:2130903266 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking color:abc_tint_default:2131034132 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking color:abc_tint_btn_checkable:2131034131 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking drawable:abc_seekbar_thumb_material:2131165282 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking color:abc_tint_seek_thumb:2131034134 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking color:abc_tint_spinner:2131034135 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:spacer:2131231093 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking layout:material_timepicker:2131427390 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:material_clock_face:2131230945 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:material_clock_period_toggle:2131230950 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:material_minute_tv:2131230955 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:material_hour_tv:2131230952 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:selection_type:2131231081 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:editTextStyle:2130903425 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:textColorSearchUrl:2130904079 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:edit_query:2131230872 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:abc_cab_background_top_material:2131165240 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:abc_ratingbar_material:2131165275 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:abc_star_big:2131099707 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:abc_ratingbar_indicator_material:2131165274 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:abc_star_medium:2131099708 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:abc_ratingbar_small_material:2131165276 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:abc_star_small:2131099709 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:abc_vector_test:2131165302 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:abc_seekbar_track_material:2131165284 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:abc_list_divider_mtrl_alpha:2131165261 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:abc_dialog_material_background:2131165243 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:fragment_container_view_tag:2131230897 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:alpha:2130903084 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:lStar:2130903618 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:m3_carousel_debug_keyline_width:2131099885 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:pooling_container_listener_holder_tag:2131231042 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking layout:design_navigation_menu_item:2131427369 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking dimen:design_navigation_icon_size:2131099767 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:design_menu_item_text:2131230852 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:design_menu_item_action_area_stub:2131230851 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:navigation_empty_icon:2131165394 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:split_action_bar:2131231096 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:action_context_bar:2131230776 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:recyclerViewStyle:2130903900 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:fastscroll_default_thickness:2131099792 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:fastscroll_minimum_range:2131099794 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:fastscroll_margin:2131099793 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking string:clear_text_end_icon_content_description:2131623986 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:mtrl_ic_cancel:2131165372 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:editTextStyle:2130903425 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking string:mtrl_chip_close_icon_content_description:2131624087 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking style:Widget_Design_TextInputEditText:2131690299 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:view_tree_saved_state_registry_owner:2131231168 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:theme:2130904091 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:materialThemeOverlay:2130903764 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:is_pooling_container_tag:2131230924 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking layout:abc_popup_menu_item_layout:2131427347 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking attr:toolbarNavigationButtonStyle:2130904134 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:abc_action_bar_up_description:2131623937 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:coil_request_manager:2131230826 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:text_input_error_icon:2131231136 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:text_input_end_icon:2131231135 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:error_icon_content_description:2131624026 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:textinput_suffix_text:2131231143 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking layout:design_text_input_end_icon:2131427370 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:wrapped_composition_tag:2131231177 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:textColorSearchUrl:2130904079 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:transition_current_scene:2131231154 reachable: referenced from /Users/xmodern/Desktop/andr/AotOptimizer/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 android.content.res.Resources#getIdentifier present: true
 Web content present: false
 Referenced Strings:
@@ -424,14 +424,14 @@ STOP
 text/xml
 Orientation
 0
-1
 textSelectionRange
+1
 applier
 size
-ACTION_PRESS_AND_HOLD
 AspectFrame
-left
+ACTION_PRESS_AND_HOLD
 kotlinx.coroutines.DefaultExecutor
+left
 scanning...
 JvmSystemFileSystem
 Strategy.HighQuality
@@ -440,10 +440,12 @@ setNextSelectedPositionInt
 role
 S_RESUMING_BY_RCV
 contentPadding
-emoji2.text.DefaultEmojiConfig
+Selection
 bottomRight
+emoji2.text.DefaultEmojiConfig
 H
 ImageLength
+Prefix
 record.loggerName
 PKIX
 result
@@ -455,26 +457,26 @@ addFontWeightStyle
 image/heic
 constructor.parameterTypes
 EXTRA_BENCHMARK_OPERATION
-policy
 _
+policy
 a
-b
 Center
+b
 address
 user_query
 c
 ACTION_CLEAR_ACCESSIBILITY_FOCUS
-d
 Infinity
-Compose:unobserve
+d
 e
-M10500
+Compose:unobserve
 g
+M10500
 truncated
 kotlin.String
 RESUMING_BY_EB
-OnClick
 cookieJar
+OnClick
 m
 STATE_
 p
@@ -489,16 +491,17 @@ x
 y
 FAST
 ProgressBarRangeInfo
+currentValue
 standard
-Start
 POST
+Start
 ColorSpace
 rippleHostView
 PRIORITY
 image/webp
 isTagEnabled
-Checkbox
 drawableLeft
+Checkbox
 removeMethod
 Multiply
 ACTION_SCROLL_FORWARD
@@ -524,8 +527,8 @@ manning
 androidx.view.accessibility.Accessibi...
 setSelectedPositionInt
 repeatMode
-COMPLETING_WAITING_CHILDREN
 applied
+COMPLETING_WAITING_CHILDREN
 RESULT_BASELINE_PROFILE_NOT_FOUND
 _invoked
 medium
@@ -533,22 +536,22 @@ $this$focusProperties
 keyInfo
 remove
 RESULT_DELETE_SKIP_FILE_SUCCESS
-SDK_INT
 WordBreak.None
+SDK_INT
 unsupported
 http2Connection
 provider
 isDebugInspectorInfoEnabled
 root
-rhannah
 kotlinx.coroutines.main.delay
+rhannah
 _delayed
 Age
 navigationBars
 headers
 onDismiss
-kotlin.collections.List
 deqIdx
+kotlin.collections.List
 $this$invoke
 A70AXLTMO
 compose:lazylist:prefetch:measure
@@ -560,8 +563,8 @@ SearchView
 allScopes
 ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE
 android.view.View$AttachInfo
-textLayoutResult
 java.lang.Float
+textLayoutResult
 GPSDifferential
 Dispatchers.IO
 N5702L
@@ -579,14 +582,15 @@ okhttp3.mockwebserver.MockWebServer
 HTTP/1.1
 block
 fullPackage
-spdy/3.1
 write
+spdy/3.1
 StateDescription
 SensorLeftBorder
 GPSDestLatitudeRef
 serverProviderClass
 TLS_KRB5_WITH_DES_CBC_SHA
 toggleableState
+EmojiSupportMatch.Default
 byte
 $this$Button
 vectorTail
@@ -594,6 +598,7 @@ EXACT
 Square
 GPSStatus
 connectionSpecs
+anchorBounds
 Modulate
 extraSmall
 SSL_DHE_RSA_WITH_DES_CBC_SHA
@@ -605,8 +610,8 @@ YCbCrCoefficients
 %2B
 CENTER_Y
 CENTER_X
-doAfterTextChanged
 taskRunner
+doAfterTextChanged
 TLS_DHE_RSA_WITH_CHACHA20_POLY1305_SH...
 isHovered
 Warning
@@ -625,8 +630,10 @@ FloatAnimation
 onFrame
 targetValue
 %2e
+offsetMapping
 java.lang.String
 ExifIFDPointer
+layoutCoordinates
 drawableEnd
 %40
 linear
@@ -637,19 +644,20 @@ Unspecified
 Default
 BCJSSE
 picture
+Filled.Search
 LookaheadMeasuring
 comparator
 framework
 drawableRight
 $this$DropdownMenu
 nora_8917
-Lighten
 TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+Lighten
 All
 ExifVersion
 New
-G3212
 putMethod
+G3212
 checkedIconEnabled
 Copyright
 STATUS
@@ -660,24 +668,25 @@ android.view.accessibility.extra.DATA...
 setEpicenterBounds
 Plus
 void
-G3221
 scrollableState
+G3221
 G3223
 supportedCipherSuites
 statusBarStyle
 G3226
-mStableInsets
 _cur
 batchLogs
+mStableInsets
 READ
 mDestination
-chipIconVisible
 200
+chipIconVisible
 $this$surfaceColorAtElevation
 204
-206
 StructuralEqualityPolicy
+206
 SensitivityType
+getParagraphBoundary
 _id
 kotlin.Throwable
 RequestFocus
@@ -686,6 +695,7 @@ parkedWorkersStack
 Theme.AppCompat
 Horizontal
 displayCutout
+editCommands
 DRAGGING
 TLS_ECDH_anon_WITH_AES_256_CBC_SHA
 NO_VALUE
@@ -699,20 +709,20 @@ RCT6B03W13
 RCT6B03W12
 Invalid
 measurable
-direction
 $this$composed
+direction
 TLS_PSK_WITH_AES_256_CBC_SHA
 High
 Strictness.None
 %6s
+parentBounds
 android.intent.action.SEARCH
 BITMAP
-parentBounds
 SubjectLocation
 mandatorySystemGestures
 $this$clickable
-newConfig
 ENHANCE_YOUR_CALM
+newConfig
 android.intent.action.MAIN
 Array
 DigitalZoomRatio
@@ -725,16 +735,16 @@ UNKNOWN
 initialExtras
 DstOut
 $this$setNativeStyle
-android:visibility:parent
 accessibility
 Bradford
+android:visibility:parent
 prev
 quic
 STOP_AND_RESET_REPLAY_CACHE
 onBackCancelled
 impl
-BV6800Pro
 hostname
+BV6800Pro
 CONNECT_ERROR
 kotlinx.coroutines.scheduler.keep.ali...
 TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
@@ -747,15 +757,16 @@ pointers
 element
 %8s
 ConstraintLayoutStates
-FontFamily.Monospace
 Compose:releases
+FontFamily.Monospace
 SLOW
-ACTION_SCROLL_DOWN
 batchCurrentApp
 android.content.extra.SIZE
+ACTION_SCROLL_DOWN
+SelectionHandleInfo
 android.view.ViewRootImpl
-mcv1s
 $tmp0
+mcv1s
 TextDecoration.
 singleLine
 .class
@@ -767,9 +778,10 @@ FocalPlaneYResolution
 aljeter
 layerBlock
 SupportMenuInflater
-dalvik.system.CloseGuard
 typefaceRequestCache
+dalvik.system.CloseGuard
 flingBehavior
+actionModeCallback
 Filled.NewReleases
 anim
 GPSDestDistanceRef
@@ -791,9 +803,9 @@ liveRegion
 DstIn
 receive
 Motion
-getParent
 itemContentFactory
 WhitePoint
+getParent
 Connection
 onInvalidateRipple
 refresh
@@ -809,24 +821,29 @@ headlineSmall
 onDismissRequest
 klass.interfaces
 mcv7a
+Hint
 converter
 source
 onReset
 secure
+SelectionStart
 Compose:Composer.dispose
+Container
 rootCoordinates
 Compose
+span.value
+newTextFieldValueState
 java.lang.Short
-Search
 positionSelector
+Search
 android.widget.Button
 _closeCause
 Oklab
-androidx.view.accessibility.Accessibi...
 androidx.recyclerview.widget.Recycler...
+androidx.view.accessibility.Accessibi...
 REPLACE
-markState
 Eraser
+markState
 brush
 search_suggest_query
 effectCoroutineContext
@@ -835,12 +852,14 @@ DIAGNOSTIC_PROFILE_IS_COMPRESSED
 NAME
 FragmentManager
 HandlerCompat
+onBuildDrawCache
 currentSemanticsNodes
 Medium
 Enter
 TLS_CHACHA20_POLY1305_SHA256
 INTERRUPTED_RCV
 font_variation_settings
+DpAnimation
 TLS_KRB5_EXPORT_WITH_RC4_40_SHA
 cipherSuitesIntersection
 FIRSTSTRONG_LTR
@@ -854,21 +873,22 @@ CREATED
 ContentOrRtl
 NO_OWNER
 st18c10bnn
-TLSv1.3
 TLS_KRB5_WITH_RC4_128_MD5
+TLSv1.3
 TLSv1.2
 TLSv1.1
 SHOW
 drawStyle
 androidx.content.action.LOAD_EMOJI_FONT
 Password
-meizu
 TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384
+meizu
 SubfileType
-prefetchState
 Fab
+prefetchState
 DNGVersion
 yes
+center
 EXTRA_SKIP_FILE_OPERATION
 start
 INTERNAL_ERROR
@@ -886,61 +906,66 @@ ApertureValue
 jeter
 j7maxlte
 TLS_AES_128_CCM_SHA256
+TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
 android.widget.RadioButton
 android.widget.ImageView
-TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
 ACCESSIBILITY_CLICKABLE_SPAN_ID
 imeAction
 CODENAME
 put
 ACTION_PAGE_LEFT
 modelClass.constructors
-YResolution
 SSL_RSA_WITH_DES_CBC_SHA
-lineHeightStyle
+YResolution
 %2e%2e
 in_progress
+lineHeightStyle
+$this$drawWithCache
 FAILED
-POISONED
 TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+POISONED
 font_ttc_index
 enter
 newSemanticsNodes
 drawableStart
 ACTION_SHOW_ON_SCREEN
 customActions
-priority
 closeHandler
+priority
 CustomActions
 ANYRTL_LTR
+$this$defaultMinSize
 ASUS_X018_4
 BUFFERED
 GET
 .apk
 unicodeDomain
 CHANNEL_CLOSED
+bringIntoViewRequester
 SharingStarted.Lazily
 CONTINUATION
 java.lang.Throwable
 /data/misc/profiles/cur/0/
 Power_5
 map.entries
-PrivateApi
+popupPositionProvider
 $this$dispatchScroll
+PrivateApi
+Outlined
 unknown
 proxySelector
 android.widget.SeekBar
 headlineMedium
 INITIALIZED
 awaiter
-producerIndex
 REMOVE
+producerIndex
 android:changeBounds:bounds
-CFAPattern
 SSL_DH_anon_EXPORT_WITH_DES40_CBC_SHA
+CFAPattern
 GPSDestBearingRef
-LineHeightStyle.Alignment.Bottom
 SETTLING
+LineHeightStyle.Alignment.Bottom
 semanticsNode
 chain
 ACTION_DRAG_START
@@ -977,8 +1002,8 @@ SubSecTime
 CLOSE_HANDLER_INVOKED
 group
 java.lang.Cloneable
-Power_2_Pro
 publicKey.encoded
+Power_2_Pro
 BV9500Pro
 GPSLongitudeRef
 format
@@ -1011,13 +1036,14 @@ displayMedium
 lookaheadMeasurePolicy
 kotlin.String.Companion
 SSL_NULL_WITH_NULL_NULL
+process
 LocalDensity
 ISOSpeedLatitudezzz
-restore
 ActiveParent
+restore
 valueProducer
-ACTION_SHOW_TOOLTIP
 okhttp.MockWebServer
+ACTION_SHOW_TOOLTIP
 TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
 jClass
 $this$setFrom
@@ -1037,6 +1063,7 @@ kotlin.Cloneable
 runningAnimations
 readObserver
 TLS_RSA_WITH_AES_256_CBC_SHA
+preparedSelectionState
 Success
 rootNode
 GPSDestBearing
@@ -1051,8 +1078,9 @@ parentScope
 kotlin.reflect.jvm.internal.Reflectio...
 CutText
 tlsVersionsIntersection
-cleanedAndPointers
+$this$animateColor
 DEFAULT_TEST_TAG
+cleanedAndPointers
 addObserver
 autofillTree
 ID1ID2
@@ -1074,14 +1102,15 @@ Recomposer:animation
 albums
 getEmojiConsistencySet
 fontMetricsInt
+MagnifierStyle.TextDefault
 DROP_LATEST
 _exceptionsHolder
 A30ATMO
 TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA
 journal
-:scheme
-composition
 TLS_KRB5_EXPORT_WITH_DES_CBC_40_SHA
+composition
+:scheme
 StripOffsets
 .SSLParametersImpl
 onDraw
@@ -1104,13 +1133,14 @@ parentContext
 CANCEL
 restored
 $this$initializer
+PlaceholderOpacity
 rjames_go
 missingDelimiterValue
 listener
 dir
+Upgrade
 down
 BanParcelableUsage
-Upgrade
 taskQueue
 SubIFDPointer
 AwaitContinuation
@@ -1126,20 +1156,21 @@ coordinator
 onPositionCalculated
 displayLarge
 Weight
-DISABLED
 Role
+DISABLED
 value.textValue
 java.lang.annotation.Annotation
-sha256/
 org.eclipse.jetty.alpn.ALPN$ClientPro...
+sha256/
 $this$setNativeColor
 font_weight
 FabPosition.Center
 AndroidOwner:onMeasure
 TERMINATED
-session
 compositionLocalMap
+session
 ACTION_SET_SELECTION
+isCtrlPressed
 Barrier
 fontFamilyResolver
 title
@@ -1151,9 +1182,10 @@ ListPopupWindow
 SubjectArea
 ProfileInstaller
 java.lang.Boolean
-selector
 TLS
+selector
 FocalPlaneXResolution
+Leading
 socketAddress
 owner
 classSimpleName
@@ -1163,6 +1195,7 @@ ExifInterface
 IconCompat
 Hi9Pro
 TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA
+Filled
 Animatable
 DEFAULT
 SensingMethod
@@ -1172,19 +1205,21 @@ $this$background
 SetText
 updateDisplayListIfDirty
 lastScheduledTask
+InsertTextAtCursor
 androidx.activity.result.contract.ext...
+LabelContentColor
 androidx.view.accessibility.Accessibi...
 closeIconEnabled
 text
 Captured
 init
 LocalFontFamilyResolver
-$this$keyframes
 cookie
+$this$keyframes
 primary.prof
-dns
 bits
 TLS_AES_256_GCM_SHA384
+dns
 getLayoutAlignment
 Contrast
 heavy
@@ -1209,6 +1244,7 @@ RESPECT_PERFORMANCE
 skip
 Off
 InvisibleToUser
+DpSize.Unspecified
 file
 fileHandle
 YCbCrSubSampling
@@ -1222,18 +1258,20 @@ HIDE
 okhttp.Http2
 SSL_RSA_WITH_NULL_SHA
 COMPRESSED
-ACTION_PAGE_RIGHT
-max
 java.nio.file.Files
+max
+ACTION_PAGE_RIGHT
 this.primaries
-FlashEnergy
 TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA
+FlashEnergy
 measurables
 onAsyncCompletion
+untransformedText
 menu
 url
 sslSocket.enabledCipherSuites
 Italic
+focusManager
 304
 viewParent
 ACTION_HIDE_TOOLTIP
@@ -1255,13 +1293,13 @@ accelerate
 onBackStarted
 logs
 selected
+TopLeft
 HTTP_2
-RESPECT_ALL
 TLS_RSA_WITH_CAMELLIA_128_CBC_SHA
+RESPECT_ALL
 interrupted
 $this$contentColorFor
 separator
-painter
 task
 null
 font_italic
@@ -1270,13 +1308,14 @@ background
 $this$animate
 androidx.lifecycle.internal.SavedStat...
 position
-SSHORT
 TLS_RSA_WITH_NULL_SHA256
-this.paint
+SSHORT
 DISK
+this.paint
 $this$key
 org.conscrypt.Conscrypt$Version
 onOptimize
+consumeScrollDelta
 sortOption
 HEAD
 newApps
@@ -1285,11 +1324,12 @@ dst
 Src
 G3112
 SubjectDistance
-ACTION_SCROLL_RIGHT
 TLS_RSA_WITH_AES_256_GCM_SHA384
+ACTION_SCROLL_RIGHT
 G3116
 paragraphInfoList
 sendersAndCloseStatus
+LabelTextStyleColor
 topStart
 Clear
 asyncTraceEnd
@@ -1298,8 +1338,8 @@ systemBarsIgnoringVisibility
 TLS_KRB5_EXPORT_WITH_RC4_40_MD5
 android.permission.ACCESS_NETWORK_STATE
 STARTED
-Round
 Inactive
+Round
 NeverEqualPolicy
 windowInsetsCompat
 included
@@ -1314,11 +1354,12 @@ structure
 Blackview
 Trace
 ACTVAutoSizeHelper
-bytes
 collectionItemInfo
+bytes
 U50APLUSTMO
 Completed
 callback
+UNINITIALIZED
 RESUME_TOKEN
 socket
 ACTION_PASTE
@@ -1328,6 +1369,7 @@ LightSource
 android.graphics.FontFamily
 00
 Vertical
+onImeActionPerformed
 PUBLICATION
 navigationBarsIgnoringVisibility
 HORIZONTAL_DIMENSION
@@ -1348,13 +1390,13 @@ Armor_3
 _decision
 Armor_6
 outer
-Butt
 0x%02x
+Butt
 input_method
 wss:
-defaultCreationExtras
-PartiallyExpanded
 SSL_DH_anon_WITH_RC4_128_MD5
+PartiallyExpanded
+defaultCreationExtras
 Expand
 TLS_ECDHE_ECDSA_WITH_NULL_SHA
 setCurrentState
@@ -1365,17 +1407,17 @@ statusCode
 SubjectDistanceRange
 components
 TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384
-One
 kotlin.Function
+One
 0x
 URATIONAL
 long
 outline
 PlanarConfiguration
 min
-ACTION_PAGE_DOWN
 MEMORY
 kotlinx.coroutines.channels.defaultBu...
+ACTION_PAGE_DOWN
 classes_to_restore
 tlsVersions
 isTraversalGroup
@@ -1391,17 +1433,18 @@ INEXACT
 android:name
 typeConverter
 :method
+resolvedStyle
 PropertySet
-STRING
 selectProtocol
+STRING
 textPaint
-GPSDestDistance
 TLS_DH_anon_WITH_AES_128_GCM_SHA256
+GPSDestDistance
 autofill
 /proc/self/fd
-open
 android.widget.EditText
 LocalFontLoader
+open
 NO_DECISION
 JPEGInterchangeFormat
 OnLongClick
@@ -1411,14 +1454,14 @@ Operations:
 PasteText
 verbatim
 Native
-originalRequest
 FontFamily.Default
+originalRequest
 TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
 androidx.profileinstaller.action.INST...
 composeInsets
 initState
-nativeCanvas
 ON_START
+nativeCanvas
 KEY_COMPONENT_ACTIVITY_LAUNCHED_KEYS
 getAccessibilityViewId
 kotlinx.coroutines.io.parallelism
@@ -1426,10 +1469,10 @@ ResourcesCompat
 monospace
 TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
 PADDED
-TypefaceCompatApi21Impl
 android.resource
-collection
+TypefaceCompatApi21Impl
 aot_optimizer_prefs
+collection
 isFocused
 minLines
 immutable
@@ -1454,12 +1497,14 @@ Empty
 onBackPressedCallback
 TLS_RSA_WITH_AES_128_CBC_SHA
 android.view.accessibility.extra.EXTR...
-TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA
 setClipToScreenEnabled
+TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA
 TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA
 SetProgress
 registry
 BALANCED
+inputMethodManager
+appendCodePointX
 OffsetTimeDigitized
 setCookie
 REPORT
@@ -1498,8 +1543,10 @@ hints
 sslSocketSession
 java.util.Set
 cacheControl
+getWordBoundary
 TLS_ECDHE_ECDSA_WITH_RC4_128_SHA
 unresolved
+Suffix
 Switch
 SensorRightBorder
 TopBar
@@ -1513,8 +1560,8 @@ fillMaxWidth
 Heading
 $this$set
 SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA
-kotlin.collections.MutableMap
 androidx.compose.ui.semantics.id
+kotlin.collections.MutableMap
 TLS_ECDH_anon_WITH_RC4_128_SHA
 signature
 createFromFamiliesWithDefault
@@ -1525,11 +1572,12 @@ savedStateRegistry
 NO_THREAD_ELEMENTS
 INTERRUPTED_SEND
 Visible
-velocityVector
 verify
+velocityVector
 DOUBLE
 event
 textDir
+$this$drawBehind
 SOURCE_INPUT_METHOD
 _availablePermits
 mViewFlags
@@ -1539,30 +1587,33 @@ Guideline
 PENDING
 androidx.profileinstaller.action.BENC...
 $this$Canvas
-nullLayouts
 TransferFunction
+nullLayouts
 Tab
 outState
 SensorTopBorder
 java.lang.Comparable
 ACTION_SET_TEXT
 DstAtop
-span
 caCerts
+span
+UnfocusedEmpty
 Done
 Characters
 OP_SET_MAX_LIFECYCLE
 float
+Cursor
 BitsPerSample
 reference
 Gamma
 java.lang.Enum
 GPSVersionID
 progressBarRangeInfo
+TextField
 from
-Client
 android.permission.POST_NOTIFICATIONS
 caCert.subjectX500Principal
+Client
 fontWeight
 indicationInstance
 android.speech.extra.PROMPT
@@ -1571,22 +1622,24 @@ Strategy.Balanced
 connectionPool
 $this$layout
 0123456789abcdef
+StopInput
 $this$onDrawWithContent
 Softlight
 DATA
 Content
-androidx.core.view.inputmethod.Editor...
 ThumbnailImage
+androidx.core.view.inputmethod.Editor...
 file_id
 Software
+platformMagnifier
 AndroidOwner:measureAndLayout
-$onBackInvoked
 ime
+$onBackInvoked
 android.text.EmojiConsistency
 configuration
 .font
-ACTION_CUT
 localRect
+ACTION_CUT
 LTR
 error
 $this$applyTonalElevation
@@ -1609,8 +1662,8 @@ command
 int
 GPSDestLongitudeRef
 LensMake
-Xmp
 TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA
+Xmp
 providers
 exception
 $this$fakeSemanticsNode
@@ -1624,13 +1677,13 @@ androidx.core.view.extra.INPUT_CONTEN...
 SETTINGS
 String
 via
-A3
-$this$LazyColumn
 Compose:sideeffects
+$this$LazyColumn
+A3
 GPSSpeed
 display_photo
-androidx.view.accessibility.Accessibi...
 saver
+androidx.view.accessibility.Accessibi...
 getUncaughtExceptionPreHandler
 resolveResult
 VerbatimTts
@@ -1639,13 +1692,15 @@ checkedIconVisible
 chipIconEnabled
 LEFT
 upgrade
-_handled
 SIZE
 providerValues
+_handled
+receiveCatching
 SetSelection
 MButtonToggleGroup
 onBackProgressed
 RCT6873W42BMF9A
+stop
 kotlin.jvm.functions.
 kotlinx.coroutines.scheduler.default....
 beyondBoundsInfo
@@ -1667,10 +1722,10 @@ LayingOut
 previousAnchors
 http/1.1
 DIRTY
-http/1.0
 ContentOrLtr
-.OpenSSLSocketImpl
+http/1.0
 TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+.OpenSSLSocketImpl
 outRect
 titleMedium
 LocalInputManager
@@ -1687,9 +1742,10 @@ Z2_PRO
 CameraOwnerName
 Hyphens.None
 Compose:recompose
+TopRight
 TLS_DHE_DSS_WITH_AES_256_CBC_SHA256
-V0330WW
 coil.request.GlobalLifecycle
+V0330WW
 androidx.lifecycle.BundlableSavedStat...
 GridLayoutManager
 onOptimizeAll
@@ -1724,6 +1780,7 @@ TypefaceCompatUtil
 contentScale
 eotf
 warnIfOpen
+focusRequester
 http
 exchange
 stateDescription
@@ -1760,14 +1817,15 @@ Offset.Unspecified
 Measuring
 Previous
 START
+ImeAction
 PageDown
 rhs
 age
 subcomposeLayoutState
 A3_Pro
 UNDEFINED
-Go
 GPSTimeStamp
+Go
 G3412
 oldNode
 G3416
@@ -1776,8 +1834,8 @@ parentList
 TLS_ECDH_RSA_WITH_NULL_SHA
 dexopt/baseline.prof
 BYTE
-property
 kotlinx.coroutines.internal.StackTrac...
+property
 Hidden
 androidx.view.accessibility.Accessibi...
 createSegment
@@ -1785,16 +1843,17 @@ placementBlock
 shape
 G3421
 FileSource
+convertToVector
 REFUSED_STREAM
-FocalLengthIn35mmFilm
 _rootCause
+FocalLengthIn35mmFilm
 G3423
 $this$graphicsLayer
 G3426
 animation
 Variant
-Top
 400
+Top
 404
 RESULT_NOT_WRITABLE
 .dp
@@ -1802,10 +1861,10 @@ etag
 %02d:%02d:%02d
 ImageBitmap
 PROPPATCH
-.xml
 Snackbar
-RESULT_INSTALL_SKIP_FILE_SUCCESS
+.xml
 Strictness.Loose
+RESULT_INSTALL_SKIP_FILE_SUCCESS
 other
 libcore.io.DiskLruCache
 routeDatabase
@@ -1814,10 +1873,11 @@ URI
 protocolSelected
 local
 valueVector
-fffe
 suggest_text_1
+fffe
 LocalViewConfiguration
 suggest_text_2
+cursorBrush
 TransitionLayout
 androidx.view.accessibility.Accessibi...
 Strategy.Simple
@@ -1825,10 +1885,10 @@ kotlin.Long
 .em
 PING
 androidx.view.accessibility.Accessibi...
-$this$placeRelative
-motionDurationScale
 Style
 Completing
+motionDurationScale
+$this$placeRelative
 ALIGN_LEFT
 Focused
 TLS_AES_128_CCM_8_SHA256
@@ -1836,8 +1896,8 @@ _resumed
 SOURCE_APP
 GPSHPositioningError
 One_Pro
-Text
 gzip
+Text
 $this$inspectable
 Lab
 nativeColorFilter
@@ -1854,12 +1914,12 @@ referer
 Compression
 SINGLE
 kotlin.collections.Collection
-UTC
 ExposureProgram
+UTC
 modifier
 getAlpnSelectedProtocol
-measurePolicy
 paneTitle
+measurePolicy
 pointerEvent
 FERMI_TF
 ConstraintLayout
@@ -1868,19 +1928,21 @@ onDragStopped
 ViewDragHelper
 _isCompleting
 TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA
-Calculating...
 Sort
+Calculating...
 Hyphens.Auto
 buffer
 FNumber
 Filled.Security
 ali
-HTTP_1_0
 settings
-systemGestures
+HTTP_1_0
+indicatorBorder
 read
+systemGestures
 HTTP_1_1
 OpenSSLSocketImpl
+MagnifierPositionInRoot
 positions
 LocalAutofillTree
 $this$MeasurePolicy
@@ -1894,14 +1956,14 @@ okio.Okio
 handleLifecycleEvent
 $this$modalBottomSheetSwipeable
 Indeterminate
-COMPLETING_ALREADY
 %2e.
+COMPLETING_ALREADY
 TLS_KRB5_WITH_RC4_128_SHA
 media
-READ_ONLY
 java.lang.Iterable
-crossAxisSize
+READ_ONLY
 androidx.appcompat.widget.LinearLayou...
+crossAxisSize
 slotIds
 rect
 MakerNote
@@ -1924,8 +1986,8 @@ application
 $this$setNativeBlendMode
 layout_inflater
 SLONG
-needle
 strategy
+needle
 Main
 On
 confirmValueChange
@@ -1934,6 +1996,7 @@ LineHeightStyle.Alignment.Proportional
 suggest_intent_extra_data
 layoutResult
 AccessibilityNodeInfo.roleDescription
+Filled.Close
 FabPosition.End
 ANIM
 suggest_flags
@@ -1949,10 +2012,10 @@ Flutter
 app
 fillMaxSize
 wrapContentSize
-rjames_f
 Trailers
-inputContentInfo
+rjames_f
 Make
+inputContentInfo
 invalidateParentLayer
 $this$pointerSlop
 verticalScrollAxisRange
@@ -1968,23 +2031,25 @@ PathParser
 connectionCode
 endState
 androidx.savedstate.Restarter
-android.view.accessibility.extra.DATA...
 kotlinx.coroutines.semaphore.segmentSize
+android.view.accessibility.extra.DATA...
 SSL_RSA_EXPORT_WITH_DES40_CBC_SHA
-DROP_SHADER_CACHE
 context.applicationContext
+DROP_SHADER_CACHE
+visualTransformation
 kotlin.collections.ListIterator
 GPSLatitudeRef
 waterfall
+textSelectionColors
 TLS_ECDH_RSA_WITH_AES_256_CBC_SHA
-:status
 SSL_RSA_WITH_RC4_128_SHA
+:status
 outBundle
 TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256
 TLS_ECDH_RSA_WITH_RC4_128_SHA
+apps
 LocalSavedStateRegistryOwner
 ACTION_SELECT
-apps
 EDISON_TF
 $this$padding
 ComponentsConfiguration
@@ -2000,14 +2065,17 @@ Sp
 _decisionAndIndex
 SrcOver
 .%2e
-view.context.resources.configuration....
 navigationIcon
+view.context.resources.configuration....
+textInputService
 $name
+onValueChange
 TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA
-java.util.ListIterator
 Constraint
+java.util.ListIterator
 GPSAltitudeRef
 bodySmall
+Label
 android.view.accessibility.extra.EXTR...
 DefaultDispatcher
 closeIconVisible
@@ -2023,8 +2091,8 @@ ViewCompat
 Disabled
 TextInputLayout
 javaName
-US
 testTag
+US
 androidx.lifecycle.ViewModelCoroutine...
 suggest_intent_query
 unreachable
@@ -2050,8 +2118,9 @@ bool
 U50A_ATT
 kotlin.coroutines.jvm.internal.BaseCo...
 IFD
-android
 TLS_ECDH_RSA_WITH_AES_128_CBC_SHA256
+android
+description
 java.lang.module.ModuleDescriptor
 Justify
 SrcIn
@@ -2061,8 +2130,8 @@ navigationBarStyle
 thisRef
 Tiramisu
 SUSPEND_NO_WAITER
-Dispatchers.Main
 SOURCE_CLIPBOARD
+Dispatchers.Main
 TraversalIndex
 collectionInfo
 chunked
@@ -2084,19 +2153,20 @@ MainContent
 container
 Filled.Bolt
 _isCompleted
-.sp
+keyEvent
 BOTTOM
+.sp
 onDragStarted
-peerName
 EmptyCoroutineContext
+peerName
 ACTION_ARGUMENT_SELECTION_END_INT
 labelMedium
 END_HEADERS
 ExposureTime
 Z2
 parentLayoutNode
-Failure
 dashboard
+Failure
 Z9
 canvas
 item
@@ -2116,39 +2186,40 @@ kotlin.Short
 mRecreateDisplayList
 bounds
 reset
-org.openjsse.net.ssl.OpenJSSE
 style
+org.openjsse.net.ssl.OpenJSSE
 GPSTrack
 SceneType
+PrefixSuffixOpacity
 tappableElementIgnoringVisibility
 layoutNodeToHolder.entries
 SHELL_TEST
 captionBarIgnoringVisibility
 networkResponse
 $this$setNativeStrokeCap
-Span
 TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256
+Span
 kotlinx.coroutines.bufferedChannel.ex...
 colorSpace
-paragraphStyles
 okhttp3.
-suspendConversion0
 UTF_8
-mContentInsets
+suspendConversion0
 TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_...
+mContentInsets
 resuming_sender
 SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA
-java.util.Map$Entry
 FRAME_SIZE_ERROR
+java.util.Map$Entry
 VP8L
-innerRadii
 LensModel
+innerRadii
 ConstraintHelper
 measureScope
 journal.tmp
 VP8X
 holderToLayoutNode.keys
 sendSegment
+StartInput
 _parentHandle
 kotlinx.coroutines.fast.service.loader
 ScrollToIndex
@@ -2157,20 +2228,22 @@ EmojiCompatInitializer
 insets
 kotlin.Any
 KEY_COMPONENT_ACTIVITY_REGISTERED_RCS
-coroutineContext
 ThemeUtils
+coroutineContext
 ISOSpeed
 windowManager
 notification
 protocol
-LocalLayoutDirection
 SSL_DH_anon_EXPORT_WITH_RC4_40_MD5
+LocalLayoutDirection
 proxyAuthenticator
 _reusableCancellableContinuation
 android.view.View
 wrapped
 java.lang.Byte
+keyboardActions
 android.view.accessibility.action.ARG...
+UnfocusedNotEmpty
 DONE
 endReason
 updateEnabledCallbacks
@@ -2182,8 +2255,8 @@ _consensus
 CANCELLED
 DropdownList
 editableText
-One_Max
 effect
+One_Max
 PUSH_PROMISE
 kotlin.collections.Iterator
 CLOSED_EMPTY
@@ -2205,6 +2278,7 @@ AUTOMATIC
 kotlin.Enum
 backEvent
 SSL_
+Trailing
 uriHandler
 Dalvik
 TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA
@@ -2239,6 +2313,7 @@ getModule
 parent
 TLS_DHE_DSS_WITH_AES_256_GCM_SHA384
 android.widget.ProgressBar
+TopMiddle
 SETTINGS_TIMEOUT
 setAlpnProtocols
 RecommendedExposureIndex
@@ -2256,13 +2331,14 @@ SOURCE_PROCESS_TEXT
 httponly
 publicSuffixListBytes
 SHOULD_BUFFER
-LineHeightStyle.Alignment.Center
 ReceiveContent
+LineHeightStyle.Alignment.Center
 finder
 titleSmall
 traceCounter
-proxy
+$this$heightIn
 canceled
+proxy
 kotlin.Unit
 kotlinx.coroutines.scheduler.resoluti...
 web_search
@@ -2272,15 +2348,15 @@ kotlin.jvm.internal.StringCompanionOb...
 this.name
 DpOffset.Unspecified
 ContentDescription
-ACTION_CLICK
 nestedScrollDispatcher
+ACTION_CLICK
 previousAnimation
 N5501LA
 android.speech.extra.LANGUAGE_MODEL
 view.resources
 scheme
-$this$Card
 imeOptions
+$this$Card
 PageLeft
 %02d
 animationSpec
@@ -2288,6 +2364,7 @@ $this$intrinsicSize
 TLSv1
 Selected
 StateSet
+androidx.compose.text.SpanStyle
 %02x
 androidx.view.accessibility.Accessibi...
 java.io.tmpdir
@@ -2296,6 +2373,7 @@ glyphIds
 COMPRESSION_ERROR
 ISO
 ACTION_IME_ENTER
+visualText
 oval
 Strictness.Strict
 ACK
@@ -2305,17 +2383,17 @@ DETACH
 computeFitSystemWindows
 inspectorInfo
 CoordinatorLayout
-$this$type
 Dp.Unspecified
+$this$type
 evert_n
 $this$animateDecay
 REL
-$this$performCustomRequestFocus
 ACTION_NEXT_AT_MOVEMENT_GRANULARITY
+$this$performCustomRequestFocus
 spanStyle
 font
-ADD
 ReferentialEqualityPolicy
+ADD
 journal.bkp
 setTouchModal
 Difference
@@ -2323,15 +2401,15 @@ previousTarget
 TLS_DHE_DSS_WITH_AES_128_GCM_SHA256
 ds
 ACTION_DRAG_CANCEL
-androidx.view.accessibility.Accessibi...
 composable
+androidx.view.accessibility.Accessibi...
 Underline
 USHORT
 SSL_DH_anon_WITH_DES_CBC_SHA
 fontFeatureSettings
 uriHost
-android.speech.extra.MAX_RESULTS
 image
+android.speech.extra.MAX_RESULTS
 layoutIntrinsics
 rootView.handler
 Failed
@@ -2343,11 +2421,12 @@ Dismiss
 EvenOdd
 debugData
 ACTION_ACCESSIBILITY_FOCUS
-https:
 isDirectory
+https:
 frame
 translationAlpha
 ThumbnailImageLength
+scrollerPosition
 ACTION_LONG_CLICK
 CustomAttribute
 SRATIONAL
@@ -2360,9 +2439,9 @@ content
 timeout
 Number
 TLS_ECDH_ECDSA_WITH_RC4_128_SHA
+java.vm.name
 client
 $this$border
-java.vm.name
 Hue
 class
 ws:
@@ -2371,17 +2450,17 @@ false
 getDeclaredMethod
 SubSecTimeDigitized
 Sharpness
-PendingWork
 workerCtl
+PendingWork
 onBack
 500
 Ascii
 com.android.org.conscrypt
 $this$setNativeFilterQuality
 ACTION_MOVE_WINDOW
-finalResult
-android.support.text.emoji.emojiCompa...
 WINDOW_UPDATE
+android.support.text.emoji.emojiCompa...
+finalResult
 initialVelocityVector
 select
 Edison_CKT
@@ -2390,30 +2469,31 @@ Image
 clipboard
 DateTime
 authorization
-publicSuffixExceptionListBytes
 BottomBar
+publicSuffixExceptionListBytes
 java.lang.Character
 context
-https
 id
+https
 dispatcher
 %07x
 Exit
 onNavigateToBatch
-S80Lite
 large
+S80Lite
 $this$Layout
 it
 params
 UNDECIDED
-urlSpanCache
 SET_PRIMARY_NAV
 IndexForKey
+urlSpanCache
 NioSystemFileSystem
 kotlin.jvm.internal.
 Cmyk
 charset
 http:
+intrinsicMeasurable
 SSL_DHE_DSS_WITH_DES_CBC_SHA
 l1
 l2
@@ -2421,8 +2501,8 @@ extras
 FIRSTSTRONG_RTL
 Uri
 Url
-Authorization
 delegate
+Authorization
 suggest_intent_action
 pinnedItemList
 paragraphIntrinsics.textPaint.textLocale
@@ -2433,6 +2513,7 @@ $this_composeColorSpace
 bundle
 table
 mServedView
+$this$commandExecutionContext
 TLS_ECDHE_RSA_WITH_RC4_128_SHA
 composer
 kotlin.jvm.functions.Function
@@ -2450,6 +2531,7 @@ ResolutionUnit
 /data/misc/profiles/ref/
 NEW
 android.speech.action.RECOGNIZE_SPEECH
+annotations
 childValue
 suffix
 second
@@ -2464,13 +2546,14 @@ coil.request.NullRequestData
 mergePolicy
 kotlin.Number
 ThumbnailOrientation
-FILL
 NULL
+$this$drawWithContent
+FILL
 TOO_LATE_TO_CANCEL
 Dst
 ms
-PhotographicSensitivity
 TLS_DHE_DSS_WITH_AES_256_CBC_SHA
+PhotographicSensitivity
 CompressedBitsPerPixel
 Range
 trailers
@@ -2481,17 +2564,19 @@ focused
 Exif
 lineHeightStyleSpans
 nm
+p0
 TLS_ECDH_anon_WITH_NULL_SHA
 keys
 menuBounds
 androidx.compose.ui.semantics.testTag
+initialPositionProvider
 addFontFromBuffer
 ViewUtils
 head
 receivers
 ACTION_SCROLL_LEFT
-HTTP/1.
 kotlin.Comparable
+HTTP/1.
 widthHeight
 newAppsDetected
 VisibleForTests
@@ -2501,27 +2586,30 @@ UserComment
 LensSpecification
 pettyl
 COROUTINE_SUSPENDED
-GPSDOP
 TLS_DH_anon_WITH_AES_128_CBC_SHA256
-android.widget.Spinner
+GPSDOP
 GPSInfoIFDPointer
+android.widget.Spinner
+originalText
 TLS_DHE_RSA_WITH_AES_256_CBC_SHA
 MenuItemImpl
 DefaultCropSize
+editProcessor
 initializers
 _LifecycleAdapter
 LineHeightStyle.Alignment.Top
-ENABLED
 CLEAN
+ENABLED
+textStyle
 handles
 Artist
 handler
 EditableText
 suggest_icon_1
-region.bounds
 suggest_icon_2
-Filled.Sort
+region.bounds
 vary
+Filled.Sort
 TLS_DH_anon_WITH_AES_256_CBC_SHA256
 setHostname
 U50A_PLUS_TF
@@ -2537,12 +2625,12 @@ java.util.Map
 Painter
 /data/misc/profiles/cur/0
 SuggestionsAdapter
-Overlay
 proxyAddress
+Overlay
 $this$SubcomposeLayout
-Cookie
-TextDecoration.None
 requester
+TextDecoration.None
+Cookie
 RSA
 Wrapper
 drawable
@@ -2553,14 +2641,15 @@ enqIdx
 SpectralSensitivity
 invoker
 shapeParameter
-$this$items
 accept
+$this$items
 ACTION_COLLAPSE
 node
 CONDITION_FALSE
 SOURCE_DRAG_AND_DROP
 rn
 starting
+HideKeyboard
 hostName
 ExposureBiasValue
 RESULT_CANCELED
@@ -2572,6 +2661,7 @@ RTL
 FHCRC
 android:visibility:screenLocation
 BASELINE
+selectionPaint
 sh
 RCT6T06E13
 initialVelocity
@@ -2592,8 +2682,8 @@ ACTION_EXPAND
 window.decorView
 asyncTypefaceCache
 WRITE_SKIP_FILE
-store
 kotlin.Float
+store
 GPSMeasureMode
 S70
 TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256
@@ -2614,19 +2704,20 @@ app_data
 BROKEN
 extreme
 android:changeBounds:windowX
-android:changeBounds:windowY
 Dispatchers.Default
+android:changeBounds:windowY
 mcv3
 kotlinx.coroutines.flow.defaultConcur...
 NETWORK
 TLS_AES_128_GCM_SHA256
 sink
-java.util.Collection
 query
+java.util.Collection
+actionMode
 CLOSE_HANDLER_CLOSED
 PreventUserInput
-N5002LA
 pointerInputHandler
+N5002LA
 image_cache
 $this$role
 ripple
@@ -2641,33 +2732,37 @@ changed
 transformDestination
 removeObserver
 destination
-changes
 ON_DESTROY
+changes
 TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384
 abortCreation
-LocalContext
 ViewParentCompat
+LocalContext
 ImageProcessingIFDPointer
 RESULT_ALREADY_INSTALLED
+keyCombiner
 SSL_RSA_EXPORT_WITH_RC4_40_MD5
 backing
 $this$DisposableEffect
 TextAppearance
 TLS_ECDH_anon_WITH_AES_128_CBC_SHA
 TLS_ECDH_ECDSA_WITH_NULL_SHA
+textInputSession
 text/plain
 TextLayout:initLayout
 Saturation
 isRegularFile
 MenuPopupWindow
+$this$deleteIfSelectedOr
 Dispatchers.Main.immediate
+annotatedString
 SSL_3_0
-ownerView
 Compose:onRemembered
+ownerView
 topLeft
 statusBarsIgnoringVisibility
-REMOVED_TASK
 location
+REMOVED_TASK
 oetf
 FLOW_CONTROL_ERROR
 SrcOut
@@ -2679,8 +2774,9 @@ none
 type
 outerRadii
 LocalView
-$this$size
 STREAM_CLOSED
+$this$size
+textField
 statusBars
 FocalPlaneResolutionUnit
 connection
@@ -2695,12 +2791,13 @@ method
 alignmentLines
 config_showMenuShortcutsWhenKeyboardP...
 MAXIMUM
-socketFactory
 CONSUMED
+socketFactory
 Dimension.Undefined
 inetSocketAddress
 PreviewImageLength
 ACTION_ARGUMENT_SELECTION_START_INT
+ShowKeyboard
 android.support.text.emoji.emojiCompa...
 typeface
 SpatialFrequencyResponse
@@ -2711,20 +2808,22 @@ Next
 ACTION_FOCUS
 evert_nt
 java.lang.Double
+$this$isCtrlPressed
 james
-ColorAnimation
 range
+ColorAnimation
 $this$clearAndSetSemantics
 out
 get
-java.lang.Number
 platformTextInput
+java.lang.Number
 $this$calculatePositionInParent
 fireball
 suggest_intent_data_id
+onGloballyPositioned
 TLS_PSK_WITH_3DES_EDE_CBC_SHA
-android.view.accessibility.extra.DATA...
 initializer
+android.view.accessibility.extra.DATA...
 expect
 LocalTextToolbar
 A11yActionCompat
@@ -2733,8 +2832,9 @@ elements
 Model
 URI_MASKABLE
 SHIFT6m
-paramStyle
+SelectionEnd
 ON_CREATE
+paramStyle
 date
 measureResult
 nora
@@ -2743,8 +2843,8 @@ ON_RESUME
 TLS_ECDHE_RSA_WITH_NULL_SHA
 org.eclipse.jetty.alpn.ALPN$ServerPro...
 LocalConfiguration
-asyncTraceBegin
 renderNode
+asyncTraceBegin
 JpgFromRaw
 InteroperabilityIFDPointer
 LocalUriHandler
@@ -2753,15 +2853,16 @@ NewSubfileType
 VERTICAL_DIMENSION
 Inherit
 EmojiCompat.FontRequestEmojiCompatCon...
-0000ffff
-PageUp
 SYNCHRONIZED
+PageUp
+0000ffff
 flingDecay
 LocalHapticFeedback
 motionEvent
 kotlin.jvm.internal.EnumCompanionObject
 TextMotion.Static
 RESULT_UNSUPPORTED_ART_VERSION
+innerTextField
 ACTION_COPY
 Pragma
 SGINO6
@@ -2788,32 +2889,35 @@ link
 GPSSatellites
 verts
 GPSDestLatitude
-CopyText
 mAccessibilityDelegate
+CopyText
 DateTimeOriginal
 ExposureIndex
 PhotometricInterpretation
 LIBSU
+$this$magnifier
 kotlin.collections.Set
 TLS_ECDH_RSA_WITH_AES_256_GCM_SHA384
 horizontalArrangement
 androidx.activity.result.contract.ext...
-factory
 loading...
 ISIZE
+factory
 orientation
 tappableElement
 JPEGInterchangeFormatLength
 java.util.Iterator
 $this$only
 focusProperties
+LabelProgress
+Supporting
 jar:file:
 Parcelizer
 ON_STOP
 kotlin.CharSequence
 RESULT_IO_EXCEPTION
-findTrustAnchorByIssuerAndSignature
 FIT
+findTrustAnchorByIssuerAndSignature
 boolean
 SrcAtop
 coefficients
@@ -2961,6 +3065,12 @@ Marking id:postLayout:2131231044 used because it matches string pool constant po
 Marking id:SHOW_ALL:2131230728 used because it matches string pool constant SHOW
 Marking id:SHOW_PATH:2131230729 used because it matches string pool constant SHOW
 Marking id:SHOW_PROGRESS:2131230730 used because it matches string pool constant SHOW
+Marking attr:centerIfNoTextEnabled:2130903196 used because it matches string pool constant center
+Marking id:center:2131230811 used because it matches string pool constant center
+Marking id:centerCrop:2131230812 used because it matches string pool constant center
+Marking id:centerInside:2131230813 used because it matches string pool constant center
+Marking id:center_horizontal:2131230814 used because it matches string pool constant center
+Marking id:center_vertical:2131230815 used because it matches string pool constant center
 Marking attr:startIconCheckable:2130903967 used because it matches string pool constant start
 Marking attr:startIconContentDescription:2130903968 used because it matches string pool constant start
 Marking attr:startIconDrawable:2130903969 used because it matches string pool constant start
@@ -3257,6 +3367,7 @@ Marking string:error_icon_content_description:2131624026 used because it matches
 Marking attr:values:2130904169 used because it matches string pool constant value
 Marking attr:checkedIconVisible:2130903210 used because it matches string pool constant checkedIconVisible
 Marking attr:chipIconEnabled:2130903218 used because it matches string pool constant chipIconEnabled
+Marking id:stop:2131231110 used because it matches string pool constant stop
 Marking id:matrix:2131230963 used because it matches string pool constant matrix
 Marking attr:closeIcon:2130903240 used because it matches string pool constant close
 Marking attr:closeIconEnabled:2130903241 used because it matches string pool constant close
@@ -3857,6 +3968,21 @@ Marking attr:horizontalOffsetWithText:2130903560 used because it matches string 
 Marking attr:queryBackground:2130903892 used because it matches string pool constant query
 Marking attr:queryHint:2130903893 used because it matches string pool constant query
 Marking attr:queryPatterns:2130903894 used because it matches string pool constant query
+Marking attr:actionModeBackground:2130903056 used because it matches string pool constant actionMode
+Marking attr:actionModeCloseButtonStyle:2130903057 used because it matches string pool constant actionMode
+Marking attr:actionModeCloseContentDescription:2130903058 used because it matches string pool constant actionMode
+Marking attr:actionModeCloseDrawable:2130903059 used because it matches string pool constant actionMode
+Marking attr:actionModeCopyDrawable:2130903060 used because it matches string pool constant actionMode
+Marking attr:actionModeCutDrawable:2130903061 used because it matches string pool constant actionMode
+Marking attr:actionModeFindDrawable:2130903062 used because it matches string pool constant actionMode
+Marking attr:actionModePasteDrawable:2130903063 used because it matches string pool constant actionMode
+Marking attr:actionModePopupWindowStyle:2130903064 used because it matches string pool constant actionMode
+Marking attr:actionModeSelectAllDrawable:2130903065 used because it matches string pool constant actionMode
+Marking attr:actionModeShareDrawable:2130903066 used because it matches string pool constant actionMode
+Marking attr:actionModeSplitBackground:2130903067 used because it matches string pool constant actionMode
+Marking attr:actionModeStyle:2130903068 used because it matches string pool constant actionMode
+Marking attr:actionModeTheme:2130903069 used because it matches string pool constant actionMode
+Marking attr:actionModeWebSearchDrawable:2130903070 used because it matches string pool constant actionMode
 Marking attr:rippleColor:2130903907 used because it matches string pool constant ripple
 Marking color:ripple_material_dark:2131034868 used because it matches string pool constant ripple
 Marking color:ripple_material_light:2131034869 used because it matches string pool constant ripple
@@ -4288,21 +4414,21 @@ Marking id:tag_window_insets_animation_callback:2131231127 used because it match
 @attr/actionLayout : reachable=false
 @attr/actionMenuTextAppearance : reachable=false
 @attr/actionMenuTextColor : reachable=false
-@attr/actionModeBackground : reachable=false
-@attr/actionModeCloseButtonStyle : reachable=false
-@attr/actionModeCloseContentDescription : reachable=false
-@attr/actionModeCloseDrawable : reachable=false
-@attr/actionModeCopyDrawable : reachable=false
-@attr/actionModeCutDrawable : reachable=false
-@attr/actionModeFindDrawable : reachable=false
-@attr/actionModePasteDrawable : reachable=false
-@attr/actionModePopupWindowStyle : reachable=false
-@attr/actionModeSelectAllDrawable : reachable=false
-@attr/actionModeShareDrawable : reachable=false
-@attr/actionModeSplitBackground : reachable=false
+@attr/actionModeBackground : reachable=true
+@attr/actionModeCloseButtonStyle : reachable=true
+@attr/actionModeCloseContentDescription : reachable=true
+@attr/actionModeCloseDrawable : reachable=true
+@attr/actionModeCopyDrawable : reachable=true
+@attr/actionModeCutDrawable : reachable=true
+@attr/actionModeFindDrawable : reachable=true
+@attr/actionModePasteDrawable : reachable=true
+@attr/actionModePopupWindowStyle : reachable=true
+@attr/actionModeSelectAllDrawable : reachable=true
+@attr/actionModeShareDrawable : reachable=true
+@attr/actionModeSplitBackground : reachable=true
 @attr/actionModeStyle : reachable=true
-@attr/actionModeTheme : reachable=false
-@attr/actionModeWebSearchDrawable : reachable=false
+@attr/actionModeTheme : reachable=true
+@attr/actionModeWebSearchDrawable : reachable=true
 @attr/actionOverflowButtonStyle : reachable=true
 @attr/actionOverflowMenuStyle : reachable=true
 @attr/actionProviderClass : reachable=false
@@ -4428,7 +4554,7 @@ Marking id:tag_window_insets_animation_callback:2131231127 used because it match
 @attr/cardUseCompatPadding : reachable=false
 @attr/cardViewStyle : reachable=false
 @attr/carousel_alignment : reachable=false
-@attr/centerIfNoTextEnabled : reachable=false
+@attr/centerIfNoTextEnabled : reachable=true
 @attr/chainUseRtl : reachable=true
 @attr/checkMarkCompat : reachable=false
 @attr/checkMarkTint : reachable=false
@@ -8612,11 +8738,11 @@ Marking id:tag_window_insets_animation_callback:2131231127 used because it match
 @id/bounce : reachable=false
 @id/buttonPanel : reachable=true
 @id/cancel_button : reachable=true
-@id/center : reachable=false
-@id/centerCrop : reachable=false
-@id/centerInside : reachable=false
-@id/center_horizontal : reachable=false
-@id/center_vertical : reachable=false
+@id/center : reachable=true
+@id/centerCrop : reachable=true
+@id/centerInside : reachable=true
+@id/center_horizontal : reachable=true
+@id/center_vertical : reachable=true
 @id/chain : reachable=true
 @id/chains : reachable=true
 @id/checkbox : reachable=false
@@ -8911,7 +9037,7 @@ Marking id:tag_window_insets_animation_callback:2131231127 used because it match
 @id/startVertical : reachable=true
 @id/staticLayout : reachable=false
 @id/staticPostLayout : reachable=false
-@id/stop : reachable=false
+@id/stop : reachable=true
 @id/stretch : reachable=false
 @id/submenuarrow : reachable=true
 @id/submit_area : reachable=true
@@ -18519,7 +18645,21 @@ The root reachable resources are:
  attr:actionBarPopupTheme:2130903042
  attr:actionBarSize:2130903043
  attr:actionBarStyle:2130903045
+ attr:actionModeBackground:2130903056
+ attr:actionModeCloseButtonStyle:2130903057
+ attr:actionModeCloseContentDescription:2130903058
+ attr:actionModeCloseDrawable:2130903059
+ attr:actionModeCopyDrawable:2130903060
+ attr:actionModeCutDrawable:2130903061
+ attr:actionModeFindDrawable:2130903062
+ attr:actionModePasteDrawable:2130903063
+ attr:actionModePopupWindowStyle:2130903064
+ attr:actionModeSelectAllDrawable:2130903065
+ attr:actionModeShareDrawable:2130903066
+ attr:actionModeSplitBackground:2130903067
  attr:actionModeStyle:2130903068
+ attr:actionModeTheme:2130903069
+ attr:actionModeWebSearchDrawable:2130903070
  attr:actionOverflowButtonStyle:2130903071
  attr:actionOverflowMenuStyle:2130903072
  attr:activityChooserViewStyle:2130903077
@@ -18544,6 +18684,7 @@ The root reachable resources are:
  attr:backgroundTint:2130903116
  attr:backgroundTintMode:2130903117
  attr:bottomSheetStyle:2130903158
+ attr:centerIfNoTextEnabled:2130903196
  attr:chainUseRtl:2130903197
  attr:checkedIconEnabled:2130903205
  attr:checkedIconVisible:2130903210
@@ -19185,6 +19326,11 @@ The root reachable resources are:
  id:blocking:2131230806
  id:buttonPanel:2131230809
  id:cancel_button:2131230810
+ id:center:2131230811
+ id:centerCrop:2131230812
+ id:centerInside:2131230813
+ id:center_horizontal:2131230814
+ id:center_vertical:2131230815
  id:chain:2131230816
  id:chains:2131230817
  id:circle_center:2131230821
@@ -19297,6 +19443,7 @@ The root reachable resources are:
  id:startHorizontal:2131231105
  id:startToEnd:2131231106
  id:startVertical:2131231107
+ id:stop:2131231110
  id:submenuarrow:2131231112
  id:submit_area:2131231113
  id:tag_accessibility_actions:2131231115
@@ -20301,11 +20448,6 @@ Unused resources are:
  id:beginning:2131230805
  id:bottom:2131230807
  id:bounce:2131230808
- id:center:2131230811
- id:centerCrop:2131230812
- id:centerInside:2131230813
- id:center_horizontal:2131230814
- id:center_vertical:2131230815
  id:checkbox:2131230818
  id:checked:2131230819
  id:chronometer:2131230820
@@ -20488,7 +20630,6 @@ Unused resources are:
  id:src_over:2131231102
  id:staticLayout:2131231108
  id:staticPostLayout:2131231109
- id:stop:2131231110
  id:stretch:2131231111
  id:tabMode:2131231114
  id:time:2131231144

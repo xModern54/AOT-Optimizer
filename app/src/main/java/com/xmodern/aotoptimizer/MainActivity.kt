@@ -26,14 +26,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.*
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -139,96 +145,437 @@ fun ErrorScreen(title: String, message: String) {
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+
 @Composable
+
 fun DashboardScreen(onNavigateToBatch: () -> Unit) {
+
     val context = LocalContext.current
+
     val scope = rememberCoroutineScope()
+
     val viewModel: AppViewModel = viewModel()
+
     val uiState by viewModel.uiState.collectAsState()
+
     
-    var selectedApp by remember { mutableStateOf<AppItem?>(null) }
+
+    // SEARCH STATES
+
+        val filteredApps by viewModel.filteredApps.collectAsState()
+
+        val isSearchActive by viewModel.isSearchActive.collectAsState()
+
+        val searchQuery by viewModel.searchQuery.collectAsState()
+
+        
+
+        val focusRequester = remember { FocusRequester() }
+
+    
+
+        LaunchedEffect(isSearchActive) {
+
+            if (isSearchActive) {
+
+                focusRequester.requestFocus()
+
+            }
+
+        }
+
+        
+
+        var selectedApp by remember { mutableStateOf<AppItem?>(null) }
+
     var isProcessing by remember { mutableStateOf(false) }
+
     var showSortMenu by remember { mutableStateOf(false) }
+
     
+
     val lifecycleOwner = LocalLifecycleOwner.current
+
     DisposableEffect(lifecycleOwner) {
+
         val observer = LifecycleEventObserver { _, event -> if (event == Lifecycle.Event.ON_RESUME) viewModel.refreshData() }
+
         lifecycleOwner.lifecycle.addObserver(observer)
+
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+
     }
 
+
+
     Scaffold(
+
         contentWindowInsets = WindowInsets(0.dp),
+
         topBar = {
+
             Column(modifier = Modifier.fillMaxWidth().background(DeepBlack).windowInsetsPadding(WindowInsets.statusBars).padding(16.dp)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(), 
-                    horizontalArrangement = Arrangement.SpaceBetween, 
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text("AOT OPTIMIZER", color = NeonBlue, fontWeight = FontWeight.Black, fontSize = 20.sp, letterSpacing = 2.sp)
-                        Text("SYSTEM CORE // ART MANAGER", color = Color.Gray, fontSize = 10.sp, fontFamily = FontFamily.Monospace)
-                    }
-                    
-                    // SPACED LAYOUT
+
+                if (isSearchActive) {
+
+                    // --- SEARCH MODE ---
+
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.End
+
+                        modifier = Modifier.fillMaxWidth().height(56.dp).background(DarkSurface, RoundedCornerShape(28.dp)).padding(horizontal = 8.dp),
+
+                        verticalAlignment = Alignment.CenterVertically
+
                     ) {
-                        Surface(
-                            onClick = onNavigateToBatch,
-                            color = Color.Transparent,
-                            shape = RoundedCornerShape(50),
-                            border = androidx.compose.foundation.BorderStroke(1.dp, NeonCyan.copy(alpha = 0.6f))
-                        ) {
-                            Text("FULL AOT", color = NeonCyan, fontSize = 12.sp, fontWeight = FontWeight.Black, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+
+                        Icon(Icons.Default.Search, null, tint = Color.Gray, modifier = Modifier.padding(start = 8.dp))
+
+                        TextField(
+
+                            value = searchQuery,
+
+                            onValueChange = { viewModel.onSearchQueryChanged(it) },
+
+                            placeholder = { Text("Search package...", color = Color.Gray) },
+
+                            colors = TextFieldDefaults.colors(
+
+                                focusedContainerColor = Color.Transparent,
+
+                                unfocusedContainerColor = Color.Transparent,
+
+                                focusedIndicatorColor = Color.Transparent,
+
+                                unfocusedIndicatorColor = Color.Transparent,
+
+                                cursorColor = NeonCyan,
+
+                                                                focusedTextColor = Color.White,
+
+                                                                unfocusedTextColor = Color.White
+
+                                                            ),
+
+                                                            modifier = Modifier.weight(1f).focusRequester(focusRequester),
+
+                                                            singleLine = true
+
+                                                        )
+
+                                                        IconButton(onClick = { viewModel.setSearchActive(false) }) {
+
+                            Icon(Icons.Default.Close, null, tint = Color.Gray)
+
                         }
-                        
-                        Spacer(modifier = Modifier.width(16.dp)) // Uniform spacing
-                        
-                        Box {
-                            IconButton(onClick = { showSortMenu = true }) {
-                                Icon(Icons.Default.Sort, contentDescription = "Sort", tint = NeonCyan) // Tint updated to NeonCyan
-                            }
-                            DropdownMenu(expanded = showSortMenu, onDismissRequest = { showSortMenu = false }) {
-                                SortOption.values().forEach { option ->
-                                    DropdownMenuItem(
-                                        text = { Text(option.label, color = if (uiState.sortOption == option) NeonBlue else Color.Unspecified) },
-                                        onClick = { viewModel.setSortOption(option); showSortMenu = false }
-                                    )
-                                }
-                            }
-                        }
+
                     }
+
+                } else {
+
+                                        // --- NORMAL MODE ---
+
+                                        Row(
+
+                                            modifier = Modifier.fillMaxWidth(), 
+
+                                            horizontalArrangement = Arrangement.SpaceBetween, 
+
+                                            verticalAlignment = Alignment.CenterVertically
+
+                                        ) {
+
+                                            Column(modifier = Modifier.weight(1f)) {
+
+                                                Text("AOT OPTIMIZER", color = NeonBlue, fontWeight = FontWeight.Black, fontSize = 20.sp, letterSpacing = 2.sp)
+
+                                                Text("SYSTEM CORE // ART MANAGER", color = Color.Gray, fontSize = 10.sp, fontFamily = FontFamily.Monospace)
+
+                                            }
+
+                                            
+
+                                            Row(verticalAlignment = Alignment.CenterVertically) {
+
+                                                // Removed Search Icon from here
+
+                                                
+
+                                                Surface(
+
+                                                    onClick = onNavigateToBatch,
+
+                                                    color = Color.Transparent,
+
+                                                    shape = RoundedCornerShape(50),
+
+                                                    border = androidx.compose.foundation.BorderStroke(1.dp, NeonCyan.copy(alpha = 0.6f))
+
+                                                ) {
+
+                                                    Text("FULL AOT", color = NeonCyan, fontSize = 12.sp, fontWeight = FontWeight.Black, modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp))
+
+                                                }
+
+                                                
+
+                                                Spacer(modifier = Modifier.width(8.dp))
+
+                                                
+
+                                                                            Box {
+
+                                                
+
+                                                                                IconButton(onClick = { 
+
+                                                
+
+                                                                                    viewModel.checkDexOptStatus() // Refresh real status on open
+
+                                                
+
+                                                                                    showSortMenu = true 
+
+                                                
+
+                                                                                }) {
+
+                                                
+
+                                                                                    Icon(Icons.Default.Sort, contentDescription = "Sort", tint = NeonCyan)
+
+                                                
+
+                                                                                }
+
+                                                
+
+                                                                                DropdownMenu(expanded = showSortMenu, onDismissRequest = { showSortMenu = false }) {
+
+                                                
+
+                                                                                    SortOption.values().forEach { option ->
+
+                                                
+
+                                                                                        DropdownMenuItem(
+
+                                                
+
+                                                                                            text = { Text(option.label, color = if (uiState.sortOption == option) NeonBlue else Color.Unspecified) },
+
+                                                
+
+                                                                                            onClick = { viewModel.setSortOption(option); showSortMenu = false }
+
+                                                
+
+                                                                                        )
+
+                                                
+
+                                                                                    }
+
+                                                
+
+                                                                                    Divider(modifier = Modifier.padding(vertical = 4.dp), color = Color.Gray.copy(alpha = 0.3f))
+
+                                                
+
+                                                                                    
+
+                                                
+
+                                                                                    // AUTO-AOT TOGGLE
+
+                                                
+
+                                                                                    DropdownMenuItem(
+
+                                                
+
+                                                                                        text = { 
+
+                                                
+
+                                                                                            Text(
+
+                                                
+
+                                                                                                if (uiState.isDexOptDisabled) "Enable Auto-AOT" else "Disable Auto-AOT", 
+
+                                                
+
+                                                                                                color = if (uiState.isDexOptDisabled) NeonGreen else NeonRed, // Green=Safe(Disabled), Red=Danger(Enabled)? Or vice versa. Let's use Red for Action "Disable" and Green for "Enable"
+
+                                                
+
+                                                                                                fontWeight = FontWeight.Bold
+
+                                                
+
+                                                                                            ) 
+
+                                                
+
+                                                                                        },
+
+                                                
+
+                                                                                        onClick = { 
+
+                                                
+
+                                                                                            viewModel.toggleDexOpt()
+
+                                                
+
+                                                                                            // Keep menu open to see change? Or close? User preference usually close.
+
+                                                
+
+                                                                                            // Let's keep it open or just close. Closing is safer UI.
+
+                                                
+
+                                                                                            showSortMenu = false
+
+                                                
+
+                                                                                        }
+
+                                                
+
+                                                                                    )
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                    // SHOW ALL APPS
+
+                                                
+
+                                                                                    DropdownMenuItem(
+
+                                                                                                                            text = { 
+
+                                                                                                                                Text(
+
+                                                                                                                                    "Show All Apps", 
+
+                                                                                                                                    color = Color.White,
+
+                                                                                                                                    fontWeight = if (uiState.showAllApps) FontWeight.Bold else FontWeight.Normal
+
+                                                                                                                                ) 
+
+                                                                                                                            },
+
+                                                                                            onClick = { 
+
+                                                                                                viewModel.toggleShowAllApps()
+
+                                                                                                showSortMenu = false
+
+                                                                                            }
+
+                                                                                        )
+
+                                                        
+
+                                                                                            // SEARCH OPTION
+
+                                                        
+
+                                                                                            DropdownMenuItem(
+
+                                                        
+
+                                                                                                text = { Text("Search", color = Color.White) },
+
+                                                        
+
+                                                                                                onClick = { 
+
+                                                        
+
+                                                                                                    viewModel.setSearchActive(true)
+
+                                                        
+
+                                                                                                    showSortMenu = false
+
+                                                        
+
+                                                                                                }
+
+                                                        
+
+                                                                                            )
+
+                                                    }
+
+                                                }
+
+                                            }
+
+                                        }
+
                 }
+
+                
+
                 Spacer(modifier = Modifier.height(16.dp))
+
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+
+                    // Use filteredApps size for stats if searching, or keep total? Usually stats show TOTAL.
+
+                    // Let's show TOTAL stats, but maybe dim them if searching.
+
                     StatCard("USER APPS", uiState.apps.size.toString(), NeonBlue, Modifier.weight(1f))
+
                     StatCard("OPTIMIZED", uiState.apps.count { it.status.contains("speed") || it.status.contains("everything") }.toString(), NeonGreen, Modifier.weight(1f))
+
                 }
+
             }
+
         }
-    ) {
-        paddingValues ->
+
+    ) { paddingValues ->
+
         if (uiState.isLoading && uiState.apps.isEmpty()) {
+
             LoadingScreen("Scanning Packages...")
+
         } else {
+
             val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
             LazyColumn(modifier = Modifier.padding(paddingValues).padding(horizontal = 16.dp), contentPadding = PaddingValues(bottom = navBarPadding + 80.dp)) {
-                items(items = uiState.apps, key = { it.packageName }) { appItem ->
+
+                items(items = filteredApps, key = { it.packageName }) { appItem ->
+
                     AppItemRow(app = appItem, modifier = Modifier.animateItemPlacement(animationSpec = tween(500))) { selectedApp = appItem }
+
                     Spacer(modifier = Modifier.height(8.dp))
+
                 }
+
             }
+
         }
+
     }
 
     if (selectedApp != null) {
         val currentApp = selectedApp!!
         var logLines by remember { mutableStateOf(listOf<String>()) }
         
-        // Trigger Complexity Scan
         LaunchedEffect(currentApp.packageName) {
             if (currentApp.complexity == "scanning...") {
                 val sizeMb = withContext(Dispatchers.IO) { ShellHelper.getDexSizeInMb(currentApp.packageName) }
@@ -240,12 +587,9 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
                     else -> "extreme"
                 }
                 viewModel.updateAppDetails(currentApp.packageName, currentApp.status, currentApp.size, currentApp.sizeBytes, currentApp.framework)
-                // Need to update complexity specifically
                 val updatedApps = viewModel.uiState.value.apps.map { 
                     if (it.packageName == currentApp.packageName) it.copy(complexity = rating) else it 
                 }
-                // Refactor: We should have a dedicated updateComplexity in ViewModel, 
-                // but for now let's just make sure the state reflects it.
                 selectedApp = currentApp.copy(complexity = rating)
             }
         }
@@ -256,12 +600,12 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
             onOptimize = { mode ->
                 scope.launch {
                     isProcessing = true
-                    logLines = listOf("> Target: ", currentApp.packageName, "> Mode: ", mode)
+                    logLines = listOf("> Target: ${currentApp.packageName}", "> Mode: $mode")
                     val res = ShellHelper.compilePackage(currentApp.packageName, mode)
                     
                     val updatedLogs = logLines.toMutableList()
                     res.out.forEach { updatedLogs.add(it) }
-                    res.err.forEach { updatedLogs.add("[ERR] " + it) }
+                    res.err.forEach { updatedLogs.add("[ERR] $it") }
                     logLines = updatedLogs
 
                     if (res.isSuccess) {
@@ -301,81 +645,71 @@ fun BatchOptimizeScreen(onBack: () -> Unit) {
     val viewModel: AppViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
     val view = LocalView.current
-    
-    BackHandler { if (!uiState.isBatchRunning) onBack() }
-
-    DisposableEffect(Unit) {
-        view.keepScreenOn = true
-        viewModel.calculateGlobalSize()
-        onDispose { view.keepScreenOn = false }
-    }
-
-    Scaffold(
-        containerColor = DeepBlack,
-        topBar = {
-            TopAppBar(
-                title = { Text("BATCH SYSTEM OPTIMIZE", fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace) },
-                navigationIcon = {
-                    IconButton(onClick = onBack, enabled = !uiState.isBatchRunning) { Icon(Icons.Default.ArrowBack, null) }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = DeepBlack, titleContentColor = NeonCyan, navigationIconContentColor = Color.White)
-            )
+        BackHandler { if (!uiState.isBatchRunning) onBack() }
+        
+        DisposableEffect(Unit) {
+            view.keepScreenOn = true; viewModel.calculateGlobalSize()
+            onDispose { 
+                view.keepScreenOn = false
+                // Reset state if we are leaving and not running (finished or aborted)
+                if (!viewModel.uiState.value.isBatchRunning) {
+                    viewModel.resetBatchState()
+                }
+            }
         }
-    )
-    {
-        paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues).fillMaxSize().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            if (!uiState.isBatchRunning && uiState.batchProgress == 0f) {
-                Text("SELECT GLOBAL STRATEGY", color = Color.Gray, fontSize = 12.sp)
-                Spacer(modifier = Modifier.height(16.dp))
-                OptionButton("SPEED PROFILE", "Recommended. Uses usage profiles.", NeonBlue) { viewModel.startBatchOptimize("speed-profile") }
-                OptionButton("SPEED (FULL)", "Full AOT. Faster, but larger disk usage.", NeonGreen) { viewModel.startBatchOptimize("speed") }
-                OptionButton("EVERYTHING", "Max performance. Heaviest.", NeonPurple) { viewModel.startBatchOptimize("everything") }
-                OptionButton("RESET ALL", "Delete all compiled code.", NeonRed) { viewModel.startBatchOptimize("reset") }
-                
-                Spacer(modifier = Modifier.weight(1f))
-                
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("TOTAL SYSTEM AOT ARTIFACTS", color = Color.Gray, fontSize = 10.sp, fontFamily = FontFamily.Monospace)
-                    if (uiState.isCalculatingGlobalSize && uiState.globalSizeKb == 0L) {
-                        CircularProgressIndicator(modifier = Modifier.size(24.dp).padding(4.dp), color = NeonCyan, strokeWidth = 2.dp)
-                    } else {
-                        Text(formatSize(uiState.globalSizeKb), color = NeonCyan, fontSize = 24.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
-                        if (uiState.isCalculatingGlobalSize) {
-                            Text("Calculating...", color = Color.Gray, fontSize = 10.sp)
+        Scaffold(
+            containerColor = DeepBlack,
+            topBar = {
+                TopAppBar(
+                    title = { Text("BATCH SYSTEM OPTIMIZE", fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace) },
+                    navigationIcon = { IconButton(onClick = onBack, enabled = !uiState.isBatchRunning) { Icon(Icons.Default.ArrowBack, null) } },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = DeepBlack, titleContentColor = NeonCyan, navigationIconContentColor = Color.White)
+                )
+            }
+        ) { paddingValues ->
+            Column(modifier = Modifier.padding(paddingValues).fillMaxSize().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                if (!uiState.isBatchRunning && uiState.batchProgress == 0f) {
+                    Text("SELECT GLOBAL STRATEGY", color = Color.Gray, fontSize = 12.sp)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OptionButton("SPEED PROFILE", "Recommended. Uses usage profiles.", NeonBlue) { viewModel.startBatchOptimize("speed-profile") }
+                    OptionButton("SPEED (FULL)", "Full AOT. Faster, but larger disk usage.", NeonGreen) { viewModel.startBatchOptimize("speed") }
+                    OptionButton("EVERYTHING", "Max performance. Heaviest.", NeonPurple) { viewModel.startBatchOptimize("everything") }
+                    OptionButton("RESET ALL", "Delete all compiled code.", NeonRed) { viewModel.startBatchOptimize("reset") }
+                    Spacer(modifier = Modifier.weight(1f))
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("TOTAL SYSTEM AOT ARTIFACTS", color = Color.Gray, fontSize = 10.sp, fontFamily = FontFamily.Monospace)
+                        if (uiState.isCalculatingGlobalSize && uiState.globalSizeKb == 0L) {
+                            CircularProgressIndicator(modifier = Modifier.size(24.dp).padding(4.dp), color = NeonCyan, strokeWidth = 2.dp)
+                        } else {
+                            Text(formatSize(uiState.globalSizeKb), color = NeonCyan, fontSize = 24.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
+                            if (uiState.isCalculatingGlobalSize) Text("Calculating...", color = Color.Gray, fontSize = 10.sp)
                         }
                     }
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-            } else {
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.size(200.dp)) {
-                    CircularProgressIndicator(progress = uiState.batchProgress, modifier = Modifier.fillMaxSize(), strokeWidth = 8.dp, color = NeonCyan, trackColor = DarkSurface)
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("${(uiState.batchProgress * 100).toInt()}%", fontSize = 32.sp, fontWeight = FontWeight.Black, color = Color.White)
-                        Text(formatSize(uiState.globalSizeKb), fontSize = 12.sp, color = NeonCyan, fontFamily = FontFamily.Monospace)
+                    Spacer(modifier = Modifier.height(16.dp))
+                } else {
+                    Box(contentAlignment = Alignment.Center, modifier = Modifier.size(200.dp)) {
+                        CircularProgressIndicator(progress = uiState.batchProgress, modifier = Modifier.fillMaxSize(), strokeWidth = 8.dp, color = NeonCyan, trackColor = DarkSurface)
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("${(uiState.batchProgress * 100).toInt()}%", fontSize = 32.sp, fontWeight = FontWeight.Black, color = Color.White)
+                            Text(formatSize(uiState.globalSizeKb), fontSize = 12.sp, color = NeonCyan, fontFamily = FontFamily.Monospace)
+                        }
                     }
-                }
-                
-                Spacer(modifier = Modifier.height(32.dp))
-                Text("PROCESS: ${uiState.batchCurrentIndex} / ${uiState.batchTotal}", color = NeonCyan, fontFamily = FontFamily.Monospace)
-                Text(uiState.batchCurrentApp, color = Color.Gray, fontSize = 12.sp, maxLines = 1, textAlign = TextAlign.Center, overflow = TextOverflow.Ellipsis)
-                
-                Spacer(modifier = Modifier.height(24.dp))
-                TerminalBox(logs = uiState.batchLogs)
-                
-                Spacer(modifier = Modifier.height(32.dp))
-                if (uiState.isBatchRunning) {
-                    Button(onClick = { viewModel.stopBatchOptimize() }, colors = ButtonDefaults.buttonColors(containerColor = NeonRed)) {
-                        Text("ABORT SYSTEM PROCESS", color = Color.White, fontWeight = FontWeight.Bold)
-                    }
-                } else if (uiState.batchProgress >= 1f) {
-                    Button(onClick = onBack, colors = ButtonDefaults.buttonColors(containerColor = NeonGreen)) {
-                        Text("RETURN TO DASHBOARD", color = Color.Black, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(32.dp))
+                    Text("PROCESS: ${uiState.batchCurrentIndex} / ${uiState.batchTotal}", color = NeonCyan, fontFamily = FontFamily.Monospace)
+                    Text(uiState.batchCurrentApp, color = Color.Gray, fontSize = 12.sp, maxLines = 1, textAlign = TextAlign.Center, overflow = TextOverflow.Ellipsis)
+                    Spacer(modifier = Modifier.height(24.dp)); TerminalBox(logs = uiState.batchLogs)
+                    Spacer(modifier = Modifier.height(32.dp))
+                    if (uiState.isBatchRunning) {
+                        Button(onClick = { 
+                            viewModel.stopBatchOptimize()
+                            onBack()
+                        }, colors = ButtonDefaults.buttonColors(containerColor = NeonRed)) { Text("ABORT SYSTEM PROCESS", color = Color.White, fontWeight = FontWeight.Bold) }
+                    } else if (uiState.batchProgress >= 1f) {
+                        Button(onClick = onBack, colors = ButtonDefaults.buttonColors(containerColor = NeonGreen)) { Text("RETURN TO DASHBOARD", color = Color.Black, fontWeight = FontWeight.Bold) }
                     }
                 }
             }
         }
-    }
 }
 
 @Composable
@@ -394,18 +728,32 @@ fun AppItemRow(app: AppItem, modifier: Modifier = Modifier, onClick: () -> Unit)
         Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
             Image(painter = rememberAsyncImagePainter(app.icon), contentDescription = null, modifier = Modifier.size(48.dp).clip(CircleShape))
             Spacer(modifier = Modifier.width(16.dp))
+            
+            // FIXED: Added weight(1f) to prevent overflow pushing badges off-screen
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(app.label, color = Color.White, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(
+                        text = app.label, 
+                        color = Color.White, 
+                        fontWeight = FontWeight.Bold, 
+                        maxLines = 1, 
+                        overflow = TextOverflow.Ellipsis
+                    )
                     if (app.isNew) {
                         Spacer(modifier = Modifier.width(8.dp))
-                        Surface(color = NeonBlue, shape = RoundedCornerShape(4.dp)) {
-                            Text("NEW", fontSize = 8.sp, color = Color.Black, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp))
-                        }
+                        Surface(color = NeonBlue, shape = RoundedCornerShape(4.dp)) { Text("NEW", fontSize = 8.sp, color = Color.Black, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)) }
                     }
                 }
-                Text(app.packageName, color = Color.Gray, fontSize = 10.sp, lineHeight = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(
+                    text = app.packageName, 
+                    color = Color.Gray, 
+                    fontSize = 10.sp, 
+                    lineHeight = 12.sp, 
+                    maxLines = 1, 
+                    overflow = TextOverflow.Ellipsis
+                )
             }
+            
             if (app.framework != "Native") { FrameworkBadge(app.framework); Spacer(modifier = Modifier.width(8.dp)) }
             if (app.size != "..." && app.size != "0 B") {
                 Surface(color = Color.Transparent, shape = RoundedCornerShape(4.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color.Gray.copy(alpha = 0.3f)), modifier = Modifier.padding(end = 8.dp)) {
@@ -435,37 +783,27 @@ fun StatusChip(status: String) {
 @Composable
 fun CompilationDialog(app: AppItem, isProcessing: Boolean, logLines: List<String>, onDismiss: () -> Unit, onOptimize: (String) -> Unit, onReset: () -> Unit) {
     BackHandler(enabled = isProcessing) { /* Blocked */ }
-    ModalBottomSheet(onDismissRequest = { if (!isProcessing) onDismiss() }, containerColor = DeepBlack, windowInsets = WindowInsets(0), shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)) {
+    ModalBottomSheet(
+        onDismissRequest = { if (!isProcessing) onDismiss() }, 
+        sheetState = rememberModalBottomSheetState(confirmValueChange = { !isProcessing }),
+        containerColor = DeepBlack, 
+        windowInsets = WindowInsets(0), 
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+    ) {
         Column(modifier = Modifier.padding(24.dp).fillMaxWidth().navigationBarsPadding()) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                 Box(contentAlignment = Alignment.BottomEnd) {
-                    Image(
-                        painter = rememberAsyncImagePainter(app.icon), 
-                        contentDescription = null, 
-                        modifier = Modifier.size(64.dp).clip(RoundedCornerShape(12.dp)).border(1.dp, Color.Gray.copy(alpha = 0.2f), RoundedCornerShape(12.dp))
-                    )
-                    
-                    // Complexity Dot
+                    Image(painter = rememberAsyncImagePainter(app.icon), contentDescription = null, modifier = Modifier.size(64.dp).clip(RoundedCornerShape(12.dp)).border(1.dp, Color.Gray.copy(alpha = 0.2f), RoundedCornerShape(12.dp)))
                     ComplexityIndicator(app.complexity)
                 }
-                
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(text = app.label, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                    
-                    // Sub-header with Complexity Label
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = app.complexity.uppercase(), 
-                            color = getComplexityColor(app.complexity), 
-                            fontSize = 10.sp, 
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.Monospace
-                        )
+                        Text(text = app.complexity.uppercase(), color = getComplexityColor(app.complexity), fontSize = 10.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
                         Text(" • ", color = Color.DarkGray)
                         Text(text = "CODE DENSITY", color = Color.Gray, fontSize = 10.sp, fontFamily = FontFamily.Monospace)
                     }
-                    
                     Spacer(modifier = Modifier.height(4.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         if (app.framework != "Native") { FrameworkBadge(app.framework); Spacer(modifier = Modifier.width(8.dp)) }
@@ -487,9 +825,9 @@ fun CompilationDialog(app: AppItem, isProcessing: Boolean, logLines: List<String
             } else {
                 Text("SELECT OPTIMIZATION PROFILE", color = NeonBlue, fontSize = 12.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
                 Spacer(modifier = Modifier.height(16.dp))
-                OptionButton("SPEED PROFILE", "Recommended. Balanced performance.", NeonBlue) { onOptimize("speed-profile") }
                 OptionButton("SPEED (FULL)", "Full AOT. Faster, but larger disk usage.", NeonGreen) { onOptimize("speed") }
                 OptionButton("EVERYTHING", "Force compile all code. Maximum Optimization.", NeonPurple) { onOptimize("everything") }
+                OptionButton("SPEED PROFILE", "Recommended. Balanced performance.", NeonBlue) { onOptimize("speed-profile") }
                 OptionButton("QUICKEN", "Fast install. Interpreted execution.", NeonOrange) { onOptimize("quicken") }
                 Spacer(modifier = Modifier.height(16.dp)); Divider(color = Color.DarkGray.copy(alpha = 0.5f))
                 Spacer(modifier = Modifier.height(16.dp))
@@ -505,26 +843,11 @@ fun CompilationDialog(app: AppItem, isProcessing: Boolean, logLines: List<String
 @Composable
 fun ComplexityIndicator(complexity: String) {
     val color = getComplexityColor(complexity)
-    Box(
-        modifier = Modifier
-            .offset(x = 4.dp, y = 4.dp)
-            .size(14.dp)
-            .clip(CircleShape)
-            .background(DeepBlack)
-            .padding(2.dp)
-            .clip(CircleShape)
-            .background(color)
-    )
+    Box(modifier = Modifier.offset(x = 4.dp, y = 4.dp).size(14.dp).clip(CircleShape).background(DeepBlack).padding(2.dp).clip(CircleShape).background(color))
 }
 
 fun getComplexityColor(complexity: String): Color {
-    return when (complexity) {
-        "lite code" -> NeonGreen
-        "standard" -> NeonBlue
-        "heavy" -> NeonOrange
-        "extreme" -> NeonRed
-        else -> Color.Gray
-    }
+    return when (complexity) { "lite code" -> NeonGreen; "standard" -> NeonBlue; "heavy" -> NeonOrange; "extreme" -> NeonRed; else -> Color.Gray }
 }
 
 @Composable
@@ -540,7 +863,10 @@ fun OptionButton(title: String, subtitle: String, color: Color, onClick: () -> U
     Card(colors = CardDefaults.cardColors(containerColor = DarkSurface), modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp).clickable { onClick() }) {
         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Filled.Bolt, null, tint = color); Spacer(modifier = Modifier.width(16.dp))
-            Column { Text(title, color = Color.White, fontWeight = FontWeight.Bold); Text(subtitle, color = Color.Gray, fontSize = 12.sp) }
+            Column { 
+                Text(title, color = Color.White, fontWeight = FontWeight.Bold)
+                Text(subtitle, color = Color.Gray, fontSize = 12.sp, lineHeight = 14.sp) // Fixed line height
+            }
         }
     }
 }
@@ -552,12 +878,7 @@ fun TerminalBox(logs: List<String>) {
     Surface(color = Color(0xFF111111), shape = RoundedCornerShape(8.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF333333)), modifier = Modifier.fillMaxWidth().height(200.dp) ) {
         LazyColumn(state = listState, contentPadding = PaddingValues(12.dp), modifier = Modifier.fillMaxSize()) {
             items(logs) { logLine ->
-                val color = when {
-                    logLine.startsWith(">") -> NeonBlue
-                    logLine.contains("[ERR]") || logLine.contains("Failure") -> NeonRed
-                    logLine.contains("Success") -> NeonGreen
-                    else -> Color(0xFF00E676) 
-                }
+                val color = when { logLine.startsWith(">") -> NeonBlue; logLine.contains("[ERR]") || logLine.contains("Failure") -> NeonRed; logLine.contains("Success") -> NeonGreen; else -> Color(0xFF00E676) }
                 Text(text = logLine, color = color, fontSize = 12.sp, fontFamily = FontFamily.Monospace, modifier = Modifier.padding(vertical = 2.dp))
             }
         }
@@ -572,22 +893,41 @@ fun BatchOptimizationSheet(newApps: List<AppItem>, onDismiss: () -> Unit, onOpti
     var progress by remember { mutableStateOf(0f) }
     val viewModel: AppViewModel = viewModel()
     BackHandler(enabled = isRunning) { /* Blocked */ }
+    
+    val scope = rememberCoroutineScope() 
+
     val runBatch = { 
-        isRunning = true; logs = listOf("> Starting Batch...", "> Strategy: Speed (AOT)")
-        kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
+        isRunning = true
+        logs = listOf("> Starting Batch...", "> Strategy: Speed (AOT)")
+        scope.launch(Dispatchers.Main) { 
              newApps.forEachIndexed {
                  index, app ->
-                 logs = logs + "> Compiling: " + app.label
-                 withContext(Dispatchers.IO) { ShellHelper.compilePackage(app.packageName, "speed") }
-                 logs = logs + "  [OK] Success."
-                 viewModel.updateAppDetails(app.packageName, ShellHelper.getCompilationFilter(app.packageName), ShellHelper.getArtifactsSize(app.packageName), 0L, app.framework)
+                 logs = logs + "> Compiling: ${app.label}"
+                 val res = withContext(Dispatchers.IO) { ShellHelper.compilePackage(app.packageName, "speed") }
+                 
+                 if (res.isSuccess) {
+                    logs = logs + "  [OK] Success."
+                 } else {
+                    logs = logs + "  [ERR] Failed."
+                 }
+                 
+                 viewModel.updateAppDetails(app.packageName, "speed", "...", 0L, app.framework)
                  progress = (index + 1).toFloat() / newApps.size
              }
-             logs = logs + "> BATCH COMPLETE."; delay(1000); onDismiss()
+             logs = logs + "> BATCH COMPLETE."
+             delay(1000)
+             onDismiss()
         }
     }
-    ModalBottomSheet(onDismissRequest = { if (!isRunning) onDismiss() }, containerColor = DeepBlack, windowInsets = WindowInsets(0)) {
+    
+    ModalBottomSheet(
+        onDismissRequest = { /* Block dismiss */ }, 
+        sheetState = rememberModalBottomSheetState(confirmValueChange = { false }),
+        containerColor = DeepBlack, 
+        windowInsets = WindowInsets(0)
+    ) {
         Column(modifier = Modifier.padding(24.dp).fillMaxWidth().navigationBarsPadding()) {
+// ... (rest of content)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Filled.NewReleases, null, tint = NeonPurple); Spacer(modifier = Modifier.width(12.dp))
                 Column { Text("SYSTEM CHANGES DETECTED", color = NeonPurple, fontWeight = FontWeight.Bold, fontSize = 16.sp); Text("${newApps.size} new apps found.", color = Color.Gray, fontSize = 12.sp) }
