@@ -27,6 +27,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete // NEW
 import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Search
@@ -37,7 +38,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.draw.scale
+import androidx.compose.material3.FilterChip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -164,29 +167,83 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
 
         val filteredApps by viewModel.filteredApps.collectAsState()
 
-        val isSearchActive by viewModel.isSearchActive.collectAsState()
+            val isSearchActive by viewModel.isSearchActive.collectAsState()
 
-        val searchQuery by viewModel.searchQuery.collectAsState()
+            val searchQuery by viewModel.searchQuery.collectAsState()
+
+            
+
+            val focusRequester = remember { FocusRequester() }
 
         
 
-        val focusRequester = remember { FocusRequester() }
+            // Toast Listener
 
-    
+            LaunchedEffect(Unit) {
 
-        LaunchedEffect(isSearchActive) {
+                viewModel.toastMessage.collect { message ->
 
-            if (isSearchActive) {
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 
-                focusRequester.requestFocus()
+                }
 
             }
 
-        }
+        
+
+                LaunchedEffect(isSearchActive) {
 
         
 
-        var selectedApp by remember { mutableStateOf<AppItem?>(null) }
+                    if (isSearchActive) {
+
+        
+
+                        focusRequester.requestFocus()
+
+        
+
+                    }
+
+        
+
+                }
+
+        
+
+                
+
+        
+
+                // Auto-navigate to Batch Screen if process started (e.g. from Restore)
+
+        
+
+                LaunchedEffect(uiState.isBatchRunning) {
+
+        
+
+                    if (uiState.isBatchRunning) {
+
+        
+
+                        onNavigateToBatch()
+
+        
+
+                    }
+
+        
+
+                }
+
+        
+
+                
+
+        
+
+                var selectedApp by remember { mutableStateOf<AppItem?>(null) }
 
     var isProcessing by remember { mutableStateOf(false) }
 
@@ -454,11 +511,159 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
 
                                                 
 
-                                                                                    // SHOW ALL APPS
+                                                                                                                                                            // CHECK UPDATES
 
                                                 
 
-                                                                                    DropdownMenuItem(
+                                                
+
+                                                
+
+                                                                                                                                                            DropdownMenuItem(
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                                text = { Text("Check Updates", color = Color.White) },
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                                onClick = { 
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                                    viewModel.checkForUpdates()
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                                    showSortMenu = false
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                                }
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                            )
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                            
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                            // SAVED PROFILES
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                            DropdownMenuItem(
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                                text = { Text("Saved Profiles", color = Color.White) },
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                                onClick = { 
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                                    viewModel.loadProfiles()
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                                    showSortMenu = false
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                                }
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                            )
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                        
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                                                            // SHOW ALL APPS
+
+                                                
+
+                                                
+
+                                                
+
+                                                                                                                        DropdownMenuItem(
 
                                                                                                                             text = { 
 
@@ -600,8 +805,8 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
             onOptimize = { mode ->
                 scope.launch {
                     isProcessing = true
-                    logLines = listOf("> Target: ${currentApp.packageName}", "> Mode: $mode")
-                    val res = ShellHelper.compilePackage(currentApp.packageName, mode)
+                    logLines = listOf("> Target: ${currentApp.packageName}", "> Mode: $mode", "> Force: Enabled")
+                    val res = ShellHelper.compilePackage(currentApp.packageName, mode, force = true)
                     
                     val updatedLogs = logLines.toMutableList()
                     res.out.forEach { updatedLogs.add(it) }
@@ -613,6 +818,16 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
                         val sizeStr = ShellHelper.getArtifactsSize(currentApp.packageName)
                         val sizeKb = ShellHelper.getArtifactsSizeInKb(currentApp.packageName)
                         viewModel.updateAppDetails(currentApp.packageName, status, sizeStr, sizeKb, currentApp.framework)
+                        
+                        // Save Contract & Log
+                        val isSaved = viewModel.saveContract(currentApp.packageName, mode)
+                        val dbLog = if (isSaved) "> [DB] Contract saved: $mode" else "> [DB] System rejected optimization (No Contract)"
+                        
+                        // Append to logs (using mutable list logic)
+                        val finalLogs = logLines.toMutableList()
+                        finalLogs.add(dbLog)
+                        logLines = finalLogs
+                        
                         val displayMode = mode.replaceFirstChar { it.uppercase() }.replace("-profile", " Profile")
                         Toast.makeText(context, "${currentApp.label} - $displayMode", Toast.LENGTH_SHORT).show()
                     }
@@ -634,8 +849,39 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
         )
     }
 
+    // CHECK UPDATES PROGRESS
+    if (uiState.isLoading && uiState.checkUpdatesProgress > 0f) {
+        Dialog(onDismissRequest = {}) {
+            Card(colors = CardDefaults.cardColors(containerColor = DeepBlack), shape = RoundedCornerShape(16.dp)) {
+                Column(modifier = Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    CircularProgressIndicator(color = NeonCyan)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text("Verifying Contracts...", color = Color.White, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("${(uiState.checkUpdatesProgress * 100).toInt()}%", color = NeonCyan, fontFamily = FontFamily.Monospace)
+                }
+            }
+        }
+    }
+
     if (uiState.showBatchSheet && uiState.newAppsDetected.isNotEmpty()) {
         BatchOptimizationSheet(newApps = uiState.newAppsDetected, onDismiss = { viewModel.dismissBatchSheet() }, onOptimizeAll = {})
+    }
+    
+    if (uiState.showUpdatesSheet && uiState.updatesDetected.isNotEmpty()) {
+        UpdatesSheet(
+            updates = uiState.updatesDetected,
+            onDismiss = { viewModel.dismissUpdatesSheet() },
+            onRestore = { viewModel.restoreOptimizations() }
+        )
+    }
+    
+    if (uiState.showProfilesSheet) {
+        ProfilesSheet(
+            profiles = uiState.savedProfiles,
+            onDismiss = { viewModel.dismissProfilesSheet() },
+            onDelete = { pkg -> viewModel.deleteProfile(pkg) }
+        )
     }
 }
 
@@ -645,9 +891,13 @@ fun BatchOptimizeScreen(onBack: () -> Unit) {
     val viewModel: AppViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
     val view = LocalView.current
-        BackHandler { if (!uiState.isBatchRunning) onBack() }
-        
-        DisposableEffect(Unit) {
+    
+    // Fix: Explicitly set enabled and onBack
+    BackHandler(enabled = true, onBack = { 
+       if (!uiState.isBatchRunning) onBack() 
+    })
+    
+    DisposableEffect(Unit) {
             view.keepScreenOn = true; viewModel.calculateGlobalSize()
             onDispose { 
                 view.keepScreenOn = false
@@ -951,6 +1201,166 @@ fun BatchOptimizationSheet(newApps: List<AppItem>, onDismiss: () -> Unit, onOpti
                     Button(onClick = { runBatch() }, colors = ButtonDefaults.buttonColors(containerColor = NeonPurple), modifier = Modifier.weight(1f)) { Text("OPTIMIZE ALL", color = Color.Black, fontWeight = FontWeight.Bold) }
                 }
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun UpdatesSheet(updates: List<OptimizationContract>, onDismiss: () -> Unit, onRestore: () -> Unit) {
+    ModalBottomSheet(
+        onDismissRequest = { /* Block dismiss */ },
+        sheetState = rememberModalBottomSheetState(confirmValueChange = { false }),
+        containerColor = DeepBlack, 
+        windowInsets = WindowInsets(0)
+    ) {
+        Column(modifier = Modifier.padding(24.dp).fillMaxWidth().navigationBarsPadding()) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Filled.NewReleases, null, tint = NeonOrange)
+                Spacer(modifier = Modifier.width(12.dp))
+                Column { 
+                    Text("OPTIMIZATION DRIFT DETECTED", color = NeonOrange, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text("${updates.size} apps updated or reset by system.", color = Color.Gray, fontSize = 12.sp)
+                }
+            }
+            
+            Spacer(modifier = Modifier.height(24.dp))
+            
+            LazyColumn(modifier = Modifier.heightIn(max = 200.dp)) {
+                items(updates) { contract ->
+                    Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(contract.packageName, color = Color.White, fontSize = 12.sp, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("-> ${contract.targetMode}", color = NeonCyan, fontSize = 10.sp, fontFamily = FontFamily.Monospace)
+                    }
+                }
+            }
+            
+            Spacer(modifier = Modifier.height(32.dp))
+            
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Button(
+                    onClick = onDismiss, 
+                    colors = ButtonDefaults.buttonColors(containerColor = DarkSurface), 
+                    modifier = Modifier.weight(1f)
+                ) { Text("IGNORE", color = Color.Gray) }
+                
+                Button(
+                    onClick = onRestore, 
+                    colors = ButtonDefaults.buttonColors(containerColor = NeonOrange), 
+                    modifier = Modifier.weight(1f)
+                ) { Text("RESTORE ALL", color = Color.Black, fontWeight = FontWeight.Bold) }
+            }
+        }
+    }
+}
+
+fun getStatusColor(status: String): Color {
+    return when {
+        status.contains("everything") -> NeonPurple
+        status.contains("speed") && !status.contains("profile") -> NeonGreen
+        status.contains("speed-profile") -> NeonBlue
+        status.contains("quicken") -> NeonOrange
+        else -> Color.Gray
+    }
+}
+
+fun getPriority(status: String): Int {
+    return when {
+        status.contains("everything") -> 4
+        status.contains("speed") && !status.contains("profile") -> 3
+        status.contains("speed-profile") -> 2
+        status.contains("quicken") -> 1
+        else -> 0
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProfilesSheet(profiles: List<OptimizationContract>, onDismiss: () -> Unit, onDelete: (String) -> Unit) {
+    val context = LocalContext.current
+    var filterManual by remember { mutableStateOf(true) }
+    
+    val filteredProfiles = remember(profiles, filterManual) {
+        val filtered = if (filterManual) profiles.filter { it.isManual } else profiles.filter { !it.isManual }
+        filtered.sortedByDescending { getPriority(it.targetMode) }
+    }
+    
+    ModalBottomSheet(
+        onDismissRequest = { onDismiss() },
+        containerColor = DeepBlack, 
+        windowInsets = WindowInsets(0),
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    ) {
+        Column(modifier = Modifier.padding(24.dp).fillMaxWidth().fillMaxHeight(0.85f).navigationBarsPadding()) {
+            Text("SAVED PROFILES", color = Color.White, fontWeight = FontWeight.Black, fontSize = 20.sp, letterSpacing = 1.sp)
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            // Filter Chips
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(
+                    selected = filterManual,
+                    onClick = { filterManual = true },
+                    label = { Text("Manual") },
+                    colors = FilterChipDefaults.filterChipColors(selectedContainerColor = NeonCyan, selectedLabelColor = Color.Black)
+                )
+                FilterChip(
+                    selected = !filterManual,
+                    onClick = { filterManual = false },
+                    label = { Text("Auto") },
+                    colors = FilterChipDefaults.filterChipColors(selectedContainerColor = NeonPurple, selectedLabelColor = Color.Black)
+                )
+            }
+            
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("${filteredProfiles.size} contracts found.", color = Color.Gray, fontSize = 12.sp)
+            
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            if (filteredProfiles.isEmpty()) {
+                Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                    Text("No profiles found.", color = Color.Gray, fontStyle = androidx.compose.ui.text.font.FontStyle.Italic)
+                }
+            } else {
+                LazyColumn(modifier = Modifier.weight(1f)) {
+                    items(filteredProfiles) { contract ->
+                        val icon = remember(contract.packageName) {
+                            try { context.packageManager.getApplicationIcon(contract.packageName) } catch (e: Exception) { null }
+                        }
+                        
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp), 
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            if (icon != null) {
+                                Image(
+                                    painter = rememberAsyncImagePainter(icon),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(40.dp).clip(RoundedCornerShape(8.dp))
+                                )
+                                Spacer(modifier = Modifier.width(12.dp))
+                            }
+                            
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(contract.packageName, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                Text("Target: ${contract.targetMode.uppercase()}", color = getStatusColor(contract.targetMode), fontSize = 10.sp, fontFamily = FontFamily.Monospace)
+                            }
+                            
+                            IconButton(onClick = { onDelete(contract.packageName) }) {
+                                Icon(Icons.Default.Delete, null, tint = Color.Gray)
+                            }
+                        }
+                        Divider(color = Color.DarkGray.copy(alpha = 0.3f))
+                    }
+                }
+            }
+            
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = onDismiss, 
+                colors = ButtonDefaults.buttonColors(containerColor = DarkSurface), 
+                modifier = Modifier.fillMaxWidth()
+            ) { Text("CLOSE", color = Color.White) }
         }
     }
 }

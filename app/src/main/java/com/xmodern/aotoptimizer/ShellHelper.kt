@@ -29,9 +29,78 @@ object ShellHelper {
         return@withContext "unknown"
     }
 
-    suspend fun compilePackage(packageName: String, mode: String): Shell.Result = withContext(Dispatchers.IO) {
-        // Removed -f to avoid forcing recompilation if not needed
-        val cmd = "cmd package compile -m $mode $packageName"
+    suspend fun getCompilationFilters(packages: List<String>): Map<String, String> = withContext(Dispatchers.IO) {
+        if (packages.isEmpty()) return@withContext emptyMap()
+        
+        // Batch query via dumpsys package p1 p2 p3
+        val pkgArgs = packages.joinToString(" ")
+        val cmd = "dumpsys package $pkgArgs | grep -E 'Package \\[|status='"
+        
+        val res = Shell.cmd(cmd).exec()
+        if (!res.isSuccess) return@withContext emptyMap()
+        
+        val resultMap = mutableMapOf<String, String>()
+        var currentPkg = ""
+        val currentStatuses = mutableListOf<String>()
+        
+        fun flush() {
+            if (currentPkg.isNotEmpty() && currentStatuses.isNotEmpty()) {
+                // Pick best status (Hierarchy: everything > speed > speed-profile > verify)
+                val best = when {
+                    currentStatuses.contains("everything") -> "everything"
+                    currentStatuses.contains("speed") -> "speed"
+                    currentStatuses.contains("speed-profile") -> "speed-profile"
+                    currentStatuses.contains("verify") -> "verify"
+                    currentStatuses.contains("quicken") -> "quicken"
+                    else -> currentStatuses.firstOrNull { it != "unknown" } ?: "unknown"
+                }
+                resultMap[currentPkg] = best
+            }
+        }
+
+        res.out.forEach { line ->
+            val trim = line.trim()
+            if (trim.startsWith("Package [")) {
+                flush()
+                currentPkg = trim.substringAfter("[").substringBefore("]")
+                currentStatuses.clear()
+            } else if (line.contains("status=")) {
+                val status = line.substringAfter("status=").substringBefore("]").substringBefore(" ")
+                if (status.isNotEmpty()) currentStatuses.add(status)
+            }
+        }
+        flush()
+        
+        return@withContext resultMap
+    }
+
+    suspend fun getAllCompilationFilters(): Map<String, String> = withContext(Dispatchers.IO) {
+        // Optimization: Fetch ALL statuses in one go.
+        // We grep for Package name lines and status lines.
+        // Output looks like:
+        //   Package [com.foo] ...
+        //     status=speed ...
+        val res = Shell.cmd("dumpsys package | grep -E 'Package \\[|status='").exec()
+        if (!res.isSuccess) return@withContext emptyMap()
+        
+        val map = mutableMapOf<String, String>()
+        var currentPkg = ""
+        
+        res.out.forEach { line ->
+            val trim = line.trim()
+            if (trim.startsWith("Package [")) {
+                currentPkg = trim.substringAfter("[").substringBefore("]")
+            } else if (currentPkg.isNotEmpty() && trim.startsWith("status=")) {
+                val status = trim.substringAfter("status=").substringBefore(" ")
+                map[currentPkg] = status
+            }
+        }
+        return@withContext map
+    }
+
+    suspend fun compilePackage(packageName: String, mode: String, force: Boolean = false): Shell.Result = withContext(Dispatchers.IO) {
+        val forceFlag = if (force) "-f" else ""
+        val cmd = "cmd package compile -m $mode $forceFlag $packageName"
         return@withContext Shell.cmd(cmd).exec()
     }
     

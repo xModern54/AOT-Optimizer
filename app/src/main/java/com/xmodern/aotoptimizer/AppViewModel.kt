@@ -13,29 +13,37 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import java.io.File
-
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
+import java.io.File
 
 class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context: Context = getApplication<Application>().applicationContext
     private val prefs = context.getSharedPreferences("aot_optimizer_prefs", Context.MODE_PRIVATE)
+    
+    // Repository for Contracts
+    private val repository = OptimizationRepository(context)
 
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    // --- SEARCH EXTENSION ---
+    // Toast Events
+    private val _toastMessage = Channel<String>(Channel.BUFFERED)
+    val toastMessage = _toastMessage.receiveAsFlow()
+
+    // Search Logic
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
     private val _isSearchActive = MutableStateFlow(false)
     val isSearchActive = _isSearchActive.asStateFlow()
 
-    // Use this derived flow in the UI instead of uiState.apps
+    // Filtered List for UI
     val filteredApps: StateFlow<List<AppItem>> = combine(_uiState, _searchQuery) { state, query ->
         if (query.isBlank()) {
             state.apps
@@ -46,16 +54,6 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    fun onSearchQueryChanged(query: String) {
-        _searchQuery.value = query
-    }
-
-    fun setSearchActive(active: Boolean) {
-        _isSearchActive.value = active
-        if (!active) _searchQuery.value = ""
-    }
-    // ------------------------
 
     private var batchJob: Job? = null
     private var sizeCalcJob: Job? = null
@@ -78,16 +76,32 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         val isCalculatingGlobalSize: Boolean = false,
         val sortOption: SortOption = SortOption.NAME,
         val showAllApps: Boolean = false,
-        val isDexOptDisabled: Boolean = false // New State
+        val isDexOptDisabled: Boolean = false,
+        val updatesDetected: List<OptimizationContract> = emptyList(),
+        val showUpdatesSheet: Boolean = false,
+        val checkUpdatesProgress: Float = 0f,
+        val savedProfiles: List<OptimizationContract> = emptyList(),
+        val showProfilesSheet: Boolean = false
     )
 
     init {
         val savedSort = prefs.getString("sort_option", SortOption.NAME.name)
         val option = try { SortOption.valueOf(savedSort!!) } catch (e: Exception) { SortOption.NAME }
         _uiState.value = _uiState.value.copy(sortOption = option)
-        checkDexOptStatus() // Check on init
+        checkDexOptStatus()
     }
 
+    // --- Search Functions ---
+    fun onSearchQueryChanged(query: String) {
+        _searchQuery.value = query
+    }
+
+    fun setSearchActive(active: Boolean) {
+        _isSearchActive.value = active
+        if (!active) _searchQuery.value = ""
+    }
+
+    // --- DexOpt Functions ---
     fun checkDexOptStatus() {
         viewModelScope.launch(Dispatchers.IO) {
             val disabled = ShellHelper.isSystemDexOptDisabled()
@@ -99,15 +113,123 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             val current = _uiState.value.isDexOptDisabled
             if (current) {
-                // Was disabled -> Enable it
                 ShellHelper.enableSystemDexOpt()
-            } else {
-                // Was enabled -> Disable it
+            }
+            else {
                 ShellHelper.disableSystemDexOpt()
             }
-            checkDexOptStatus() // Refresh state
+            checkDexOptStatus()
         }
     }
+
+    // --- Profile Management ---
+    fun loadProfiles() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val profiles = repository.getAllContracts()
+            _uiState.value = _uiState.value.copy(savedProfiles = profiles, showProfilesSheet = true)
+        }
+    }
+
+    fun deleteProfile(packageName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.removeContract(packageName)
+            val profiles = repository.getAllContracts()
+            _uiState.value = _uiState.value.copy(savedProfiles = profiles)
+        }
+    }
+
+    fun dismissProfilesSheet() {
+        _uiState.value = _uiState.value.copy(showProfilesSheet = false)
+    }
+
+    // --- Contract / Updates Functions ---
+    fun checkForUpdates() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _uiState.value = _uiState.value.copy(isLoading = true, checkUpdatesProgress = 0f)
+            
+            val drifted = repository.getDriftedApps { progress ->
+                _uiState.value = _uiState.value.copy(checkUpdatesProgress = progress)
+            }
+            
+            if (drifted.isEmpty()) {
+                if (!repository.hasContracts()) {
+                    _toastMessage.send("No active optimization contracts found")
+                } else {
+                    _toastMessage.send("All optimized apps are up to date")
+                }
+            }
+            
+            _uiState.value = _uiState.value.copy(
+                isLoading = false,
+                checkUpdatesProgress = 0f,
+                updatesDetected = drifted,
+                showUpdatesSheet = drifted.isNotEmpty()
+            )
+        }
+    }
+    
+    fun dismissUpdatesSheet() {
+        _uiState.value = _uiState.value.copy(showUpdatesSheet = false)
+    }
+    
+    suspend fun saveContract(packageName: String, mode: String, isManual: Boolean = true): Boolean {
+        // VERIFICATION LOGIC:
+        // Manual: Always save (User intent overrides technical limitations).
+        // Auto: Only save if mode was actually achieved (Avoid garbage contracts).
+        val realStatus = ShellHelper.getCompilationFilter(packageName)
+        
+        if (isManual || isModeAchieved(mode, realStatus)) {
+            repository.saveContract(packageName, mode, isManual)
+            return true
+        }
+        return false
+    }
+    
+    private fun isModeAchieved(target: String, actual: String): Boolean {
+        if (actual == target) return true
+        if (actual == "everything") return true 
+        if (target == "speed-profile" && actual == "speed") return true 
+        return false
+    }
+    
+    fun restoreOptimizations() {
+        val updates = _uiState.value.updatesDetected
+        if (updates.isEmpty()) return
+        
+        batchJob?.cancel()
+        batchJob = viewModelScope.launch(Dispatchers.IO) {
+             _uiState.value = _uiState.value.copy(
+                isBatchRunning = true, 
+                batchProgress = 0f, 
+                batchLogs = listOf("> Restoring optimizations...", "> Count: ${updates.size}"),
+                showUpdatesSheet = false
+            )
+            
+            updates.forEachIndexed { index, contract ->
+                _uiState.value = _uiState.value.copy(
+                    batchCurrentApp = contract.packageName,
+                    batchCurrentIndex = index + 1,
+                    batchTotal = updates.size,
+                    batchProgress = (index + 1).toFloat() / updates.size,
+                    batchLogs = _uiState.value.batchLogs + "> Restoring: ${contract.packageName} -> ${contract.targetMode}"
+                )
+                
+                val res = ShellHelper.compilePackage(contract.packageName, contract.targetMode)
+                
+                if (res.isSuccess) {
+                    val realStatus = ShellHelper.getCompilationFilter(contract.packageName)
+                    if (isModeAchieved(contract.targetMode, realStatus)) {
+                        repository.saveContract(contract.packageName, contract.targetMode, contract.isManual)
+                    }
+                }
+            }
+            
+            _uiState.value = _uiState.value.copy(isBatchRunning = false, batchProgress = 1f, batchCurrentApp = "DONE", batchLogs = _uiState.value.batchLogs + "> RESTORE COMPLETE.")
+            needsFullRefresh = true
+        }
+    }
+
+    // --- Existing Core Logic ---
 
     fun setSortOption(option: SortOption) {
         prefs.edit().putString("sort_option", option.name).apply()
@@ -116,7 +238,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun toggleShowAllApps() {
-        refreshJob?.cancel() // KILL PREVIOUS JOB
+        refreshJob?.cancel()
         _uiState.value = _uiState.value.copy(showAllApps = !_uiState.value.showAllApps)
         needsFullRefresh = true
         refreshData()
@@ -167,20 +289,48 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             _uiState.value = _uiState.value.copy(batchTotal = total)
 
             allPackages.forEachIndexed { index, pkg ->
-                if (!isActive) return@forEachIndexed // Handle cancellation
+                if (!isActive) return@forEachIndexed
                 
-                // Update Progress & Logs
-                val currentLogs = _uiState.value.batchLogs.takeLast(50) // Keep log size manageable
+                // CHECK FOR MANUAL CONTRACT OVERRIDE
+                val existingContract = repository.getContract(pkg)
+                val targetMode = if (existingContract != null && existingContract.isManual) {
+                    existingContract.targetMode
+                } else {
+                    mode
+                }
+                
+                val logSuffix = if (targetMode != mode) " [Manual Override]" else ""
+                
+                val currentLogs = _uiState.value.batchLogs.takeLast(50)
                 _uiState.value = _uiState.value.copy(
                     batchCurrentApp = pkg, 
                     batchCurrentIndex = index + 1, 
                     batchProgress = (index + 1).toFloat() / total,
-                    batchLogs = currentLogs + "> Compiling: $pkg"
+                    batchLogs = currentLogs + "> Compiling: $pkg ($targetMode)$logSuffix"
                 )
                 
                 val sizeBefore = ShellHelper.getArtifactsSizeInKb(pkg)
                 
-                if (mode == "reset") ShellHelper.resetPackage(pkg) else ShellHelper.compilePackage(pkg, mode)
+                if (mode == "reset") {
+                    ShellHelper.resetPackage(pkg)
+                    // Only remove contract if it wasn't manual. Manual contracts survive reset (user choice).
+                    if (existingContract == null || !existingContract.isManual) {
+                        repository.removeContract(pkg)
+                    }
+                } else {
+                    val res = ShellHelper.compilePackage(pkg, targetMode) // Use targetMode
+                    if (res.isSuccess) {
+                        val realStatus = ShellHelper.getCompilationFilter(pkg)
+                        if (isModeAchieved(targetMode, realStatus)) {
+                            // Preserve manual flag if it existed
+                            val isManual = existingContract?.isManual ?: false
+                            repository.saveContract(pkg, targetMode, isManual)
+                            
+                            val logs = _uiState.value.batchLogs + "> [DB] Contract saved: $targetMode"
+                            _uiState.value = _uiState.value.copy(batchLogs = logs)
+                        }
+                    }
+                }
                 
                 val sizeAfter = ShellHelper.getArtifactsSizeInKb(pkg)
                 _uiState.value = _uiState.value.copy(globalSizeKb = _uiState.value.globalSizeKb + (sizeAfter - sizeBefore))
@@ -213,30 +363,21 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun refreshData() {
-        // No blocking isActive check here, handled by toggleShowAllApps cancel()
-        
         refreshJob = viewModelScope.launch(Dispatchers.IO) {
             val pm = context.packageManager
             val showSystem = _uiState.value.showSystemApps
             val showAll = _uiState.value.showAllApps
             
-            // --- BRANCHING LOGIC ---
             val currentSystemState = if (showAll) {
-                // GOD MODE: Fetch everything via Shell
                 val rawPackages = ShellHelper.getAllSystemPackages()
-                // Batch fetch PM info to avoid lag
                 val pmList = try {
                     pm.getInstalledApplications(PackageManager.GET_META_DATA).associateBy { it.packageName }
                 } catch (e: Exception) { emptyMap() }
 
                 rawPackages.map { pkgName ->
-                    pmList[pkgName] ?: ApplicationInfo().apply { 
-                        packageName = pkgName 
-                        // Minimal info for hidden packages
-                    }
+                    pmList[pkgName] ?: ApplicationInfo().apply { packageName = pkgName }
                 }
             } else {
-                // EXISTING USER MODE (UNTOUCHED)
                 val launcherIntent = Intent(Intent.ACTION_MAIN).apply { addCategory(Intent.CATEGORY_LAUNCHER) }
                 val launchablePackages = pm.queryIntentActivities(launcherIntent, 0).map { it.activityInfo.packageName }.toSet()
                 val allInstalled = pm.getInstalledApplications(PackageManager.GET_META_DATA)
@@ -248,23 +389,16 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
 
-            // 2. Load persistence (The real memory)
             val knownPackages = prefs.getStringSet("known_packages", emptySet()) ?: emptySet()
             val isFirstRunEver = knownPackages.isEmpty()
 
-            val oldList = _uiState.value.apps
-            val force = needsFullRefresh
-            needsFullRefresh = false
-
-            // 3. Smart Merge with persistent "isNew" check
             val mergedList = currentSystemState.map { info ->
-                val existing = oldList.find { it.packageName == info.packageName }
-                val isReallyNew = !knownPackages.contains(info.packageName) && !isFirstRunEver && !showAll // DISABLED NEW TAG IN GOD MODE
+                val existing = _uiState.value.apps.find { it.packageName == info.packageName }
+                val isReallyNew = !knownPackages.contains(info.packageName) && !isFirstRunEver && !showAll
                 
-                if (existing != null && !force) {
+                if (existing != null && !needsFullRefresh) {
                     existing.copy(isNew = if (showAll) false else (isReallyNew || existing.isNew))
                 } else {
-                    // Safe icon loading
                     val icon = try { info.loadIcon(pm) } catch(e: Exception) { context.getDrawable(android.R.drawable.sym_def_app_icon)!! }
                     val label = try { info.loadLabel(pm).toString() } catch(e: Exception) { info.packageName }
                     
@@ -278,11 +412,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
 
-            // 4. Update UI
             _uiState.value = _uiState.value.copy(apps = mergedList, isLoading = false)
             applySorting()
 
-            // 5. Trigger Batch Sheet for new apps (ONLY IN USER MODE)
             val newlyDetected = mergedList.filter { it.isNew }
             if (newlyDetected.isNotEmpty() && !showAll) {
                 _uiState.value = _uiState.value.copy(showBatchSheet = true, newAppsDetected = newlyDetected)
@@ -290,12 +422,12 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 _uiState.value = _uiState.value.copy(showBatchSheet = false)
             }
             
-            // 6. Sync persistence
             if (currentSystemState.isNotEmpty()) {
                 prefs.edit().putStringSet("known_packages", currentSystemState.map { it.packageName }.toSet()).apply()
             }
+            
+            needsFullRefresh = false
 
-            // 7. Investigate
             val scanQueue = mergedList.filter { it.status == "loading..." }.sortedBy { it.label }
             scanQueue.forEach { app ->
                 val status = ShellHelper.getCompilationFilter(app.packageName)
