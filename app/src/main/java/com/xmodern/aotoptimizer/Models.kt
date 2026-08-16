@@ -34,8 +34,9 @@ data class AppItem(
 ) {
     val statusPriority: Int
         get() = when {
-            status.contains("everything") -> 4
-            status.contains("speed") -> 3
+            status.contains("everything") -> 5
+            status.contains("speed-profile") -> 3
+            status.contains("speed") -> 4
             status.contains("quicken") || status.contains("verify") -> 2
             status == "loading..." -> 1
             else -> 0

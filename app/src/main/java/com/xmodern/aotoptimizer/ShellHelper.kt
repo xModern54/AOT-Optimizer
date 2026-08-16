@@ -19,22 +19,50 @@ object ShellHelper {
         return@withContext Shell.getShell().isRoot
     }
 
-    suspend fun getCompilationFilter(packageName: String): String = withContext(Dispatchers.IO) {
-        val result = Shell.cmd("dumpsys package $packageName | grep 'status=' | head -n 1").exec()
-        if (result.isSuccess && result.out.isNotEmpty()) {
-            val line = result.out[0]
-            val match = Regex("status=([^]]+)").find(line)
-            return@withContext match?.groupValues?.get(1) ?: "unknown"
+    private val STATUS_REGEX = Regex("""\[status=([^]\s]+)\]""")
+
+    fun compilationFilterRank(filter: String): Int {
+        return when (filter) {
+            "everything" -> 5
+            "speed" -> 4
+            "speed-profile" -> 3
+            "quicken" -> 2
+            "verify" -> 1
+            else -> 0
         }
-        return@withContext "unknown"
+    }
+
+    fun worstCompilationFilter(statuses: Collection<String>): String {
+        val known = statuses.filter { it.isNotEmpty() && it != "unknown" }
+        if (known.isEmpty()) return "unknown"
+        return known.minBy { compilationFilterRank(it) }
+    }
+
+    fun isFilterAchieved(target: String, actual: String): Boolean {
+        if (actual.isEmpty() || actual == "unknown") return false
+        return compilationFilterRank(actual) >= compilationFilterRank(target)
+    }
+
+    private fun extractStatuses(line: String): List<String> {
+        return STATUS_REGEX.findAll(line).map { it.groupValues[1] }.toList()
+    }
+
+    suspend fun getCompilationFilter(packageName: String): String = withContext(Dispatchers.IO) {
+        val result = Shell.cmd("dumpsys package $packageName | sed -n '/Dexopt state:/,/^Compiler stats:/p'").exec()
+        val statuses = if (result.out.isNotEmpty()) {
+            result.out.flatMap { extractStatuses(it) }
+        } else {
+            val fallback = Shell.cmd("dumpsys package $packageName | grep '\\[status='").exec()
+            fallback.out.flatMap { extractStatuses(it) }
+        }
+        return@withContext worstCompilationFilter(statuses)
     }
 
     suspend fun getCompilationFilters(packages: List<String>): Map<String, String> = withContext(Dispatchers.IO) {
         if (packages.isEmpty()) return@withContext emptyMap()
         
-        // Batch query via dumpsys package p1 p2 p3
         val pkgArgs = packages.joinToString(" ")
-        val cmd = "dumpsys package $pkgArgs | grep -E 'Package \\[|status='"
+        val cmd = "dumpsys package $pkgArgs | grep -E 'Package \\[|\\[status='"
         
         val res = Shell.cmd(cmd).exec()
         if (!res.isSuccess) return@withContext emptyMap()
@@ -44,17 +72,8 @@ object ShellHelper {
         val currentStatuses = mutableListOf<String>()
         
         fun flush() {
-            if (currentPkg.isNotEmpty() && currentStatuses.isNotEmpty()) {
-                // Pick best status (Hierarchy: everything > speed > speed-profile > verify)
-                val best = when {
-                    currentStatuses.contains("everything") -> "everything"
-                    currentStatuses.contains("speed") -> "speed"
-                    currentStatuses.contains("speed-profile") -> "speed-profile"
-                    currentStatuses.contains("verify") -> "verify"
-                    currentStatuses.contains("quicken") -> "quicken"
-                    else -> currentStatuses.firstOrNull { it != "unknown" } ?: "unknown"
-                }
-                resultMap[currentPkg] = best
+            if (currentPkg.isNotEmpty()) {
+                resultMap[currentPkg] = worstCompilationFilter(currentStatuses)
             }
         }
 
@@ -64,9 +83,8 @@ object ShellHelper {
                 flush()
                 currentPkg = trim.substringAfter("[").substringBefore("]")
                 currentStatuses.clear()
-            } else if (line.contains("status=")) {
-                val status = line.substringAfter("status=").substringBefore("]").substringBefore(" ")
-                if (status.isNotEmpty()) currentStatuses.add(status)
+            } else {
+                currentStatuses.addAll(extractStatuses(line))
             }
         }
         flush()
@@ -75,27 +93,24 @@ object ShellHelper {
     }
 
     suspend fun getAllCompilationFilters(): Map<String, String> = withContext(Dispatchers.IO) {
-        // Optimization: Fetch ALL statuses in one go.
-        // We grep for Package name lines and status lines.
-        // Output looks like:
-        //   Package [com.foo] ...
-        //     status=speed ...
-        val res = Shell.cmd("dumpsys package | grep -E 'Package \\[|status='").exec()
+        val res = Shell.cmd("dumpsys package | grep -E 'Package \\[|\\[status='").exec()
         if (!res.isSuccess) return@withContext emptyMap()
         
-        val map = mutableMapOf<String, String>()
+        val statusesByPkg = mutableMapOf<String, MutableList<String>>()
         var currentPkg = ""
         
         res.out.forEach { line ->
             val trim = line.trim()
             if (trim.startsWith("Package [")) {
                 currentPkg = trim.substringAfter("[").substringBefore("]")
-            } else if (currentPkg.isNotEmpty() && trim.startsWith("status=")) {
-                val status = trim.substringAfter("status=").substringBefore(" ")
-                map[currentPkg] = status
+            } else if (currentPkg.isNotEmpty()) {
+                val found = extractStatuses(line)
+                if (found.isNotEmpty()) {
+                    statusesByPkg.getOrPut(currentPkg) { mutableListOf() }.addAll(found)
+                }
             }
         }
-        return@withContext map
+        return@withContext statusesByPkg.mapValues { (_, statuses) -> worstCompilationFilter(statuses) }
     }
 
     suspend fun compilePackage(packageName: String, mode: String, force: Boolean = false): Shell.Result = withContext(Dispatchers.IO) {
@@ -181,37 +196,91 @@ object ShellHelper {
     // --- BOOT SCRIPT LOGIC ---
 
     private const val BOOT_SCRIPT_PATH = "/data/adb/service.d/00_kill_dexopt.sh"
+    private const val BOOT_LOG_PATH = "/cache/aot_killer.log"
     private const val BOOT_SCRIPT_CONTENT = """#!/system/bin/sh
 LOG="/cache/aot_killer.log"
+log() {
+    echo "${'$'}(date) ${'$'}*" >> "${'$'}LOG"
+}
+log "=== aot killer start pid=${'$'}${'$'} ==="
+log "sys.boot_completed=${'$'}(getprop sys.boot_completed)"
+if setprop pm.dexopt.disable_bg_dexopt true; then
+    log "setprop pm.dexopt.disable_bg_dexopt true: ok now=${'$'}(getprop pm.dexopt.disable_bg_dexopt)"
+else
+    log "setprop pm.dexopt.disable_bg_dexopt true: FAILED rc=${'$'}?"
+fi
 sleep 1
 while [ "${'$'}(getprop sys.boot_completed)" != "1" ]; do
     sleep 1
 done
-cmd package bg-dexopt-job --disable >> ${'$'}LOG 2>&1
+log "boot completed, running bg-dexopt-job --disable"
+if cmd package bg-dexopt-job --disable >> "${'$'}LOG" 2>&1; then
+    log "bg-dexopt-job --disable: ok"
+else
+    log "bg-dexopt-job --disable: FAILED rc=${'$'}?"
+fi
+log "final pm.dexopt.disable_bg_dexopt=${'$'}(getprop pm.dexopt.disable_bg_dexopt)"
+log "=== aot killer done ==="
 """
 
+    private fun appendBootLog(message: String) {
+        val escaped = message.replace("\"", "'")
+        Shell.cmd("echo \"\$(date) $escaped\" >> $BOOT_LOG_PATH").exec()
+    }
+
     suspend fun isSystemDexOptDisabled(): Boolean = withContext(Dispatchers.IO) {
-        // Check if the JOB exists in scheduler.
-        // grep returns exit code 1 if NOT found (which means Disabled).
-        // So we just check if the output contains the job ID string.
-        val res = Shell.cmd("dumpsys jobscheduler | grep 'JOB.*BackgroundDexoptJobService'").exec()
-        // If output is empty, it means grep found nothing -> JOB IS DISABLED
-        return@withContext res.out.isEmpty()
+        val propRes = Shell.cmd("getprop pm.dexopt.disable_bg_dexopt").exec()
+        val propDisabled = propRes.out.firstOrNull()?.trim().equals("true", ignoreCase = true)
+
+        val jobRes = Shell.cmd("dumpsys jobscheduler | grep 'JOB.*BackgroundDexoptJobService'").exec()
+        val jobAbsent = jobRes.out.none { it.contains("JOB") && it.contains("BackgroundDexoptJobService") }
+
+        return@withContext propDisabled && jobAbsent
     }
 
     suspend fun enableSystemDexOpt(): Boolean = withContext(Dispatchers.IO) {
-        Shell.cmd("rm $BOOT_SCRIPT_PATH").exec()
+        val rmRes = Shell.cmd("rm $BOOT_SCRIPT_PATH").exec()
+        if (rmRes.isSuccess) {
+            appendBootLog("app: removed $BOOT_SCRIPT_PATH")
+        } else {
+            appendBootLog("app: rm $BOOT_SCRIPT_PATH FAILED out=${rmRes.out.joinToString(" ")}")
+        }
+        val propRes = Shell.cmd("setprop pm.dexopt.disable_bg_dexopt false").exec()
+        appendBootLog(
+            if (propRes.isSuccess) "app: setprop pm.dexopt.disable_bg_dexopt false: ok"
+            else "app: setprop pm.dexopt.disable_bg_dexopt false: FAILED"
+        )
         val res = Shell.cmd("cmd package bg-dexopt-job --enable").exec()
+        appendBootLog(
+            if (res.isSuccess) "app: bg-dexopt-job --enable: ok"
+            else "app: bg-dexopt-job --enable: FAILED out=${res.out.joinToString(" ")}"
+        )
         return@withContext res.isSuccess
     }
 
     suspend fun disableSystemDexOpt(): Boolean = withContext(Dispatchers.IO) {
-        // 1. Create Script
-        val scriptCmd = "echo '$BOOT_SCRIPT_CONTENT' > $BOOT_SCRIPT_PATH && chmod 755 $BOOT_SCRIPT_PATH"
-        Shell.cmd(scriptCmd).exec()
-        
-        // 2. Execute immediately
+        val propRes = Shell.cmd("setprop pm.dexopt.disable_bg_dexopt true").exec()
+        appendBootLog(
+            if (propRes.isSuccess) "app: setprop pm.dexopt.disable_bg_dexopt true: ok"
+            else "app: setprop pm.dexopt.disable_bg_dexopt true: FAILED"
+        )
         val res = Shell.cmd("cmd package bg-dexopt-job --disable").exec()
+        appendBootLog(
+            if (res.isSuccess) "app: bg-dexopt-job --disable: ok"
+            else "app: bg-dexopt-job --disable: FAILED out=${res.out.joinToString(" ")}"
+        )
+        val scriptCmd = """
+cat > $BOOT_SCRIPT_PATH << 'EOF'
+$BOOT_SCRIPT_CONTENT
+EOF
+chmod 755 $BOOT_SCRIPT_PATH
+""".trimIndent()
+        val writeRes = Shell.cmd(scriptCmd).exec()
+        if (writeRes.isSuccess) {
+            appendBootLog("app: wrote $BOOT_SCRIPT_PATH")
+        } else {
+            appendBootLog("app: write $BOOT_SCRIPT_PATH FAILED out=${writeRes.out.joinToString(" ")}")
+        }
         return@withContext res.isSuccess
     }
 

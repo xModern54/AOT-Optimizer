@@ -25,6 +25,12 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context: Context = getApplication<Application>().applicationContext
     private val prefs = context.getSharedPreferences("aot_optimizer_prefs", Context.MODE_PRIVATE)
+
+    companion object {
+        private const val KNOWN_PACKAGES_KEY = "known_packages"
+        private const val PENDING_NEW_PACKAGES_KEY = "pending_new_packages"
+        private const val NEW_APPS_TRACKER_READY_KEY = "new_apps_tracker_ready"
+    }
     
     // Repository for Contracts
     private val repository = OptimizationRepository(context)
@@ -173,23 +179,58 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     }
     
     suspend fun saveContract(packageName: String, mode: String, isManual: Boolean = true): Boolean {
-        // VERIFICATION LOGIC:
-        // Manual: Always save (User intent overrides technical limitations).
-        // Auto: Only save if mode was actually achieved (Avoid garbage contracts).
         val realStatus = ShellHelper.getCompilationFilter(packageName)
         
-        if (isManual || isModeAchieved(mode, realStatus)) {
+        if (isManual || ShellHelper.isFilterAchieved(mode, realStatus)) {
             repository.saveContract(packageName, mode, isManual)
             return true
         }
         return false
     }
-    
-    private fun isModeAchieved(target: String, actual: String): Boolean {
-        if (actual == target) return true
-        if (actual == "everything") return true 
-        if (target == "speed-profile" && actual == "speed") return true 
-        return false
+
+    fun saveNewAppContract(packageName: String, mode: String) {
+        repository.saveContract(packageName, mode, isManual = false)
+    }
+
+    fun removeAppContract(packageName: String) {
+        repository.removeContract(packageName)
+    }
+
+    fun acknowledgeNewApps() {
+        val known = loadStringSet(KNOWN_PACKAGES_KEY)
+        val pending = loadStringSet(PENDING_NEW_PACKAGES_KEY)
+        known.addAll(pending)
+        saveStringSet(KNOWN_PACKAGES_KEY, known)
+        saveStringSet(PENDING_NEW_PACKAGES_KEY, emptySet())
+        _uiState.value = _uiState.value.copy(
+            showBatchSheet = false,
+            newAppsDetected = emptyList(),
+            apps = _uiState.value.apps.map { it.copy(isNew = false) }
+        )
+    }
+
+    private fun syncPendingNewApps(allInstalledNames: Set<String>): Set<String> {
+        if (!prefs.getBoolean(NEW_APPS_TRACKER_READY_KEY, false)) {
+            saveStringSet(KNOWN_PACKAGES_KEY, allInstalledNames)
+            saveStringSet(PENDING_NEW_PACKAGES_KEY, emptySet())
+            prefs.edit().putBoolean(NEW_APPS_TRACKER_READY_KEY, true).apply()
+            return emptySet()
+        }
+
+        val known = loadStringSet(KNOWN_PACKAGES_KEY)
+        val pending = loadStringSet(PENDING_NEW_PACKAGES_KEY)
+        pending.addAll(allInstalledNames - known)
+        pending.retainAll(allInstalledNames)
+        saveStringSet(PENDING_NEW_PACKAGES_KEY, pending)
+        return pending
+    }
+
+    private fun loadStringSet(key: String): MutableSet<String> {
+        return prefs.getStringSet(key, emptySet())?.toMutableSet() ?: mutableSetOf()
+    }
+
+    private fun saveStringSet(key: String, value: Set<String>) {
+        prefs.edit().putStringSet(key, value.toSet()).apply()
     }
     
     fun restoreOptimizations() {
@@ -218,7 +259,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 
                 if (res.isSuccess) {
                     val realStatus = ShellHelper.getCompilationFilter(contract.packageName)
-                    if (isModeAchieved(contract.targetMode, realStatus)) {
+                    if (ShellHelper.isFilterAchieved(contract.targetMode, realStatus)) {
                         repository.saveContract(contract.packageName, contract.targetMode, contract.isManual)
                     }
                 }
@@ -312,16 +353,15 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 val sizeBefore = ShellHelper.getArtifactsSizeInKb(pkg)
                 
                 if (mode == "reset") {
-                    ShellHelper.resetPackage(pkg)
-                    // Only remove contract if it wasn't manual. Manual contracts survive reset (user choice).
-                    if (existingContract == null || !existingContract.isManual) {
+                    val resetRes = ShellHelper.resetPackage(pkg)
+                    if (resetRes.isSuccess) {
                         repository.removeContract(pkg)
                     }
                 } else {
                     val res = ShellHelper.compilePackage(pkg, targetMode) // Use targetMode
                     if (res.isSuccess) {
                         val realStatus = ShellHelper.getCompilationFilter(pkg)
-                        if (isModeAchieved(targetMode, realStatus)) {
+                        if (ShellHelper.isFilterAchieved(targetMode, realStatus)) {
                             // Preserve manual flag if it existed
                             val isManual = existingContract?.isManual ?: false
                             repository.saveContract(pkg, targetMode, isManual)
@@ -389,15 +429,19 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
 
-            val knownPackages = prefs.getStringSet("known_packages", emptySet()) ?: emptySet()
-            val isFirstRunEver = knownPackages.isEmpty()
+            val allInstalledNames = try {
+                pm.getInstalledApplications(0).map { it.packageName }.toSet()
+            } catch (e: Exception) {
+                currentSystemState.map { it.packageName }.toSet()
+            }
+            val pendingNew = syncPendingNewApps(allInstalledNames)
 
             val mergedList = currentSystemState.map { info ->
                 val existing = _uiState.value.apps.find { it.packageName == info.packageName }
-                val isReallyNew = !knownPackages.contains(info.packageName) && !isFirstRunEver && !showAll
+                val isReallyNew = pendingNew.contains(info.packageName) && !showAll
                 
                 if (existing != null && !needsFullRefresh) {
-                    existing.copy(isNew = if (showAll) false else (isReallyNew || existing.isNew))
+                    existing.copy(isNew = isReallyNew)
                 } else {
                     val icon = try { info.loadIcon(pm) } catch(e: Exception) { context.getDrawable(android.R.drawable.sym_def_app_icon)!! }
                     val label = try { info.loadLabel(pm).toString() } catch(e: Exception) { info.packageName }
@@ -419,11 +463,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             if (newlyDetected.isNotEmpty() && !showAll) {
                 _uiState.value = _uiState.value.copy(showBatchSheet = true, newAppsDetected = newlyDetected)
             } else {
-                _uiState.value = _uiState.value.copy(showBatchSheet = false)
-            }
-            
-            if (currentSystemState.isNotEmpty()) {
-                prefs.edit().putStringSet("known_packages", currentSystemState.map { it.packageName }.toSet()).apply()
+                _uiState.value = _uiState.value.copy(showBatchSheet = false, newAppsDetected = newlyDetected)
             }
             
             needsFullRefresh = false

@@ -841,8 +841,11 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
                     val updatedLogs = logLines.toMutableList()
                     res.out.forEach { updatedLogs.add(it) }
                     logLines = updatedLogs
-                    
-                    viewModel.updateAppDetails(currentApp.packageName, "no-opt", "0 B", 0L, currentApp.framework)
+
+                    if (res.isSuccess) {
+                        viewModel.removeAppContract(currentApp.packageName)
+                        viewModel.updateAppDetails(currentApp.packageName, "no-opt", "0 B", 0L, currentApp.framework)
+                    }
                     isProcessing = false; selectedApp = null
                 }
             }
@@ -865,7 +868,7 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
     }
 
     if (uiState.showBatchSheet && uiState.newAppsDetected.isNotEmpty()) {
-        BatchOptimizationSheet(newApps = uiState.newAppsDetected, onDismiss = { viewModel.dismissBatchSheet() }, onOptimizeAll = {})
+        BatchOptimizationSheet(newApps = uiState.newAppsDetected, onDismiss = { viewModel.acknowledgeNewApps() }, onOptimizeAll = {})
     }
     
     if (uiState.showUpdatesSheet && uiState.updatesDetected.isNotEmpty()) {
@@ -1156,12 +1159,14 @@ fun BatchOptimizationSheet(newApps: List<AppItem>, onDismiss: () -> Unit, onOpti
                  val res = withContext(Dispatchers.IO) { ShellHelper.compilePackage(app.packageName, "speed") }
                  
                  if (res.isSuccess) {
-                    logs = logs + "  [OK] Success."
+                    viewModel.saveNewAppContract(app.packageName, "speed")
+                    logs = logs + "  [OK] Success. Contract saved."
                  } else {
                     logs = logs + "  [ERR] Failed."
                  }
                  
-                 viewModel.updateAppDetails(app.packageName, "speed", "...", 0L, app.framework)
+                 val status = withContext(Dispatchers.IO) { ShellHelper.getCompilationFilter(app.packageName) }
+                 viewModel.updateAppDetails(app.packageName, status, "...", 0L, app.framework)
                  progress = (index + 1).toFloat() / newApps.size
              }
              logs = logs + "> BATCH COMPLETE."

@@ -55,3 +55,8 @@ To build the release APK:
 
 ### Verification
 The build process generates a signed APK using the debug keystore configured in `app/build.gradle.kts` for simplicity. For production use, configure your own signing keys.
+
+## GitHub Actions
+Every push and pull request to `main` runs `.github/workflows/android.yml`: JDK 17, Android SDK, `assembleRelease`, then uploads `app-release.apk` as the **AOT-Optimizer** artifact.
+
+A tag `v*` (for example `v1.0.0`) also publishes a GitHub Release with that APK. Manual runs are available via **Actions → Android CI → Run workflow**.

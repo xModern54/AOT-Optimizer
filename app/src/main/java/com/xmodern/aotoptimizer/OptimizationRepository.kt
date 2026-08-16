@@ -172,17 +172,7 @@ class OptimizationRepository(private val context: Context) {
         return@coroutineScope driftedList
     }
 
-    // Helper to decide if current status is "Good Enough"
     private fun isStatusCompatible(current: String, target: String): Boolean {
-        if (current == target) return true
-        
-        // Downward compatibility
-        if (target == "speed" && current == "everything") return true
-        if (target == "speed-profile" && (current == "speed" || current == "everything")) return true
-        
-        // Upward compatibility (System aliases)
-        if (target == "everything" && current == "speed") return true
-        
-        return false
+        return ShellHelper.isFilterAchieved(target, current)
     }
 }
