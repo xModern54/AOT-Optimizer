@@ -5,8 +5,7 @@
 <h1 align="center">AOT Optimizer</h1>
 
 <p align="center">
-  Manual ART / AOT control for rooted Android.<br>
-  Compile now. Lock the mode. Catch drift after updates.
+  Full control over ART ahead-of-time compilation on a rooted phone.
 </p>
 
 <p align="center">
@@ -16,23 +15,22 @@
   <img src="https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white" alt="Android 8.0+">
   <img src="https://img.shields.io/badge/Root-Magisk%20%2F%20KernelSU-FF1744" alt="Root required">
   <img src="https://img.shields.io/badge/Target-API%2034-00E5FF" alt="Target API 34">
-  <img src="https://img.shields.io/badge/Kotlin-2.0.20-7F52FF?logo=kotlin&logoColor=white" alt="Kotlin">
 </p>
 
----
+Android apps are written in Java and Kotlin. Before they run, the Android Runtime (ART) can compile that bytecode **ahead of time** into native machine code. The app starts faster and spends less time interpreting.
 
-Instead of waiting for idle maintenance windows or Cloud Profiles, AOT Optimizer talks to ART directly: force `speed`, `everything`, `speed-profile`, or `quicken` on the apps you care about. A **contract** remembers that choice. If an update or the system resets the filter, the app flags **drift** and can restore it.
+The system already does this, but only in pieces. A little at install, a little during idle maintenance, sometimes from a cloud profile. You wait, you don't pick the mode, and an update can throw the work away.
 
-## Features
+This app gives you that lever. On a rooted device you compile an app **now**, choose how far (`speed`, `speed-profile`, `everything`, `quicken`), remember the choice, and stop background dexopt from overwriting it.
 
-| | |
-|:--|:--|
-| **Force compilation** | `speed`, `everything`, `speed-profile`, `quicken` — immediately, not overnight. |
-| **Contracts** | Locks the preferred filter per app. Manual contracts survive a global batch. |
-| **Drift detection** | Catches updates and system resets, then restores the saved mode. |
-| **New-app sheet** | New installs stay in a pending list until you compile them or ignore them. |
-| **System Guard** | Disables `bg-dexopt-job` and sets `pm.dexopt.disable_bg_dexopt` so the OS does not overwrite your work. |
-| **Metrics** | Artifact size, compile status (worst of primary + secondary dex), code complexity. |
+## What you can do
+
+- Compile any app immediately, not overnight
+- Save a **contract** per package so the mode sticks
+- Detect **drift** after an update or a system reset, then restore
+- Catch new installs and decide: compile or skip
+- Turn off Auto-AOT (`bg-dexopt-job` + `pm.dexopt.disable_bg_dexopt`) so the OS does not fight you
+- See compile status and oat artifact size
 
 ## Screenshots
 
@@ -46,8 +44,8 @@ Instead of waiting for idle maintenance windows or Cloud Profiles, AOT Optimizer
 
 ## Requirements
 
-- **Root** — Magisk or KernelSU, for `cmd package compile`
-- **Android 8.0+** (minSdk 26), targeted at Android 14 (API 34)
+- Root (Magisk or KernelSU), for `cmd package compile`
+- Android 8.0+ (minSdk 26). Target is API 34.
 
 ## Build
 
@@ -59,26 +57,20 @@ Instead of waiting for idle maintenance windows or Cloud Profiles, AOT Optimizer
 | JDK | 17 |
 | minSdk / targetSdk | 26 / 34 |
 
-1. Install **JDK 17** and set `JAVA_HOME`.
-2. Point Gradle at your SDK with `local.properties` (do not commit this file):
+JDK 17, then a `local.properties` that points at your SDK (don't commit it):
 
 ```properties
 sdk.dir=/path/to/your/android/sdk
 ```
 
-3. Assemble the release APK:
-
 ```bash
 ./gradlew assembleRelease
 ```
 
-Output: `app/build/outputs/apk/release/app-release.apk`
+APK: `app/build/outputs/apk/release/app-release.apk`
 
-The repo signs release with the debug keystore for convenience. Use your own keystore for a real distribution build.
+Release is signed with the debug keystore so the project builds out of the box. Use your own keystore if you ship it.
 
 ## GitHub Actions
 
-Every push and pull request to `main` runs [Android CI](https://github.com/xModern54/AOT-Optimizer/actions/workflows/android.yml): JDK 17, SDK, `assembleRelease`, then uploads **AOT-Optimizer** as an artifact.
-
-- **Actions → Android CI → Run workflow** — build on demand
-- Tag `v*` (for example `v1.0.0`) — publish a GitHub Release with the APK
+CI does not run on every push. Build it from **Actions → Android CI → Run workflow**, or push a tag like `v1.0.0` to publish a GitHub Release.
