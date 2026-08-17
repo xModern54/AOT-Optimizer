@@ -7,7 +7,7 @@ import kotlinx.coroutines.withContext
 object ShellHelper {
 
     init {
-        Shell.enableVerboseLogging = true
+        Shell.enableVerboseLogging = false
         Shell.setDefaultBuilder(
             Shell.Builder.create()
                 .setFlags(Shell.FLAG_REDIRECT_STDERR)
