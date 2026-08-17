@@ -32,10 +32,8 @@ object ShellHelper {
         }
     }
 
-    fun worstCompilationFilter(statuses: Collection<String>): String {
-        val known = statuses.filter { it.isNotEmpty() && it != "unknown" }
-        if (known.isEmpty()) return "unknown"
-        return known.minBy { compilationFilterRank(it) }
+    fun firstCompilationFilter(statuses: Collection<String>): String {
+        return statuses.firstOrNull { it.isNotEmpty() && it != "unknown" } ?: "unknown"
     }
 
     fun isFilterAchieved(target: String, actual: String): Boolean {
@@ -47,6 +45,94 @@ object ShellHelper {
         return STATUS_REGEX.findAll(line).map { it.groupValues[1] }.toList()
     }
 
+    data class PackageScan(
+        val status: String,
+        val sizeKb: Long
+    )
+
+    private val DEXOPT_PKG_REGEX = Regex("""^  \[([^]]+)]\s*$""")
+    private val DEXOPT_PATH_REGEX = Regex("""^\s+path:\s+(\S+)""")
+
+    private data class DexoptDump(
+        val statusByPkg: Map<String, String>,
+        val apkDirByPkg: Map<String, String>
+    )
+
+    private fun dumpDexoptSection(): List<String> {
+        return Shell.cmd("dumpsys package | sed -n '/Dexopt state:/,/^Compiler stats:/p'").exec().out
+    }
+
+    private fun parseDexoptDump(lines: List<String>): DexoptDump {
+        val statusByPkg = linkedMapOf<String, String>()
+        val apkDirByPkg = linkedMapOf<String, String>()
+        var currentPkg = ""
+        var haveStatus = false
+        var havePath = false
+
+        lines.forEach { line ->
+            val pkgMatch = DEXOPT_PKG_REGEX.find(line)
+            if (pkgMatch != null) {
+                currentPkg = pkgMatch.groupValues[1]
+                haveStatus = false
+                havePath = false
+                return@forEach
+            }
+            if (currentPkg.isEmpty()) return@forEach
+            if (!havePath) {
+                val pathMatch = DEXOPT_PATH_REGEX.find(line)
+                if (pathMatch != null) {
+                    apkDirByPkg[currentPkg] = pathMatch.groupValues[1].substringBeforeLast('/')
+                    havePath = true
+                }
+            }
+            if (!haveStatus) {
+                val status = extractStatuses(line).firstOrNull()
+                if (!status.isNullOrEmpty()) {
+                    statusByPkg[currentPkg] = status
+                    haveStatus = true
+                }
+            }
+        }
+        return DexoptDump(statusByPkg, apkDirByPkg)
+    }
+
+    suspend fun scanCompilationStatuses(): Map<String, String> = withContext(Dispatchers.IO) {
+        val dump = dumpDexoptSection()
+        if (dump.isEmpty()) return@withContext emptyMap()
+        return@withContext parseDexoptDump(dump).statusByPkg
+    }
+
+    /**
+     * One dumpsys of the Dexopt state section (a single block for all packages)
+     * plus one du over oat dirs. First [status=] per package is the primary apk.
+     */
+    suspend fun scanInstalledPackages(): Map<String, PackageScan> = withContext(Dispatchers.IO) {
+        val dump = dumpDexoptSection()
+        if (dump.isEmpty()) return@withContext emptyMap()
+
+        val parsed = parseDexoptDump(dump)
+        val sizeByDir = mutableMapOf<String, Long>()
+        val oatDirs = parsed.apkDirByPkg.values.map { "$it/oat" }.distinct()
+        if (oatDirs.isNotEmpty()) {
+            val quoted = oatDirs.joinToString(" ") { "\"$it\"" }
+            val du = Shell.cmd("du -sk $quoted 2>/dev/null").exec()
+            du.out.forEach { row ->
+                val parts = row.split('\t', limit = 2)
+                if (parts.size == 2) {
+                    val kb = parts[0].trim().toLongOrNull() ?: return@forEach
+                    sizeByDir[parts[1].trim()] = kb
+                }
+            }
+        }
+
+        val packages = (parsed.statusByPkg.keys + parsed.apkDirByPkg.keys).toSet()
+        return@withContext packages.associateWith { pkg ->
+            val dir = parsed.apkDirByPkg[pkg]
+            val kb = dir?.let { sizeByDir["$it/oat"] } ?: 0L
+            PackageScan(status = parsed.statusByPkg[pkg] ?: "unknown", sizeKb = kb)
+        }
+    }
+
     suspend fun getCompilationFilter(packageName: String): String = withContext(Dispatchers.IO) {
         val result = Shell.cmd("dumpsys package $packageName | sed -n '/Dexopt state:/,/^Compiler stats:/p'").exec()
         val statuses = if (result.out.isNotEmpty()) {
@@ -55,7 +141,7 @@ object ShellHelper {
             val fallback = Shell.cmd("dumpsys package $packageName | grep '\\[status='").exec()
             fallback.out.flatMap { extractStatuses(it) }
         }
-        return@withContext worstCompilationFilter(statuses)
+        return@withContext firstCompilationFilter(statuses)
     }
 
     suspend fun getCompilationFilters(packages: List<String>): Map<String, String> = withContext(Dispatchers.IO) {
@@ -73,7 +159,7 @@ object ShellHelper {
         
         fun flush() {
             if (currentPkg.isNotEmpty()) {
-                resultMap[currentPkg] = worstCompilationFilter(currentStatuses)
+                resultMap[currentPkg] = firstCompilationFilter(currentStatuses)
             }
         }
 
@@ -110,7 +196,7 @@ object ShellHelper {
                 }
             }
         }
-        return@withContext statusesByPkg.mapValues { (_, statuses) -> worstCompilationFilter(statuses) }
+        return@withContext statusesByPkg.mapValues { (_, statuses) -> firstCompilationFilter(statuses) }
     }
 
     suspend fun compilePackage(packageName: String, mode: String, force: Boolean = false): Shell.Result = withContext(Dispatchers.IO) {
@@ -270,10 +356,13 @@ log "=== aot killer done ==="
             else "app: bg-dexopt-job --disable: FAILED out=${res.out.joinToString(" ")}"
         )
         val scriptCmd = """
+mkdir -p /data/adb/service.d
+chmod 755 /data/adb/service.d
 cat > $BOOT_SCRIPT_PATH << 'EOF'
 $BOOT_SCRIPT_CONTENT
 EOF
 chmod 755 $BOOT_SCRIPT_PATH
+test -f $BOOT_SCRIPT_PATH
 """.trimIndent()
         val writeRes = Shell.cmd(scriptCmd).exec()
         if (writeRes.isSuccess) {
@@ -281,23 +370,7 @@ chmod 755 $BOOT_SCRIPT_PATH
         } else {
             appendBootLog("app: write $BOOT_SCRIPT_PATH FAILED out=${writeRes.out.joinToString(" ")}")
         }
-        return@withContext res.isSuccess
+        return@withContext res.isSuccess && writeRes.isSuccess
     }
 
-    suspend fun getAppFramework(packageName: String): String = withContext(Dispatchers.IO) {
-        val pathResult = Shell.cmd("pm path $packageName").exec()
-        if (!pathResult.isSuccess || pathResult.out.isEmpty()) return@withContext "Native"
-        val apkPath = pathResult.out[0].substringAfter("package:")
-        val appDir = apkPath.substringBeforeLast("/")
-        val cmd = """
-            APP_DIR="$appDir"
-            if ls "${'$'}APP_DIR"/lib/*/libflutter.so >/dev/null 2>&1; then echo "Flutter";
-            elif ls "${'$'}APP_DIR"/lib/*/libapp.so >/dev/null 2>&1 && ls "${'$'}APP_DIR"/lib/*/libflutter.so >/dev/null 2>&1; then echo "Flutter";
-            elif ls "${'$'}APP_DIR"/lib/*/libreactnative.so >/dev/null 2>&1; then echo "React Native";
-            elif ls "${'$'}APP_DIR"/lib/*/libhermes.so >/dev/null 2>&1; then echo "React Native"; 
-            else echo "Native"; fi
-        """.trimIndent()
-        val res = Shell.cmd(cmd).exec()
-        return@withContext if (res.isSuccess && res.out.isNotEmpty()) res.out[0].trim() else "Native"
-    }
 }

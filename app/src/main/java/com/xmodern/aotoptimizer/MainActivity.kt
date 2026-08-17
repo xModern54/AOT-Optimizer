@@ -791,7 +791,7 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
                     sizeMb < 80 -> "heavy"
                     else -> "extreme"
                 }
-                viewModel.updateAppDetails(currentApp.packageName, currentApp.status, currentApp.size, currentApp.sizeBytes, currentApp.framework)
+                viewModel.updateAppDetails(currentApp.packageName, currentApp.status, currentApp.size, currentApp.sizeBytes)
                 val updatedApps = viewModel.uiState.value.apps.map { 
                     if (it.packageName == currentApp.packageName) it.copy(complexity = rating) else it 
                 }
@@ -815,9 +815,8 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
 
                     if (res.isSuccess) {
                         val status = ShellHelper.getCompilationFilter(currentApp.packageName)
-                        val sizeStr = ShellHelper.getArtifactsSize(currentApp.packageName)
                         val sizeKb = ShellHelper.getArtifactsSizeInKb(currentApp.packageName)
-                        viewModel.updateAppDetails(currentApp.packageName, status, sizeStr, sizeKb, currentApp.framework)
+                        viewModel.updateAppDetails(currentApp.packageName, status, formatSize(sizeKb), sizeKb)
                         
                         // Save Contract & Log
                         val isSaved = viewModel.saveContract(currentApp.packageName, mode)
@@ -844,7 +843,7 @@ fun DashboardScreen(onNavigateToBatch: () -> Unit) {
 
                     if (res.isSuccess) {
                         viewModel.removeAppContract(currentApp.packageName)
-                        viewModel.updateAppDetails(currentApp.packageName, "no-opt", "0 B", 0L, currentApp.framework)
+                        viewModel.updateAppDetails(currentApp.packageName, "no-opt", "0 B", 0L)
                     }
                     isProcessing = false; selectedApp = null
                 }
@@ -1007,7 +1006,6 @@ fun AppItemRow(app: AppItem, modifier: Modifier = Modifier, onClick: () -> Unit)
                 )
             }
             
-            if (app.framework != "Native") { FrameworkBadge(app.framework); Spacer(modifier = Modifier.width(8.dp)) }
             if (app.size != "..." && app.size != "0 B") {
                 Surface(color = Color.Transparent, shape = RoundedCornerShape(4.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color.Gray.copy(alpha = 0.3f)), modifier = Modifier.padding(end = 8.dp)) {
                     Text(app.size, color = NeonCyan, fontSize = 10.sp, fontFamily = FontFamily.Monospace, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
@@ -1059,7 +1057,6 @@ fun CompilationDialog(app: AppItem, isProcessing: Boolean, logLines: List<String
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        if (app.framework != "Native") { FrameworkBadge(app.framework); Spacer(modifier = Modifier.width(8.dp)) }
                         if (app.size != "..." && app.size != "0 B") {
                             Surface(color = Color.Transparent, shape = RoundedCornerShape(4.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color.Gray.copy(alpha = 0.3f))) {
                                 Text(text = app.size, color = NeonCyan, fontSize = 10.sp, fontFamily = FontFamily.Monospace, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
@@ -1101,14 +1098,6 @@ fun ComplexityIndicator(complexity: String) {
 
 fun getComplexityColor(complexity: String): Color {
     return when (complexity) { "lite code" -> NeonGreen; "standard" -> NeonBlue; "heavy" -> NeonOrange; "extreme" -> NeonRed; else -> Color.Gray }
-}
-
-@Composable
-fun FrameworkBadge(framework: String) {
-    val fwColor = when (framework) { "Flutter" -> Color(0xFF02569B); "React Native" -> Color(0xFF61DAFB); else -> Color.Gray }
-    Surface(color = fwColor.copy(alpha = 0.2f), shape = RoundedCornerShape(4.dp), border = androidx.compose.foundation.BorderStroke(1.dp, fwColor.copy(alpha = 0.5f))) {
-        Text(text = framework.uppercase(), color = fwColor, fontSize = 8.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp))
-    }
 }
 
 @Composable
@@ -1166,7 +1155,7 @@ fun BatchOptimizationSheet(newApps: List<AppItem>, onDismiss: () -> Unit, onOpti
                  }
                  
                  val status = withContext(Dispatchers.IO) { ShellHelper.getCompilationFilter(app.packageName) }
-                 viewModel.updateAppDetails(app.packageName, status, "...", 0L, app.framework)
+                 viewModel.updateAppDetails(app.packageName, status, "...", 0L)
                  progress = (index + 1).toFloat() / newApps.size
              }
              logs = logs + "> BATCH COMPLETE."

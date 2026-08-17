@@ -1,13 +1,7 @@
 package com.xmodern.aotoptimizer
 
 import android.content.Context
-import android.content.pm.PackageManager
 import org.json.JSONObject
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 // --- DATA MODEL ---
 data class OptimizationContract(
@@ -97,20 +91,14 @@ class OptimizationRepository(private val context: Context) {
         return list.sortedBy { it.packageName }
     }
 
-    /**
-     * The Heavy Lifter: Scans all contracts using Parallel Async Requests.
-     * RELIABLE method (Slow but accurate). Includes Progress Callback.
-     */
-    suspend fun getDriftedApps(onProgress: (Float) -> Unit): List<OptimizationContract> = coroutineScope {
+    suspend fun getDriftedApps(onProgress: (Float) -> Unit): List<OptimizationContract> {
         val allContracts = prefs.all
         val pm = context.packageManager
 
-        // 1. Bulk Fetch PM Data
         val installedPackages = try {
             pm.getInstalledPackages(0).associateBy { it.packageName }
         } catch (e: Exception) { emptyMap() }
-        
-        // 2. Parse contracts
+
         val validContracts = mutableListOf<OptimizationContract>()
         for ((_, value) in allContracts) {
             if (value !is String) continue
@@ -128,48 +116,33 @@ class OptimizationRepository(private val context: Context) {
 
         if (validContracts.isEmpty()) {
             onProgress(1f)
-            return@coroutineScope emptyList()
+            return emptyList()
         }
 
-        // 3. Process in Chunks (Async)
-        val driftedList = mutableListOf<OptimizationContract>()
-        var processedCount = 0
-        
-        // Chunk 15 is a good balance for LibSU
-        validContracts.chunked(15).forEach { batch ->
-            val deferred = batch.map { contract ->
-                async(Dispatchers.IO) {
-                    val pkgInfo = installedPackages[contract.packageName]
-                    
-                    if (pkgInfo == null) {
-                        removeContract(contract.packageName)
-                        return@async null
-                    }
+        onProgress(0.2f)
+        val statuses = ShellHelper.scanCompilationStatuses()
+        onProgress(0.8f)
 
-                    // Version Drift
-                    if (pkgInfo.longVersionCode != contract.versionCode) {
-                        return@async contract
-                    }
-
-                    // Status Drift (Reliable Query)
-                    val currentStatus = ShellHelper.getCompilationFilter(contract.packageName)
-                    
-                    if (currentStatus == "unknown" || currentStatus.isEmpty()) return@async null
-                    
-                    if (!isStatusCompatible(currentStatus, contract.targetMode)) {
-                        return@async contract
-                    }
-                    
-                    null
-                }
+        val drifted = mutableListOf<OptimizationContract>()
+        validContracts.forEach { contract ->
+            val pkgInfo = installedPackages[contract.packageName]
+            if (pkgInfo == null) {
+                removeContract(contract.packageName)
+                return@forEach
             }
-            driftedList.addAll(deferred.awaitAll().filterNotNull())
-            
-            processedCount += batch.size
-            onProgress(processedCount.toFloat() / validContracts.size)
+            if (pkgInfo.longVersionCode != contract.versionCode) {
+                drifted.add(contract)
+                return@forEach
+            }
+            val currentStatus = statuses[contract.packageName]
+            if (currentStatus.isNullOrEmpty() || currentStatus == "unknown") return@forEach
+            if (!isStatusCompatible(currentStatus, contract.targetMode)) {
+                drifted.add(contract)
+            }
         }
-        
-        return@coroutineScope driftedList
+
+        onProgress(1f)
+        return drifted
     }
 
     private fun isStatusCompatible(current: String, target: String): Boolean {

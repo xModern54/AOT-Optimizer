@@ -29,7 +29,6 @@ data class AppItem(
     val isNew: Boolean = false,
     var size: String = "...",
     var sizeBytes: Long = -1L, // For sorting
-    var framework: String = "Native",
     var complexity: String = "scanning..." // For BottomSheet
 ) {
     val statusPriority: Int

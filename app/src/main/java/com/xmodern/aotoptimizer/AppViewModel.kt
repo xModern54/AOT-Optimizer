@@ -468,21 +468,35 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
             
             needsFullRefresh = false
 
-            val scanQueue = mergedList.filter { it.status == "loading..." }.sortedBy { it.label }
-            scanQueue.forEach { app ->
+            val snapshot = ShellHelper.scanInstalledPackages()
+            val scanned = mergedList.map { app ->
+                val scan = snapshot[app.packageName]
+                if (scan != null) {
+                    app.copy(
+                        status = scan.status,
+                        size = formatSize(scan.sizeKb),
+                        sizeBytes = scan.sizeKb
+                    )
+                } else {
+                    app
+                }
+            }
+            _uiState.value = _uiState.value.copy(apps = scanned)
+            applySorting()
+
+            val leftovers = scanned.filter { it.status == "loading..." }
+            leftovers.forEach { app ->
                 val status = ShellHelper.getCompilationFilter(app.packageName)
-                val sizeStr = ShellHelper.getArtifactsSize(app.packageName)
                 val sizeKb = ShellHelper.getArtifactsSizeInKb(app.packageName)
-                val framework = ShellHelper.getAppFramework(app.packageName)
-                updateAppDetails(app.packageName, status, sizeStr, sizeKb, framework)
+                updateAppDetails(app.packageName, status, formatSize(sizeKb), sizeKb)
             }
         }
     }
 
-    fun updateAppDetails(packageName: String, status: String, size: String, sizeBytes: Long, framework: String) {
+    fun updateAppDetails(packageName: String, status: String, size: String, sizeBytes: Long) {
         val currentList = _uiState.value.apps
         val updatedList = currentList.map { 
-            if (it.packageName == packageName) it.copy(status = status, size = size, sizeBytes = sizeBytes, framework = framework) else it 
+            if (it.packageName == packageName) it.copy(status = status, size = size, sizeBytes = sizeBytes) else it 
         }
         _uiState.value = _uiState.value.copy(apps = updatedList)
         if (_uiState.value.sortOption != SortOption.NAME) applySorting()
