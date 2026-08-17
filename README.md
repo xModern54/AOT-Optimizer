@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/icon.png" width="168" alt="AOT Optimizer">
+  <img src="assets/icon.jpg" width="168" alt="AOT Optimizer">
 </p>
 
 <h1 align="center">AOT Optimizer</h1>
